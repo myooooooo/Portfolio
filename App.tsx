@@ -18,6 +18,8 @@ import DiscordTestimonials from './components/DiscordTestimonials';
 import ArtProcess from './components/ArtProcess';
 import KonamiCode from './components/KonamiCode';
 import ScrollCat from './components/ScrollCat';
+import DoodleLayer from './components/DoodleLayer';
+import CoffeeFeeder from './components/CoffeeFeeder';
 import { PROJECTS } from './constants';
 import { Project } from './types';
 
@@ -63,6 +65,8 @@ const App: React.FC = () => {
       <CustomCursor />
       <MusicPlayer />
       <ChatWidget />
+      <DoodleLayer />
+      <CoffeeFeeder />
 
       {selectedProject ? (
         /* --- PROJECT DETAIL VIEW --- */
