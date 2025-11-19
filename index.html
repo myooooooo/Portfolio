@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio | Girly Pop ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+              display: ['Pacifico', 'cursive'],
+            },
+            backgroundImage: {
+              'dot-pattern': "radial-gradient(#FF0080 1px, transparent 1px)",
+            },
+            backgroundSize: {
+              'dot-pattern': '20px 20px',
+            },
+            colors: {
+              'pop-pink': '#FF0080',
+              'pop-light': '#FFE5EC',
+              'pop-purple': '#9D00FF',
+              'pop-accent': '#00E0FF',
+              'pop-yellow': '#FFDD00',
+            },
+            animation: {
+              'bounce-slow': 'bounce 3s infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'spin-slow': 'spin 12s linear infinite',
+              'marquee': 'marquee 25s linear infinite',
+              'wiggle': 'wiggle 1s ease-in-out infinite',
+              'float-up': 'floatUp 1s ease-out forwards',
+              'jelly': 'jelly 0.6s both',
+              'tada': 'tada 1s both',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              marquee: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(-100%)' },
+              },
+              wiggle: {
+                '0%, 100%': { transform: 'rotate(-3deg)' },
+                '50%': { transform: 'rotate(3deg)' },
+              },
+              floatUp: {
+                '0%': { transform: 'translateY(0) scale(0.5)', opacity: '1' },
+                '100%': { transform: 'translateY(-150px) scale(1.5)', opacity: '0' },
+              },
+              jelly: {
+                '0%, 100%': { transform: 'scale(1, 1)' },
+                '25%': { transform: 'scale(0.9, 1.1)' },
+                '50%': { transform: 'scale(1.1, 0.9)' },
+                '75%': { transform: 'scale(0.95, 1.05)' },
+              },
+              tada: {
+                '0%': { transform: 'scale(1)' },
+                '10%, 20%': { transform: 'scale(0.9) rotate(-3deg)' },
+                '30%, 50%, 70%, 90%': { transform: 'scale(1.1) rotate(3deg)' },
+                '40%, 60%, 80%': { transform: 'scale(1.1) rotate(-3deg)' },
+                '100%': { transform: 'scale(1) rotate(0)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #FFE5EC;
+        color: #2D0025;
+        cursor: none; /* Hiding default cursor for custom one */
+      }
+      a, button, input, textarea {
+        cursor: none; /* Ensure custom cursor is used everywhere */
+      }
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
+      .text-gradient {
+        background: linear-gradient(to right, #FF0080, #9D00FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

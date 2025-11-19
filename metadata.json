@@ -1,0 +1,5 @@
+{
+  "name": "Portfolio Suisse",
+  "description": "Un portfolio minimaliste inspiré par le style typographique international (Style Suisse). Comprend une intégration IA Gemini pour répondre aux questions sur le profil.",
+  "requestFramePermissions": []
+}
