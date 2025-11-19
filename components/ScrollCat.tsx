@@ -23,19 +23,19 @@ const ScrollCat: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-2 z-[9999] pointer-events-none">
+    <div className="fixed bottom-0 left-0 w-full h-3 z-[9999] pointer-events-none">
       {/* The Background Line (Track) */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gray-200/50 backdrop-blur-sm"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-gray-200/50 backdrop-blur-sm border-t border-gray-300/50"></div>
       
       {/* The Progress Bar (Fill) */}
       <div 
-        className="absolute top-0 left-0 h-full bg-gradient-to-r from-pop-pink via-pop-purple to-pop-accent transition-all duration-100 ease-out"
+        className="absolute top-0 left-0 h-full bg-gradient-to-r from-pop-pink via-pop-purple to-pop-accent transition-all duration-100 ease-out shadow-[0_0_10px_rgba(255,0,128,0.5)]"
         style={{ width: `${scrollProgress * 100}%` }}
       >
-        {/* The Cat */}
-        <div className="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 text-2xl filter drop-shadow-sm">
+        {/* The Cat - Positioned above the bar so it's not cut off */}
+        <div className="absolute right-0 bottom-0 transform translate-x-1/2 translate-y-0.5 text-2xl filter drop-shadow-sm leading-none">
             {/* scale-x-[-1] flips the cat to face right */}
-            <div className="scale-x-[-1] animate-bounce-slow">🐈</div>
+            <div className="scale-x-[-1] animate-bounce-slow pb-1">🐈</div>
         </div>
       </div>
     </div>

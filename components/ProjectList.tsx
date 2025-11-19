@@ -1,7 +1,12 @@
+
 import React, { useState, useEffect } from 'react';
 import { PROJECTS } from '../constants';
 
-const ProjectList: React.FC = () => {
+interface ProjectListProps {
+  onOpenProject: (projectId: number) => void;
+}
+
+const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -46,12 +51,10 @@ const ProjectList: React.FC = () => {
            ))
         ) : (
           PROJECTS.map((project, index) => (
-            <a 
+            <div 
               key={project.id} 
-              href={project.link || "#"}
-              target={project.link && project.link !== "#" ? "_blank" : "_self"}
-              rel="noopener noreferrer"
-              className="group block relative animate-fade-in-up"
+              onClick={() => onOpenProject(project.id)}
+              className="group block relative animate-fade-in-up cursor-pointer"
               style={{ animationDelay: `${index * 150}ms` }}
             >
               {/* Card Background Effect */}
@@ -85,18 +88,18 @@ const ProjectList: React.FC = () => {
                               {project.year}
                           </span>
                       </div>
-                      <p className="text-sm text-gray-600 font-medium leading-relaxed group-hover:text-gray-800 transition-colors">
+                      <p className="text-sm text-gray-600 font-medium leading-relaxed group-hover:text-gray-800 transition-colors line-clamp-2">
                           {project.description}
                       </p>
                       
                       <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
                           <span className="text-xs font-bold text-pop-accent uppercase tracking-widest flex items-center gap-2">
-                              Voir le projet <span>➜</span>
+                              Voir les détails <span>➜</span>
                           </span>
                       </div>
                   </div>
               </div>
-            </a>
+            </div>
           ))
         )}
       </div>
