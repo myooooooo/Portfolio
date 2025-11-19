@@ -28,6 +28,8 @@
               'pop-purple': '#9D00FF',
               'pop-accent': '#00E0FF',
               'pop-yellow': '#FFDD00',
+              'discord-dark': '#36393f',
+              'discord-gray': '#2f3136',
             },
             animation: {
               'bounce-slow': 'bounce 3s infinite',
@@ -39,6 +41,10 @@
               'float-up': 'floatUp 1s ease-out forwards',
               'jelly': 'jelly 0.6s both',
               'tada': 'tada 1s both',
+              'glitch': 'glitch 2s infinite',
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'scale-in': 'scaleIn 0.5s ease-out forwards',
+              'shimmer': 'shimmer 2s linear infinite',
             },
             keyframes: {
               float: {
@@ -69,6 +75,27 @@
                 '30%, 50%, 70%, 90%': { transform: 'scale(1.1) rotate(3deg)' },
                 '40%, 60%, 80%': { transform: 'scale(1.1) rotate(-3deg)' },
                 '100%': { transform: 'scale(1) rotate(0)' },
+              },
+              glitch: {
+                '0%': { transform: 'translate(0)' },
+                '2%': { transform: 'translate(-2px, 2px)' },
+                '4%': { transform: 'translate(-2px, -2px)' },
+                '6%': { transform: 'translate(2px, 2px)' },
+                '8%': { transform: 'translate(2px, -2px)' },
+                '10%': { transform: 'translate(0)' },
+                '100%': { transform: 'translate(0)' }
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' }
+              },
+              scaleIn: {
+                '0%': { opacity: '0', transform: 'scale(0.9)' },
+                '100%': { opacity: '1', transform: 'scale(1)' }
+              },
+              shimmer: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(100%)' }
               }
             }
           }

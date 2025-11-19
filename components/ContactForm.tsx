@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +9,21 @@ const ContactForm: React.FC = () => {
   });
   const [errors, setErrors] = useState<{[key: string]: string}>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (status === 'submitting') {
+      const interval = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 90) return prev;
+          return prev + Math.random() * 15;
+        });
+      }, 300);
+      return () => clearInterval(interval);
+    } else if (status === 'success' || status === 'idle') {
+      setProgress(0);
+    }
+  }, [status]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -37,21 +52,31 @@ const ContactForm: React.FC = () => {
     if (!validate()) return;
 
     setStatus('submitting');
+    setProgress(10);
 
     // Simulate form submission to a backend
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log("Form Submitted:", formData);
-      setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setProgress(100);
+      setTimeout(() => {
+         console.log("Form Submitted:", formData);
+         setStatus('success');
+         setFormData({ name: '', email: '', subject: '', message: '' });
+      }, 500);
     } catch (error) {
       setStatus('error');
     }
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white rounded-3xl p-8 md:p-10 shadow-[0px_10px_40px_rgba(255,0,128,0.15)] border border-pop-light relative overflow-hidden transition-all hover:shadow-[0px_15px_50px_rgba(157,0,255,0.2)]">
-      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pop-pink to-pop-purple"></div>
+    <div className="w-full max-w-2xl mx-auto bg-white rounded-3xl p-8 md:p-10 shadow-[0px_10px_40px_rgba(255,0,128,0.15)] border border-pop-light relative overflow-hidden transition-all hover:shadow-[0px_15px_50px_rgba(157,0,255,0.2)] animate-scale-in">
+      <div className="absolute top-0 left-0 w-full h-2 bg-pop-light">
+         {/* Progress Bar */}
+         <div 
+           className="h-full bg-gradient-to-r from-pop-pink to-pop-purple transition-all duration-300 ease-out"
+           style={{ width: status === 'submitting' ? `${progress}%` : '0%' }}
+         ></div>
+      </div>
       
       {status === 'success' ? (
         <div className="text-center py-12 animate-fade-in-up">
@@ -69,11 +94,16 @@ const ContactForm: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-6 relative">
              {/* Loading Overlay */}
              {status === 'submitting' && (
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-3xl">
-                    <svg className="animate-spin-slow w-16 h-16 text-pop-pink mb-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor"/>
-                    </svg>
+                <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-3xl animate-fade-in-up">
+                    <div className="relative w-20 h-20 mb-4">
+                         <div className="absolute inset-0 border-4 border-pop-light rounded-full"></div>
+                         <div className="absolute inset-0 border-4 border-pop-pink rounded-full border-t-transparent animate-spin"></div>
+                         <div className="absolute inset-0 flex items-center justify-center text-2xl animate-pulse">💌</div>
+                    </div>
                     <p className="text-pop-purple font-bold animate-pulse">Envoi magique en cours...</p>
+                    <div className="w-48 h-2 bg-pop-light rounded-full mt-4 overflow-hidden">
+                        <div className="h-full bg-pop-pink transition-all duration-300" style={{ width: `${progress}%` }}></div>
+                    </div>
                 </div>
              )}
 
@@ -86,6 +116,7 @@ const ContactForm: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    disabled={status === 'submitting'}
                     className={`w-full bg-pop-light/30 border-2 p-4 rounded-2xl text-sm focus:bg-white focus:outline-none transition-all text-pop-purple placeholder-pop-pink/50 ${errors.name ? 'border-red-400 bg-red-50' : 'border-transparent focus:border-pop-pink'}`}
                     placeholder="Ton joli nom d'artiste"
                     />
@@ -99,6 +130,7 @@ const ContactForm: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    disabled={status === 'submitting'}
                     className={`w-full bg-pop-light/30 border-2 p-4 rounded-2xl text-sm focus:bg-white focus:outline-none transition-all text-pop-purple placeholder-pop-pink/50 ${errors.email ? 'border-red-400 bg-red-50' : 'border-transparent focus:border-pop-pink'}`}
                     placeholder="ton@email.com"
                     />
@@ -114,6 +146,7 @@ const ContactForm: React.FC = () => {
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
+                disabled={status === 'submitting'}
                 className="w-full bg-pop-light/30 border-2 border-transparent p-4 rounded-2xl text-sm focus:bg-white focus:outline-none focus:border-pop-pink transition-all text-pop-purple placeholder-pop-pink/50"
                 placeholder="Projet ? Collab ? Fan art ?"
                 />
@@ -127,6 +160,7 @@ const ContactForm: React.FC = () => {
                 rows={5}
                 value={formData.message}
                 onChange={handleChange}
+                disabled={status === 'submitting'}
                 className={`w-full bg-pop-light/30 border-2 p-4 rounded-2xl text-sm focus:bg-white focus:outline-none transition-all text-pop-purple placeholder-pop-pink/50 resize-none ${errors.message ? 'border-red-400 bg-red-50' : 'border-transparent focus:border-pop-pink'}`}
                 placeholder="Raconte-moi tout... (J'adore les détails !)"
                 />

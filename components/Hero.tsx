@@ -50,7 +50,7 @@ const Hero: React.FC = () => {
         </h2>
         
         <p className="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto mb-8 font-medium leading-relaxed">
-          Hello ! Je suis <strong>Zineb</strong>. Étudiante MMI, illustratrice et CM.
+          Hello ! Je suis <strong className="inline-block hover:animate-glitch text-pop-purple cursor-crosshair">Zineb</strong>. Étudiante MMI, illustratrice et CM.
           <br/>
           Lauréate des Trophées NSI, je cherche à allier <span className="text-pop-pink font-bold">stratégie</span> et <span className="text-pop-purple font-bold">créativité</span>.
           <br/>
