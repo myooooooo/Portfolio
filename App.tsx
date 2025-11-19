@@ -15,6 +15,8 @@ import Services from './components/Services';
 import CreativeTools from './components/CreativeTools';
 import DiscordTestimonials from './components/DiscordTestimonials';
 import ArtProcess from './components/ArtProcess';
+import KonamiCode from './components/KonamiCode';
+import ScrollCat from './components/ScrollCat';
 
 const App: React.FC = () => {
   const scrollToSection = (id: string) => {
@@ -28,6 +30,8 @@ const App: React.FC = () => {
     <main className="min-h-screen w-full bg-pop-light bg-dot-pattern bg-fixed text-swiss-black selection:bg-pop-pink selection:text-white overflow-x-hidden font-sans relative">
       
       {/* Cool Stuff Additions */}
+      <KonamiCode />
+      <ScrollCat />
       <CustomCursor />
       <MusicPlayer />
       <LoveSpam />

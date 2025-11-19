@@ -45,6 +45,7 @@
               'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
               'scale-in': 'scaleIn 0.5s ease-out forwards',
               'shimmer': 'shimmer 2s linear infinite',
+              'disco': 'disco 2s linear infinite',
             },
             keyframes: {
               float: {
@@ -96,6 +97,10 @@
               shimmer: {
                 '0%': { transform: 'translateX(-100%)' },
                 '100%': { transform: 'translateX(100%)' }
+              },
+              disco: {
+                '0%': { filter: 'hue-rotate(0deg)' },
+                '100%': { filter: 'hue-rotate(360deg)' }
               }
             }
           }

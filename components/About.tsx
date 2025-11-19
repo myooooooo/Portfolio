@@ -1,6 +1,7 @@
 import React from 'react';
 import { EXPERIENCE, SOCIALS, PROFILE_IMAGE_URL } from '../constants';
 import MoodBoard from './MoodBoard';
+import RPGStats from './RPGStats';
 
 const About: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ const About: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
             
-            {/* Left Column: Polaroid & MoodBoard */}
+            {/* Left Column: Polaroid & MoodBoard & Stats */}
             <div className="md:col-span-5 flex flex-col gap-10">
                 {/* Polaroid Effect */}
                 <div className="relative bg-white p-4 pb-16 shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500 w-full max-w-md mx-auto group">
@@ -30,6 +31,8 @@ const About: React.FC = () => {
                 </div>
 
                 <MoodBoard />
+                
+                <RPGStats />
             </div>
 
             {/* Right Column: Text & Bio */}
