@@ -20,6 +20,11 @@ import KonamiCode from './components/KonamiCode';
 import ScrollCat from './components/ScrollCat';
 import DoodleLayer from './components/DoodleLayer';
 import CoffeeFeeder from './components/CoffeeFeeder';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import SnowEffect from './components/SnowEffect';
+import MatrixEffect from './components/MatrixEffect';
+import RetroOverlay from './components/RetroOverlay';
+import RetroDesktop from './components/RetroDesktop';
 import { PROJECTS } from './constants';
 import { Project } from './types';
 
@@ -57,9 +62,24 @@ const App: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen w-full bg-pop-light bg-dot-pattern bg-fixed text-swiss-black selection:bg-pop-pink selection:text-white overflow-x-hidden font-sans relative">
+    <main className="min-h-screen w-full bg-pop-light bg-dot-pattern bg-fixed text-swiss-black selection:bg-pop-pink selection:text-white overflow-x-hidden font-sans relative transition-colors duration-500 pb-12 md:pb-0">
       
-      {/* Shared Components */}
+      {/* Theme Manager */}
+      <ThemeSwitcher />
+      
+      <div className="theme-christmas-only">
+         <SnowEffect />
+      </div>
+      {/* Helper to only show matrix when theme-secret is active on body */}
+      <div className="theme-secret-only">
+        <MatrixEffect />
+      </div>
+      {/* Helper for retro mode */}
+      <div className="theme-retro-only">
+        <RetroOverlay />
+        <RetroDesktop />
+      </div>
+
       <KonamiCode />
       <ScrollCat />
       <CustomCursor />
@@ -108,19 +128,19 @@ const App: React.FC = () => {
 
           {/* Wavy Separator Contact */}
           <div className="w-full leading-none relative z-20 -mb-1">
-               <svg className="block w-full h-16 md:h-32 fill-white" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
+               <svg className="block w-full h-16 md:h-32 fill-white transition-colors duration-500" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
                   <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path>
               </svg>
           </div>
 
-          <div id="contact" className="py-20 md:py-32 px-4 md:px-0 bg-white relative">
+          <div id="contact" className="py-20 md:py-32 px-4 md:px-0 bg-white relative transition-colors duration-500">
              <div className="container mx-auto max-w-5xl relative z-10">
                 <div className="mb-16 text-center">
                     <span className="text-6xl animate-pulse mb-4 block transform hover:rotate-180 transition-transform duration-700">✨</span>
                     <h2 className="text-5xl md:text-6xl font-display text-pop-purple mb-6">
                         Let's Draw <span className="text-pop-pink">Together</span>!
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-md mx-auto font-medium">
+                    <p className="text-lg opacity-80 max-w-md mx-auto font-medium">
                         Envie d'une illustration, d'un chara-design ou d'une collab artistique ?
                         <br/>
                         Je suis prête à donner vie à tes idées ! <a href="mailto:zineb.anssafou@icloud.com" className="text-pop-pink font-bold underline decoration-wavy hover:text-pop-purple">zineb.anssafou@icloud.com</a>
@@ -136,6 +156,20 @@ const App: React.FC = () => {
           </div>
         </>
       )}
+      
+      <style>{`
+        /* Helper to only show snow when theme-christmas is active on body */
+        .snowflake { display: none; }
+        body.theme-christmas .snowflake { display: block; }
+
+        /* Helper to only show matrix effect when theme-secret is active */
+        .theme-secret-only { display: none; }
+        body.theme-secret .theme-secret-only { display: block; }
+
+        /* Helper for Retro */
+        .theme-retro-only { display: none; }
+        body.theme-retro .theme-retro-only { display: block; }
+      `}</style>
     </main>
   );
 };

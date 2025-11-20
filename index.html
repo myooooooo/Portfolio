@@ -7,27 +7,210 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;800&family=Creepster&family=Mountains+of+Christmas:wght@700&family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+      /* DÉFINITION DES VARIABLES DE COULEURS */
+      :root {
+        /* Palette par défaut (Girly Pop) */
+        --c-pink: #FF0080;
+        --c-light: #FFE5EC;
+        --c-purple: #9D00FF;
+        --c-accent: #00E0FF;
+        --c-yellow: #FFDD00;
+        --c-white: #ffffff;
+        --c-text-main: #2D0025;
+        
+        /* Background Pattern */
+        --c-dot: #FF0080;
+        
+        --font-display: 'Pacifico', cursive;
+      }
+
+      /* Palette Halloween (Spooky) */
+      .theme-halloween {
+        --c-pink: #FF7518; /* Pumpkin Orange */
+        --c-light: #121212; /* Dark Background */
+        --c-purple: #9d45ff; /* Brighter Purple for contrast */
+        --c-accent: #76FF03; /* Slime Green */
+        --c-yellow: #FFDD00;
+        --c-white: #2a2a2a; /* Dark Cards */
+        --c-text-main: #f0f0f0; /* Light Text */
+        
+        --c-dot: #FF7518;
+        
+        --font-display: 'Creepster', cursive; /* Police d'horreur */
+      }
+
+      /* Palette Noël (Merry) */
+      .theme-christmas {
+        --c-pink: #D42426; /* Santa Red */
+        --c-light: #F0F8FF; /* Icy White/Blue */
+        --c-purple: #165B33; /* Pine Green */
+        --c-accent: #FFD700; /* Gold */
+        --c-yellow: #FFD700;
+        --c-white: #ffffff;
+        --c-text-main: #165B33;
+        
+        --c-dot: #165B33; /* Green Dots */
+        
+        --font-display: 'Mountains of Christmas', cursive;
+      }
+
+      /* MODE MYSTÈRE (Matrix) */
+      .theme-secret {
+        --c-pink: #00FF41; /* Hacker Green */
+        --c-light: #000000; /* Pure Black */
+        --c-purple: #008F11; /* Dark Green */
+        --c-accent: #FFFFFF; /* White */
+        --c-yellow: #00FF41;
+        --c-white: #0D0208; /* Very Dark */
+        --c-text-main: #00FF41;
+        
+        --c-dot: #003B00;
+        
+        --font-display: 'VT323', monospace;
+      }
+
+      /* MODE RETRO (Windows 95) */
+      .theme-retro {
+        /* TRUC DU CHEF : On remplace le Rose par le Bleu Marine. 
+           Comme ça, tous les boutons roses du site deviennent bleus automatiquement ! */
+        --c-pink: #000080; /* Navy Blue (Active Title Bar) */
+        
+        --c-light: #008080; /* TEAL BACKGROUND (Desktop) */
+        --c-purple: #000000; /* Black Text */
+        --c-accent: #C0C0C0; /* Silver */
+        --c-yellow: #FFFF00; /* Pure Yellow */
+        
+        /* Les cartes blanches deviennent grises (fenêtres) */
+        --c-white: #C0C0C0; 
+        
+        --c-text-main: #000000;
+        
+        --c-dot: #008080; /* Hide dots by matching bg */
+        
+        --font-display: 'VT323', monospace; /* Pixel font */
+      }
+
+      /* RETRO OVERRIDES - Kill rounded corners and add bevels */
+      body.theme-retro * {
+        border-radius: 0 !important;
+        box-shadow: none !important; /* Kill soft shadows */
+      }
+      
+      /* Simulate Win95 3D Borders (Bevels) */
+      body.theme-retro button, 
+      body.theme-retro .bg-white, 
+      body.theme-retro input,
+      body.theme-retro textarea,
+      body.theme-retro header > div {
+        border-top: 2px solid #ffffff !important;
+        border-left: 2px solid #ffffff !important;
+        border-right: 2px solid #404040 !important;
+        border-bottom: 2px solid #404040 !important;
+        background-color: #C0C0C0 !important;
+        color: black !important;
+      }
+
+      /* Pressed State */
+      body.theme-retro button:active {
+         border-top: 2px solid #404040 !important;
+         border-left: 2px solid #404040 !important;
+         border-right: 2px solid #ffffff !important;
+         border-bottom: 2px solid #ffffff !important;
+      }
+      
+      /* Fix colors for text inside Retro Mode to be legible */
+      body.theme-retro h1, body.theme-retro h2, body.theme-retro h3, body.theme-retro h4 {
+        color: #000080 !important; /* Navy Blue headings */
+        text-shadow: none !important;
+      }
+      
+      body.theme-retro p, body.theme-retro span, body.theme-retro div {
+         text-shadow: none !important;
+      }
+      
+      body.theme-retro .text-white {
+         color: black !important;
+      }
+      
+      /* Special fix for "Pink" buttons to have white text */
+      body.theme-retro .bg-pop-pink {
+         background-color: #000080 !important;
+         color: white !important;
+      }
+      
+      /* Force default cursor */
+      body.theme-retro, body.theme-retro a, body.theme-retro button {
+         cursor: auto !important;
+      }
+
+      body {
+        background-color: var(--c-light);
+        color: var(--c-text-main);
+        cursor: none;
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+      
+      /* Appliquer la transition aux éléments qui changent de couleur */
+      div, button, header, section {
+        transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      a, button, input, textarea {
+        cursor: none;
+      }
+
+      /* Hide scrollbar */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      .text-gradient {
+        background: linear-gradient(to right, var(--c-pink), var(--c-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Snow Animation */
+      .snowflake {
+        position: fixed;
+        top: -10px;
+        z-index: 9999;
+        color: white;
+        pointer-events: none;
+        animation-name: fall;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes fall {
+        0% { transform: translateY(0) translateX(0); opacity: 0.8; }
+        100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
+      }
+    </style>
+
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
               sans: ['Poppins', 'sans-serif'],
-              display: ['Pacifico', 'cursive'],
+              display: ['var(--font-display)'], 
             },
             backgroundImage: {
-              'dot-pattern': "radial-gradient(#FF0080 1px, transparent 1px)",
+              'dot-pattern': "radial-gradient(var(--c-dot) 1px, transparent 1px)",
             },
             backgroundSize: {
               'dot-pattern': '20px 20px',
             },
             colors: {
-              'pop-pink': '#FF0080',
-              'pop-light': '#FFE5EC',
-              'pop-purple': '#9D00FF',
-              'pop-accent': '#00E0FF',
-              'pop-yellow': '#FFDD00',
+              'pop-pink': 'var(--c-pink)',
+              'pop-light': 'var(--c-light)',
+              'pop-purple': 'var(--c-purple)',
+              'pop-accent': 'var(--c-accent)',
+              'pop-yellow': 'var(--c-yellow)',
+              'white': 'var(--c-white)', // Override white to adapt to dark mode
               'discord-dark': '#36393f',
               'discord-gray': '#2f3136',
             },
@@ -107,30 +290,6 @@
         }
       }
     </script>
-    <style>
-      body {
-        background-color: #FFE5EC;
-        color: #2D0025;
-        cursor: none; /* Hiding default cursor for custom one */
-      }
-      a, button, input, textarea {
-        cursor: none; /* Ensure custom cursor is used everywhere */
-      }
-      /* Hide scrollbar for Chrome, Safari and Opera */
-      .no-scrollbar::-webkit-scrollbar {
-          display: none;
-      }
-      /* Hide scrollbar for IE, Edge and Firefox */
-      .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-      }
-      .text-gradient {
-        background: linear-gradient(to right, #FF0080, #9D00FF);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {

@@ -6,6 +6,21 @@ const DoodleLayer: React.FC = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [color, setColor] = useState('#FF0080');
+  const [isEraser, setIsEraser] = useState(false);
+
+  // Palette de peinture élargie
+  const paintColors = [
+    '#FF0080', // Pink
+    '#9D00FF', // Purple
+    '#00E0FF', // Cyan
+    '#FFFF00', // Yellow
+    '#FF5733', // Orange
+    '#76FF03', // Lime
+    '#000000', // Black
+    '#FFFFFF', // White
+  ];
+
+  const isCustomColor = !paintColors.includes(color) && !isEraser;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -31,7 +46,7 @@ const DoodleLayer: React.FC = () => {
     if (!ctx) return;
 
     setIsDrawing(true);
-    canvas.setPointerCapture(e.pointerId); // Capture le pointeur pour éviter de perdre le focus si on sort vite
+    canvas.setPointerCapture(e.pointerId); // Capture le pointeur pour éviter de perdre le focus
 
     const { clientX, clientY, pressure, pointerType } = e;
     
@@ -42,14 +57,20 @@ const DoodleLayer: React.FC = () => {
     let lineWidth = 5;
     // Si c'est un stylet, on utilise la pression (pression normale ~0.5, max 1.0)
     if (pointerType === 'pen') {
-       // On multiplie la pression pour avoir une variation visible (de 1px à 25px par ex)
        lineWidth = Math.max(1, pressure * 25);
     }
 
-    ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = color;
+
+    if (isEraser) {
+        ctx.globalCompositeOperation = 'destination-out'; // Mode gomme
+        ctx.lineWidth = lineWidth * 3; // La gomme est plus grosse
+    } else {
+        ctx.globalCompositeOperation = 'source-over'; // Mode dessin
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+    }
   };
 
   const draw = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -61,19 +82,25 @@ const DoodleLayer: React.FC = () => {
 
     const { clientX, clientY, pressure, pointerType } = e;
 
+    // Important : Réappliquer le mode (gomme ou dessin) au cas où le contexte change
+    if (isEraser) {
+        ctx.globalCompositeOperation = 'destination-out';
+    } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = color;
+    }
+
     // On dessine le segment vers la nouvelle position
     ctx.lineTo(clientX, clientY);
     ctx.stroke();
 
-    // Pour la sensibilité à la pression continue :
-    // L'astuce est de commencer un nouveau chemin (beginPath) à chaque mouvement
-    // pour pouvoir changer le lineWidth dynamiquement.
+    // Pour la sensibilité à la pression continue
     if (pointerType === 'pen' && pressure > 0) {
         ctx.beginPath();
         ctx.moveTo(clientX, clientY);
         // Variation dynamique de l'épaisseur selon la pression
         const newWidth = Math.max(1, pressure * 25);
-        ctx.lineWidth = newWidth;
+        ctx.lineWidth = isEraser ? newWidth * 3 : newWidth;
     }
   };
 
@@ -83,7 +110,7 @@ const DoodleLayer: React.FC = () => {
     if (canvas) {
         canvas.releasePointerCapture(e.pointerId);
         const ctx = canvas.getContext('2d');
-        ctx?.beginPath(); // Reset path pour ne pas relier au prochain trait
+        ctx?.beginPath(); 
     }
   };
 
@@ -93,6 +120,11 @@ const DoodleLayer: React.FC = () => {
       const ctx = canvas.getContext('2d');
       ctx?.clearRect(0, 0, canvas.width, canvas.height);
     }
+  };
+
+  const handleColorSelect = (c: string) => {
+    setColor(c);
+    setIsEraser(false);
   };
 
   return (
@@ -105,28 +137,91 @@ const DoodleLayer: React.FC = () => {
         onPointerUp={stopDrawing}
         onPointerLeave={stopDrawing}
         className={`fixed inset-0 z-[9000] touch-none transition-opacity duration-300 ${isActive ? 'opacity-100 pointer-events-auto cursor-crosshair' : 'opacity-0 pointer-events-none'}`}
-        style={{ touchAction: 'none' }} // Important pour désactiver le scroll natif sur mobile/tablette
+        style={{ touchAction: 'none' }} 
       />
 
       {/* Controls */}
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[9001] flex gap-2 items-end">
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[9001] flex flex-col items-center gap-4">
+        
         {isActive && (
-          <div className="flex gap-2 animate-scale-in bg-white p-2 rounded-full shadow-xl border-2 border-pop-purple mb-20 md:mb-0">
-            <button onClick={() => setColor('#FF0080')} className={`w-8 h-8 rounded-full bg-pop-pink border-2 ${color === '#FF0080' ? 'border-black scale-110' : 'border-white'}`}></button>
-            <button onClick={() => setColor('#9D00FF')} className={`w-8 h-8 rounded-full bg-pop-purple border-2 ${color === '#9D00FF' ? 'border-black scale-110' : 'border-white'}`}></button>
-            <button onClick={() => setColor('#00E0FF')} className={`w-8 h-8 rounded-full bg-pop-accent border-2 ${color === '#00E0FF' ? 'border-black scale-110' : 'border-white'}`}></button>
-            <button onClick={() => setColor('#000000')} className={`w-8 h-8 rounded-full bg-black border-2 ${color === '#000000' ? 'border-white scale-110 shadow-lg' : 'border-white'}`}></button>
-            <div className="w-px h-8 bg-gray-200 mx-1"></div>
-            <button onClick={clearCanvas} className="text-xl hover:scale-110 transition-transform" title="Effacer">🗑️</button>
+          <div className="animate-scale-in relative">
+             {/* Wooden Palette Shape */}
+             <div className="w-80 h-60 bg-[#eebb88] rounded-[50%] border-b-8 border-r-8 border-[#d49b6a] shadow-2xl flex flex-wrap content-center justify-center gap-3 p-8 relative transform -rotate-6">
+                
+                {/* Wood Texture (Subtle) */}
+                <div className="absolute inset-0 rounded-[50%] bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-30 pointer-events-none"></div>
+                
+                {/* Thumb Hole */}
+                <div className="absolute bottom-5 right-10 w-10 h-10 bg-black/20 rounded-full shadow-inner border-2 border-[#d49b6a]/50"></div>
+
+                {/* Eraser Tool */}
+                <button
+                    onClick={() => setIsEraser(true)}
+                    className={`w-12 h-12 rounded-md transform transition-transform hover:scale-110 active:scale-95 relative group flex items-center justify-center ${isEraser ? 'ring-4 ring-pop-pink rotate-[-10deg]' : 'rotate-6'}`}
+                    style={{ 
+                        background: 'linear-gradient(135deg, #ffffff 40%, #ffb6c1 40%)', // Gomme bicolore
+                        boxShadow: '2px 4px 6px rgba(0,0,0,0.3)'
+                    }}
+                    title="Gomme"
+                >
+                   <span className="text-xl filter drop-shadow-sm">🧼</span>
+                </button>
+
+                {/* Paint Blobs */}
+                {paintColors.map((c) => (
+                    <button
+                        key={c}
+                        onClick={() => handleColorSelect(c)}
+                        className={`w-10 h-10 rounded-full transition-transform hover:scale-110 active:scale-95 relative group ${color === c && !isEraser ? 'scale-125 z-10 ring-2 ring-white/50' : ''}`}
+                        style={{ 
+                            backgroundColor: c,
+                            boxShadow: `inset -2px -4px 5px rgba(0,0,0,0.2), inset 2px 2px 5px rgba(255,255,255,0.6), 2px 4px 5px rgba(0,0,0,0.3)` 
+                        }}
+                        title={c}
+                    >
+                        {/* Wet highlight */}
+                        <div className="absolute top-2 left-2 w-3 h-2 bg-white opacity-60 rounded-full blur-[1px]"></div>
+                    </button>
+                ))}
+
+                {/* Custom Color Picker Blob (Rainbow) */}
+                <label 
+                    className={`w-10 h-10 rounded-full transition-transform hover:scale-110 active:scale-95 relative group cursor-pointer overflow-hidden ${isCustomColor ? 'scale-125 z-10 ring-2 ring-white/50' : ''}`}
+                    title="Couleur personnalisée"
+                    style={{
+                        background: 'conic-gradient(from 180deg at 50% 50%, #FF0000 0deg, #FFFF00 60deg, #00FF00 120deg, #00FFFF 180deg, #0000FF 240deg, #FF00FF 300deg, #FF0000 360deg)',
+                        boxShadow: `inset -2px -4px 5px rgba(0,0,0,0.2), inset 2px 2px 5px rgba(255,255,255,0.6), 2px 4px 5px rgba(0,0,0,0.3)`
+                    }}
+                >
+                    <input 
+                        type="color" 
+                        className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+                        onChange={(e) => handleColorSelect(e.target.value)}
+                        value={isEraser ? '#000000' : color}
+                    />
+                     {/* Wet highlight */}
+                     <div className="absolute top-2 left-2 w-3 h-2 bg-white opacity-60 rounded-full blur-[1px] pointer-events-none"></div>
+                </label>
+
+
+                {/* Rag (Clear Button) */}
+                <button 
+                    onClick={clearCanvas} 
+                    className="absolute -top-2 -right-2 w-14 h-14 bg-gray-200 rounded-full shadow-md flex items-center justify-center text-xl transform rotate-12 hover:rotate-45 transition-transform border-2 border-gray-300"
+                    title="Tout effacer (Chiffon)"
+                >
+                    🧽
+                </button>
+             </div>
           </div>
         )}
 
         <button
           onClick={() => setIsActive(!isActive)}
-          className={`w-14 h-14 rounded-full shadow-[0px_4px_0px_0px_rgba(0,0,0,0.2)] flex items-center justify-center text-2xl transition-all hover:scale-110 active:scale-95 ${isActive ? 'bg-pop-yellow text-black rotate-12 border-4 border-pop-purple' : 'bg-white text-pop-purple border-2 border-pop-purple'}`}
-          title={isActive ? "Fermer le mode dessin" : "Activer le mode dessin (Supporte l'Apple Pencil)"}
+          className={`w-16 h-16 rounded-full shadow-[0px_6px_0px_0px_rgba(0,0,0,0.2)] flex items-center justify-center text-3xl transition-all hover:scale-110 active:scale-95 active:shadow-none active:translate-y-1 ${isActive ? 'bg-red-500 text-white rotate-12 border-4 border-white' : 'bg-white text-pop-purple border-4 border-pop-purple animate-bounce-slow'}`}
+          title={isActive ? "Fermer le mode dessin" : "Sortir mes pinceaux !"}
         >
-          {isActive ? '✕' : '✏️'}
+          {isActive ? '✖️' : '🎨'}
         </button>
       </div>
     </>
