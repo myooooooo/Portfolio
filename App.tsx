@@ -136,7 +136,13 @@ const App: React.FC = () => {
     if (project) setSelectedProject(project);
   };
 
-  const handleCloseProject = () => setSelectedProject(null);
+  const handleCloseProject = () => {
+    setSelectedProject(null);
+    // MODIFICATION ICI : On scrolle vers 'work' au lieu de laisser par défaut (qui serait 0/Home)
+    setTimeout(() => {
+        scrollToSection('work');
+    }, 100);
+  };
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
