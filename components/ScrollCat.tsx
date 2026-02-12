@@ -1,30 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface ScrollCatProps {
-  containerRef?: React.RefObject<HTMLDivElement>;
+  progress: number;
 }
 
-const ScrollCat: React.FC<ScrollCatProps> = ({ containerRef }) => {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const container = containerRef?.current || document.documentElement;
-      const totalScroll = container.scrollLeft || window.scrollY;
-      const scrollWidth = container.scrollWidth - container.clientWidth;
-      
-      if (scrollWidth <= 0) return;
-
-      const scroll = totalScroll / scrollWidth;
-      setScrollProgress(scroll);
-    };
-
-    const element = containerRef?.current || window;
-    element.addEventListener('scroll', handleScroll);
-    handleScroll();
-
-    return () => element.removeEventListener('scroll', handleScroll);
-  }, [containerRef]);
+const ScrollCat: React.FC<ScrollCatProps> = ({ progress }) => {
+  // progress est entre 0 et 1
+  const scrollProgress = Math.min(Math.max(progress, 0), 1);
 
   return (
     <div className="fixed bottom-0 left-0 w-full h-3 z-[150] pointer-events-none">

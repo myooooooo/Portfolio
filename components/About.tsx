@@ -3,100 +3,101 @@ import { EXPERIENCE, PROFILE_IMAGE_URL } from '../constants';
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="py-20 md:py-40 bg-white px-8 md:px-20 h-full overflow-y-auto">
-      <div className="max-w-[1600px] mx-auto">
+    <div className="flex h-full items-center px-10 md:px-20 gap-20 md:gap-40">
         
-        {/* Massive Headline */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-20 md:mb-40 items-start">
-          <div className="md:col-span-8 relative">
-            <div className="absolute -top-12 left-0 font-cursive text-pop-pink text-3xl -rotate-6">L'histoire commence ici...</div>
-            <h2 className="text-7xl md:text-[10vw] font-black uppercase leading-[0.8] tracking-ultra-tight mb-16">
-              <span className="reveal-node block">UNE VISION</span>
-              <span className="reveal-node stagger-1 block text-pop-pink">MODERNE.</span>
-            </h2>
-            <p className="text-xl md:text-4xl font-medium text-gray-400 uppercase leading-none max-w-4xl reveal-node stagger-2">
+        {/* Column 1: Title & Bio */}
+        {/* Padding important en haut pour éviter le "coupé" */}
+        <div className="flex-shrink-0 w-[85vw] md:w-[45vw] flex flex-col justify-center h-full pt-40 pb-10">
+            <div className="relative mb-16">
+                <div className="absolute -top-20 -left-4 font-cursive text-pop-pink text-6xl -rotate-6 opacity-80 z-10 w-full">Hello !</div>
+                <h2 className="text-7xl md:text-[9vw] font-black uppercase leading-[0.8] tracking-ultra-tight relative z-0">
+                    <span className="reveal-node block">UNE VISION</span>
+                    <span className="reveal-node stagger-1 block text-pop-pink">MODERNE.</span>
+                </h2>
+            </div>
+            
+            <p className="text-xl md:text-3xl font-medium text-gray-400 uppercase leading-tight reveal-node stagger-2 mb-12 max-w-2xl">
               BORN IN ART. <span className="text-luxe-black">MADE FOR DIGITAL.</span> 
               JE CRÉE DES RÉCITS VISUELS OÙ CHAQUE PIXEL A UNE RAISON D'ÊTRE.
             </p>
-          </div>
-          <div className="md:col-span-4 reveal-node stagger-3 pt-10 relative">
-             <span className="absolute top-0 right-0 font-cursive text-pop-pink/30 text-5xl rotate-12">Creative soul</span>
-             <div className="text-[10px] font-black tracking-widest-luxe text-gray-300 uppercase mb-4">/ PROFILE</div>
-             <p className="text-sm font-bold leading-relaxed uppercase">
-               Actuellement stagiaire chez Polytech et étudiante en BUT MMI, je développe une approche hybride entre le design graphique et l'innovation technologique.
-             </p>
-          </div>
+
+            <div className="border-l-4 border-luxe-black pl-8 py-2 reveal-node stagger-3">
+                 <div className="text-xs font-black tracking-widest-luxe text-gray-300 uppercase mb-3">/ PROFILE STATUS</div>
+                 <p className="text-base font-bold leading-relaxed uppercase max-w-lg text-luxe-black">
+                   Actuellement en stage chez <span className="bg-pop-pink text-white px-1">Polytech</span>. <br/>
+                   Étudiante en BUT MMI, je développe une approche hybride entre design graphique & code créatif.
+                 </p>
+            </div>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-32 md:mb-60">
-          <div className="lg:col-span-6 reveal-node relative">
-             <div className="absolute -bottom-8 -right-8 z-10 font-cursive text-white text-4xl -rotate-12 bg-pop-pink px-6 py-2 shadow-xl">C'est moi !</div>
-             <div className="aspect-[4/5] overflow-hidden bg-gray-100">
+        {/* Column 2: Photo & Skills */}
+        <div className="flex-shrink-0 w-[85vw] md:w-[35vw] flex flex-col h-full justify-center gap-12">
+             <div className="relative aspect-[3/4] w-full max-w-md mx-auto overflow-hidden bg-gray-100 shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] border-4 border-black group">
+               <div className="absolute top-6 -right-8 bg-pop-pink text-white text-xs font-bold py-1 px-10 rotate-45 z-10 shadow-sm">ZINEB.AI</div>
                <img 
                  src={PROFILE_IMAGE_URL} 
                  alt="ZINEB" 
-                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
+                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                />
+               <div className="absolute inset-0 bg-black/5 pointer-events-none group-hover:opacity-0 transition-opacity"></div>
              </div>
-          </div>
-          <div className="lg:col-span-6 flex flex-col justify-between py-10">
-             <div className="space-y-20">
-                <div className="reveal-node">
-                   <h4 className="text-[10px] font-black tracking-widest-luxe text-pop-pink uppercase mb-8">01 / CAPACITÉS</h4>
-                   <div className="grid grid-cols-2 gap-x-10 gap-y-6">
-                      {['FIGMA', 'PROCREATE', 'REACT', 'AFTER EFFECTS', 'PYTHON', 'UI/UX'].map(tool => (
-                        <div key={tool} className="border-b border-black/10 py-4 text-xl font-black uppercase tracking-tighter hover:text-pop-pink transition-colors relative group">
-                          {tool}
+
+             <div className="reveal-node max-w-md mx-auto w-full">
+                 <h4 className="text-xs font-black tracking-widest-luxe text-luxe-black uppercase mb-6 border-b-2 border-luxe-black pb-2">STACK TECHNIQUE</h4>
+                 <div className="flex flex-wrap gap-3">
+                    {['FIGMA', 'PROCREATE', 'REACT', 'AFTER EFFECTS', 'PYTHON', 'UI/UX'].map((tool, i) => (
+                      <span key={tool} className={`px-4 py-2 text-sm font-bold uppercase tracking-wider border-2 border-black hover:bg-black hover:text-white transition-all cursor-default ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                        {tool}
+                      </span>
+                    ))}
+                 </div>
+             </div>
+        </div>
+
+        {/* Column 3: Timeline - GRID SYSTEM REDESIGN */}
+        <div className="flex-shrink-0 w-[90vw] md:w-[60vw] h-full flex flex-col justify-center py-10 relative">
+            <div className="mb-10 pl-2">
+                <span className="text-pop-pink font-cursive text-3xl mb-1 block">My Journey</span>
+                <h3 className="text-6xl md:text-7xl font-black uppercase tracking-tighter leading-none">
+                    TIMELINE<span className="text-pop-pink">.</span>
+                </h3>
+            </div>
+
+            {/* Grille 2x2 style "Dashboard" */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                {EXPERIENCE.map((exp, i) => (
+                    <div key={i} className="group relative bg-white border-2 border-black p-6 flex flex-col justify-between h-[240px] md:h-[260px] hover:bg-luxe-black hover:text-white transition-all duration-300 hover:-translate-y-2 hover:shadow-[12px_12px_0px_0px_#FF0080]">
+                        
+                        {/* Big Background Number */}
+                        <div className="absolute top-0 right-4 text-7xl font-black text-gray-100 group-hover:text-white/10 transition-colors select-none z-0">
+                            0{i + 1}
                         </div>
-                      ))}
-                   </div>
-                </div>
+                        
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-3 mb-2">
+                                <span className={`text-[10px] font-bold px-2 py-1 uppercase tracking-widest border border-black group-hover:border-white group-hover:text-black group-hover:bg-white transition-colors ${i === 0 ? 'bg-pop-pink text-white border-none' : 'bg-transparent text-gray-500'}`}>
+                                    {exp.period}
+                                </span>
+                            </div>
+                            <h4 className="text-2xl font-black uppercase leading-[0.9] mb-1 tracking-tight group-hover:text-pop-pink transition-colors">
+                                {exp.company}
+                            </h4>
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block group-hover:text-gray-300">
+                                {exp.role}
+                            </span>
+                        </div>
 
-                <div className="reveal-node stagger-1">
-                   <div className="flex items-center gap-4">
-                      <h4 className="text-[10px] font-black tracking-widest-luxe text-pop-pink uppercase">02 / DISTINCTIONS</h4>
-                      <span className="font-cursive text-pop-pink text-xl">fierté</span>
-                   </div>
-                   <p className="text-3xl font-black uppercase tracking-tight mt-8">
-                     PRIX TERRITORIAL <br/> TROPHÉES NSI 2024
-                   </p>
-                </div>
-             </div>
-          </div>
+                        <p className="relative z-10 text-xs md:text-sm font-medium text-gray-600 leading-relaxed border-t-2 border-gray-100 pt-4 group-hover:text-gray-300 group-hover:border-white/20 transition-colors line-clamp-3">
+                            {exp.description}
+                        </p>
+                    </div>
+                ))}
+            </div>
         </div>
-
-        {/* List - Swiss Table Style */}
-        <div className="reveal-node pt-20 border-t-2 border-luxe-black">
-           <div className="flex justify-between items-baseline mb-20">
-             <h3 className="text-4xl md:text-6xl font-black uppercase tracking-ultra-tight">EXPERIENCES<span className="text-pop-pink">.</span></h3>
-             <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest-luxe">HISTORIQUE 23-25</span>
-           </div>
-           
-           <div className="divide-y-2 divide-black/5">
-              {EXPERIENCE.map((exp, i) => (
-                <div key={i} className="group grid grid-cols-1 md:grid-cols-12 py-16 items-start hover:bg-pop-pink/5 transition-colors px-4 relative">
-                   <div className="md:col-span-2 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 md:mb-0">
-                      [{exp.period}]
-                   </div>
-                   <div className="md:col-span-6">
-                      <h4 className="text-3xl font-black uppercase tracking-tighter mb-2 group-hover:text-pop-pink transition-colors">{exp.company}</h4>
-                      <div className="flex items-center gap-3">
-                        <p className="text-[10px] font-black uppercase tracking-widest-luxe opacity-40">{exp.role}</p>
-                        {i === 0 && <span className="font-cursive text-pop-pink text-sm">Now</span>}
-                      </div>
-                   </div>
-                   <div className="md:col-span-4 mt-6 md:mt-0">
-                      <p className="text-sm font-bold uppercase leading-relaxed text-gray-500 group-hover:text-luxe-black transition-colors">
-                        {exp.description}
-                      </p>
-                   </div>
-                </div>
-              ))}
-           </div>
-        </div>
-      </div>
-    </section>
+        
+        {/* Spacer */}
+        <div className="w-40 flex-shrink-0"></div>
+    </div>
   );
 };
 
