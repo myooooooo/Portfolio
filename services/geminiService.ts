@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SYSTEM_INSTRUCTION } from '../constants';
 
 export const sendMessageToGemini = async (history: {role: string, parts: any[]}[], message: string): Promise<string> => {
