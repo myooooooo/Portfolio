@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Project } from '../types';
 
 interface ProjectDetailProps {
@@ -7,17 +7,42 @@ interface ProjectDetailProps {
 }
 
 const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack }) => {
-  
-  // Scroll to top when component mounts
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // 1. Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  // 2. TRIGGER ANIMATIONS (Fix: Content was invisible because reveal-node stays at opacity 0)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      { 
+        threshold: 0.1, // Trigger when 10% visible
+        rootMargin: "0px 0px -50px 0px" // Trigger slightly before element is fully in view
+      } 
+    );
+
+    // Select all reveal-nodes inside this component
+    const elements = document.querySelectorAll('.project-detail-container .reveal-node');
+    elements.forEach((el) => observer.observe(el));
+
+    // Cleanup
+    return () => observer.disconnect();
   }, []);
 
   const openImage = (url: string) => {
     window.open(url, '_blank');
   };
 
-  // Custom Image Logic (preserved from previous version)
+  // Custom Image Logic
   let galleryImages: { url: string; label: string }[] = [];
 
   if (project.title === "MYO RACER") {
@@ -33,7 +58,6 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack }) => {
         { url: "https://placehold.co/800x800/9D00FF/FFF?text=Cover+V3+(Dark)", label: "Version Dark" },
     ];
   } else {
-    // Default mock images if no specific ones
     galleryImages = [
         { url: project.imageUrl, label: "Alternate View 1" },
         { url: project.imageUrl, label: "Alternate View 2" },
@@ -41,7 +65,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack }) => {
   }
 
   return (
-    <div className="min-h-screen bg-white text-luxe-black relative z-[200] overflow-x-hidden animate-fade-in-up">
+    <div ref={containerRef} className="project-detail-container min-h-screen bg-white text-luxe-black relative z-[200] overflow-x-hidden animate-fade-in-up">
       
       {/* 1. Header Navigation Brutalist */}
       <div className="fixed top-0 left-0 w-full h-20 border-b-2 border-luxe-black bg-white/95 backdrop-blur-sm z-50 flex items-center justify-between px-6 md:px-12">

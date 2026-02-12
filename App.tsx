@@ -46,90 +46,89 @@ const App: React.FC = () => {
     container.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => container.removeEventListener('wheel', handleWheel);
-  }, [selectedProject]);
+  }, [selectedProject]); // Re-attach when returning to main view
 
   // 2. Gestion de la barre de progression, des animations et du BACKGROUND DYNAMIQUE
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    // Petit délai pour s'assurer que le DOM est prêt lors du retour d'un projet
+    const timer = setTimeout(() => {
+        const container = containerRef.current;
+        if (!container) return;
 
-    const handleScroll = () => {
-      if (!container) return;
-      
-      const scrollX = container.scrollLeft;
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      const currentProgress = maxScroll > 0 ? scrollX / maxScroll : 0;
-      setProgress(currentProgress);
+        const handleScroll = () => {
+          if (!container) return;
+          
+          const scrollX = container.scrollLeft;
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          const currentProgress = maxScroll > 0 ? scrollX / maxScroll : 0;
+          setProgress(currentProgress);
 
-      // --- LOGIQUE DE COULEUR DE FOND INTELLIGENTE ---
-      // On récupère les positions des sections clés
-      const aboutSection = document.getElementById('about');
-      const contactSection = document.getElementById('contact');
-      
-      if (aboutSection && contactSection) {
-        // Position de départ de chaque section (relative au conteneur)
-        const aboutStart = aboutSection.offsetLeft;
-        const contactStart = contactSection.offsetLeft;
-        const viewportWidth = window.innerWidth;
+          // --- LOGIQUE DE COULEUR DE FOND INTELLIGENTE ---
+          const aboutSection = document.getElementById('about');
+          const contactSection = document.getElementById('contact');
+          
+          if (aboutSection && contactSection) {
+            const aboutStart = aboutSection.offsetLeft;
+            const contactStart = contactSection.offsetLeft;
+            const viewportWidth = window.innerWidth;
 
-        // DEFINITION DES ZONES DE COULEUR
-        // 1. Home (0) -> About Start : Rose (#FFF8F9) vers Blanc (#FFFFFF)
-        // 2. About Start -> Contact Start : Blanc (#FFFFFF) vers Noir (#000000)
-        
-        let newColor = 'rgb(255, 248, 249)';
+            let newColor = 'rgb(255, 248, 249)';
 
-        if (scrollX < aboutStart) {
-            // PHASE 1 : ROSE vers BLANC
-            // On veut que ça devienne blanc un peu avant d'arriver sur About pour que la transition soit finie
-            // disons à 80% du chemin vers About
-            const transitionEnd = aboutStart; 
-            const factor = scrollX / transitionEnd;
-            newColor = interpolateColor([255, 248, 249], [255, 255, 255], factor);
-        } else {
-            // PHASE 2 : BLANC vers NOIR
-            // On veut garder le Blanc tant qu'on est sur About.
-            // On commence à noircir quand on s'approche de Contact.
-            // Disons on commence à noircir à 1 écran avant Contact.
-            const fadeStart = contactStart - viewportWidth * 0.8;
-            
-            if (scrollX > fadeStart) {
-                const factor = (scrollX - fadeStart) / (contactStart - fadeStart);
-                newColor = interpolateColor([255, 255, 255], [0, 0, 0], factor);
+            if (scrollX < aboutStart) {
+                // PHASE 1 : ROSE vers BLANC
+                const transitionEnd = aboutStart; 
+                const factor = scrollX / transitionEnd;
+                newColor = interpolateColor([255, 248, 249], [255, 255, 255], factor);
             } else {
-                newColor = 'rgb(255, 255, 255)';
+                // PHASE 2 : BLANC vers NOIR
+                const fadeStart = contactStart - viewportWidth * 0.8;
+                
+                if (scrollX > fadeStart) {
+                    const factor = (scrollX - fadeStart) / (contactStart - fadeStart);
+                    newColor = interpolateColor([255, 255, 255], [0, 0, 0], factor);
+                } else {
+                    newColor = 'rgb(255, 255, 255)';
+                }
             }
-        }
-        setBgColor(newColor);
-      }
+            setBgColor(newColor);
+          }
 
-      // Trigger animations
-      const elements = document.querySelectorAll('.reveal-node, .mask-container');
-      elements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        // Si l'élément rentre dans la fenêtre (marge de sécurité)
-        if (rect.left < window.innerWidth * 0.9) {
-          el.classList.add('revealed');
-        }
-      });
-    };
+          // Trigger animations
+          const elements = document.querySelectorAll('.reveal-node, .mask-container');
+          elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            // Si l'élément rentre dans la fenêtre (marge de sécurité)
+            if (rect.left < window.innerWidth * 0.9) {
+              el.classList.add('revealed');
+            }
+          });
+        };
 
-    container.addEventListener('scroll', handleScroll);
-    // Init initial
-    handleScroll();
-    
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
+        container.addEventListener('scroll', handleScroll);
+        
+        // IMPORTANT: On force l'exécution immédiate pour afficher le contenu visible
+        handleScroll();
+        
+        // Cleanup function defined inside
+        return () => container.removeEventListener('scroll', handleScroll);
+    }, 50);
+
+    // Cleanup du timeout
+    return () => clearTimeout(timer);
+  }, [selectedProject]); // CRUCIAL : Se relance quand on ferme un projet (selectedProject devient null)
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element && containerRef.current) {
-      // On scroll horizontalement vers l'élément
-      const leftPos = element.offsetLeft;
-      containerRef.current.scrollTo({
-        left: leftPos,
-        behavior: 'smooth'
-      });
-    }
+    // Petit hack pour laisser le temps au render si on vient de fermer un projet
+    setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element && containerRef.current) {
+        const leftPos = element.offsetLeft;
+        containerRef.current.scrollTo({
+            left: leftPos,
+            behavior: 'smooth'
+        });
+        }
+    }, 100);
   };
 
   const handleOpenProject = (projectId: number) => {
@@ -142,7 +141,6 @@ const App: React.FC = () => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       {/* BACKGROUND DYNAMIQUE FIXE */}
-      {/* z-[-1] pour être derrière le contenu mais devant le body transparent */}
       <div 
         className="fixed inset-0 -z-10 transition-none"
         style={{ backgroundColor: bgColor }}
