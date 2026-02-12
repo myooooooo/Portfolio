@@ -1,37 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ProjectList from './components/ProjectList';
 import ProjectDetail from './components/ProjectDetail';
 import About from './components/About';
 import ChatWidget from './components/ChatWidget';
-import Services from './components/Services';
-import CreativeTools from './components/CreativeTools';
+import ScrollCat from './components/ScrollCat';
 import { PROJECTS } from './constants';
 import { Project } from './types';
 
 const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll Reveal Logic (manual trigger on mount/navigation)
+  // FIX: Système de scroll horizontal forcé
   useEffect(() => {
-    const trigger = () => {
-        document.querySelectorAll('.reveal-node, .reveal-text-container').forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.95) {
-                el.classList.add('revealed');
-            }
-        });
+    const container = scrollContainerRef.current;
+    if (!container || selectedProject) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Si on est dans un projet en détail, on laisse le scroll vertical normal
+      if (selectedProject) return;
+
+      // On empêche le scroll vertical de la page
+      e.preventDefault();
+
+      // On déplace le container horizontalement
+      // deltaY est le mouvement vertical de la molette, on l'ajoute au scrollLeft
+      container.scrollLeft += e.deltaY + e.deltaX;
     };
-    window.addEventListener('scroll', trigger);
-    trigger(); // Initial check
-    return () => window.removeEventListener('scroll', trigger);
+
+    // L'option { passive: false } est CRUCIALE pour que e.preventDefault() fonctionne
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, [selectedProject]);
+
+  // Déclenchement des animations lors du scroll
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const triggerAnimations = () => {
+      const elements = document.querySelectorAll('.reveal-node, .mask-container');
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        // On active l'animation quand l'élément est visible dans le viewport horizontal
+        if (rect.left < window.innerWidth * 0.9) {
+          el.classList.add('revealed');
+        }
+      });
+    };
+
+    container.addEventListener('scroll', triggerAnimations);
+    // Initial check
+    setTimeout(triggerAnimations, 100);
+    
+    return () => container.removeEventListener('scroll', triggerAnimations);
   }, [selectedProject]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (element && scrollContainerRef.current) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start'
+      });
     }
   };
 
@@ -43,57 +80,76 @@ const App: React.FC = () => {
   const handleCloseProject = () => setSelectedProject(null);
 
   return (
-    <main className="min-h-screen w-full bg-[#fffafa] selection:bg-apple-blue selection:text-white overflow-x-hidden relative">
-      
+    <main className="h-screen w-screen bg-[#FFF8F9] selection:bg-pop-pink selection:text-white relative overflow-hidden">
       <ChatWidget />
+      <ScrollCat containerRef={scrollContainerRef} />
 
       {selectedProject ? (
-        <ProjectDetail project={selectedProject} onBack={handleCloseProject} />
+        <div className="fixed inset-0 z-[200] overflow-y-auto bg-white">
+          <ProjectDetail project={selectedProject} onBack={handleCloseProject} />
+        </div>
       ) : (
         <>
           <Header onNavigate={scrollToSection} />
           
-          <div id="home">
-            <Hero />
-          </div>
+          <div ref={scrollContainerRef} className="snap-container">
+            {/* HOME */}
+            <section id="home" className="snap-section">
+              <Hero />
+            </section>
 
-          <div id="work">
-            <ProjectList onOpenProject={handleOpenProject} />
-          </div>
+            {/* WORK */}
+            <section id="work" className="snap-section bg-transparent">
+              <ProjectList onOpenProject={handleOpenProject} />
+            </section>
+            
+            {/* ABOUT */}
+            <section id="about" className="snap-section bg-white">
+              <About />
+            </section>
 
-          <div className="bg-transparent">
-            <Services />
-            <CreativeTools />
-          </div>
-          
-          <div id="about">
-            <About />
-          </div>
+            {/* CONTACT */}
+            <section id="contact" className="snap-section bg-luxe-black text-white flex flex-col justify-center px-8 md:px-20 relative overflow-hidden">
+               {/* Huge background name */}
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] font-black text-white/[0.02] whitespace-nowrap pointer-events-none select-none tracking-ultra-tight">
+                 ZINEB
+               </div>
 
-          <footer id="contact" className="py-40 bg-apple-black text-white px-6 text-center reveal-node">
-             <div className="max-w-[800px] mx-auto">
-                <div className="reveal-text-container mb-12">
-                  <h2 className="reveal-text-content text-5xl md:text-7xl font-bold tracking-tight">
-                    Prête à créer la suite.
-                  </h2>
-                </div>
-                <p className="text-xl text-apple-gray mb-12">
-                   Vous avez un projet ou souhaitez simplement discuter ? Je suis à l'écoute.
-                </p>
-                <a href="mailto:zineb.anssafou@icloud.com" className="bg-white text-apple-black px-10 py-4 rounded-full font-bold hover:opacity-90 transition-opacity">
-                  Envoyer un e-mail
-                </a>
-                
-                <div className="mt-32 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-[11px] font-medium text-apple-gray uppercase tracking-widest">
-                   <span>© 2025 Zineb Anssafou</span>
-                   <div className="flex gap-8 mt-4 md:mt-0">
-                      <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
-                      <a href="#" className="hover:text-white transition-colors">Behance</a>
-                      <a href="#" className="hover:text-white transition-colors">Instagram</a>
-                   </div>
-                </div>
-             </div>
-          </footer>
+               <div className="max-w-[1200px] mx-auto text-center relative z-10 space-y-16 w-full">
+                  <div className="reveal-node">
+                     <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block">PRÊTE POUR LA SUITE</span>
+                     <h2 className="text-7xl md:text-[12vw] font-black tracking-ultra-tight uppercase leading-[0.85]">
+                       CRÉONS <br/> <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'EXCEPTION.</span>
+                     </h2>
+                  </div>
+                  
+                  <div className="reveal-node space-y-4">
+                    <p className="text-xl md:text-2xl text-gray-400 font-bold uppercase tracking-tight">
+                       ACTUELLEMENT EN STAGE @ <span className="text-white">POLYTECH</span>
+                    </p>
+                    <p className="text-xs text-gray-600 font-black uppercase tracking-widest-luxe">
+                       PROCHAIN STAGE DISPONIBLE : JANVIER 2026
+                    </p>
+                  </div>
+
+                  <div className="reveal-node pt-8">
+                    <a href="mailto:zineb.anssafou@icloud.com" className="inline-flex items-center gap-10 bg-white text-luxe-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white transition-all group">
+                      CONTACTEZ-MOI
+                      <span className="group-hover:translate-x-4 transition-transform">→</span>
+                    </a>
+                  </div>
+                  
+                  <div className="mt-20 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest-luxe text-gray-600 gap-10">
+                     <span>© 2025 ZINEB ANSSAFOU • DIJON • FRANCE</span>
+                     <div className="flex gap-12">
+                        <a href="#" className="hover:text-white transition-colors">LINKEDIN</a>
+                        <a href="#" className="hover:text-white transition-colors">INSTAGRAM</a>
+                        <a href="#" className="hover:text-white transition-colors">BEHANCE</a>
+                     </div>
+                  </div>
+               </div>
+            </section>
+          </div>
         </>
       )}
     </main>

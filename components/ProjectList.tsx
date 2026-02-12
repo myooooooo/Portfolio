@@ -7,44 +7,49 @@ interface ProjectListProps {
 
 const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
   return (
-    <section id="work" className="py-24 bg-[#f5f5f7]">
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="reveal-node mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-apple-black">
-            Projets sélectionnés.
+    <section id="work" className="py-40 bg-transparent">
+      <div className="max-w-[1800px] mx-auto px-8 md:px-12">
+        <div className="reveal-node mb-32 flex flex-col md:flex-row justify-between items-end gap-10">
+          <h2 className="text-6xl md:text-[8vw] font-black uppercase tracking-ultra-tight leading-[0.8]">
+            SÉLECTION <br/> DE PROJETS<span className="text-pop-pink">.</span>
           </h2>
+          <p className="text-[10px] font-black uppercase tracking-widest-luxe text-gray-400 max-w-[200px]">
+            UNE EXPLORATION CONTINUE ENTRE L'ESTHÉTIQUE ET LA FONCTION.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-32">
           {PROJECTS.map((project, index) => (
             <div 
               key={project.id}
               onClick={() => onOpenProject(project.id)}
-              className="reveal-node group relative aspect-[4/5] md:aspect-square bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer"
+              className={`reveal-node group cursor-pointer ${index % 2 !== 0 ? 'md:mt-32' : ''}`}
             >
-              {/* Contrast Overlay for visibility */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
-              
-              <img 
-                src={project.imageUrl} 
-                alt={project.title} 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
-              />
-              
-              <div className="absolute top-0 left-0 p-10 z-20 w-full">
-                <span className="text-xs font-bold uppercase tracking-widest text-white/80 mb-2 block translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                  {project.category}
-                </span>
-                <h3 className="text-3xl md:text-4xl font-bold text-white translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75">
-                  {project.title}
-                </h3>
+              <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 mb-8 border border-black/5">
+                <img 
+                  src={project.imageUrl} 
+                  alt={project.title} 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
+                />
+                <div className="absolute top-6 left-6 flex gap-2">
+                   <span className="bg-luxe-black text-white text-[9px] font-black px-4 py-1.5 uppercase tracking-widest">
+                     {project.year}
+                   </span>
+                </div>
               </div>
-
-              {/* Tag Year - Always visible for contrast info */}
-              <div className="absolute bottom-8 left-8 z-20 flex gap-2">
-                 <span className="glass px-4 py-1.5 rounded-full text-[10px] font-bold text-apple-black shadow-sm">
-                   {project.year}
-                 </span>
+              
+              <div className="flex justify-between items-start border-b-2 border-luxe-black pb-8">
+                <div>
+                   <h3 className="text-4xl font-black uppercase tracking-ultra-tight group-hover:text-pop-pink transition-colors">
+                     {project.title}
+                   </h3>
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                     {project.category}
+                   </span>
+                </div>
+                <div className="text-3xl font-black text-luxe-black/10 group-hover:text-pop-pink transition-colors">
+                  0{index + 1}
+                </div>
               </div>
             </div>
           ))}

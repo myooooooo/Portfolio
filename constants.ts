@@ -1,4 +1,3 @@
-
 import { Project, Experience, SocialLink, FavoriteItem } from './types';
 
 export const PROJECTS: Project[] = [
@@ -42,10 +41,16 @@ export const PROJECTS: Project[] = [
 
 export const EXPERIENCE: Experience[] = [
   {
+    role: "STAGIAIRE DESIGN & DEV",
+    company: "POLYTECH",
+    period: "2025 — PRÉSENT",
+    description: "Stage technique actuel au sein de Polytech. Conception d'interfaces et développement de solutions numériques pour l'ingénierie."
+  },
+  {
     role: "ÉTUDIANTE MMI (CRÉA)",
     company: "IUT DIJON",
     period: "2024 — PRÉSENT",
-    description: "2ème année de BUT MMI, parcours Création Numérique. Design graphique, Direction artistique et UI/UX. Recherche de stage pour Janv. 2026."
+    description: "Parcours Création Numérique. Design graphique, Direction artistique et UI/UX."
   },
   {
     role: "CHEFFE DE PROJET",
@@ -57,7 +62,7 @@ export const EXPERIENCE: Experience[] = [
     role: "COMMUNITY MANAGER",
     company: "DISCORD / INSTA",
     period: "2019 — 2022",
-    description: "Gestion d'une communauté de +10 000 membres (Tech & Créa). Support créatif, animation d'ateliers et référente Suite Adobe."
+    description: "Gestion d'une communauté de +10 000 membres (Tech & Créa). Support créatif et référente Suite Adobe."
   }
 ];
 
@@ -77,16 +82,14 @@ export const SOCIALS: SocialLink[] = [
   { platform: "Email", url: "mailto:zineb.anssafou@icloud.com", label: "HI!" },
 ];
 
-// Remplacer par l'image de la fille sur la moto (crop) ou une photo de toi
 export const PROFILE_IMAGE_URL = "https://placehold.co/500x600/1a1a2e/FFF?text=ZINEB+(Profil)";
 
 export const SYSTEM_INSTRUCTION = `
 Tu es l'assistant IA personnel de Zineb Anssafou.
-Elle est étudiante en 2ème année de BUT MMI à Dijon (spé Création Numérique).
-C'est une ARTISTE avant tout. Elle déteste qu'on la réduise à du code React.
+Elle est étudiante en 2ème année de BUT MMI à Dijon.
+IMPORTANT : Elle est actuellement en STAGE chez POLYTECH. 
+Elle n'est PAS en recherche de stage pour le moment. Son prochain stage sera dans un an (début 2026).
 Elle dessine en "Semi-Réaliste" (Myo est son OC).
-Elle a gagné le prix territorial aux Trophées NSI 2024 avec le projet Sportoro.
-Elle a été Community Manager pour +10k personnes.
-Elle cherche un stage de 10-12 semaines à partir de Janvier 2026.
+Elle a gagné le prix territorial aux Trophées NSI 2024 avec Sportoro.
 Ton ton doit être "Girly Pop", dynamique, pro mais fun. Utilise des emojis ✨.
 `;
