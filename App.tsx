@@ -11,16 +11,17 @@ import { Project } from './types';
 
 // Helper pour interpoler entre deux couleurs RGB
 const interpolateColor = (start: number[], end: number[], factor: number) => {
-  const r = Math.round(start[0] + (end[0] - start[0]) * factor);
-  const g = Math.round(start[1] + (end[1] - start[1]) * factor);
-  const b = Math.round(start[2] + (end[2] - start[2]) * factor);
+  const safeFactor = Math.max(0, Math.min(1, factor));
+  const r = Math.round(start[0] + (end[0] - start[0]) * safeFactor);
+  const g = Math.round(start[1] + (end[1] - start[1]) * safeFactor);
+  const b = Math.round(start[2] + (end[2] - start[2]) * safeFactor);
   return `rgb(${r}, ${g}, ${b})`;
 };
 
 const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [progress, setProgress] = useState(0);
-  const [bgColor, setBgColor] = useState('rgb(255, 248, 249)'); // Default bg-luxe
+  const [bgColor, setBgColor] = useState('rgb(255, 248, 249)'); // Default bg-luxe (Rose)
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 1. Mapping Molette Verticale -> Scroll Horizontal
@@ -55,31 +56,51 @@ const App: React.FC = () => {
     const handleScroll = () => {
       if (!container) return;
       
-      // Calcul progression (0 à 1)
+      const scrollX = container.scrollLeft;
       const maxScroll = container.scrollWidth - container.clientWidth;
-      const currentProgress = maxScroll > 0 ? container.scrollLeft / maxScroll : 0;
+      const currentProgress = maxScroll > 0 ? scrollX / maxScroll : 0;
       setProgress(currentProgress);
 
-      // --- LOGIQUE DE COULEUR DE FOND ---
-      // 0.0 - 0.5 : Rose Pâle (#FFF8F9) vers Blanc (#FFFFFF)
-      // 0.5 - 0.7 : Reste Blanc
-      // 0.7 - 1.0 : Blanc (#FFFFFF) vers Noir (#000000)
+      // --- LOGIQUE DE COULEUR DE FOND INTELLIGENTE ---
+      // On récupère les positions des sections clés
+      const aboutSection = document.getElementById('about');
+      const contactSection = document.getElementById('contact');
       
-      let newColor = 'rgb(255, 248, 249)';
+      if (aboutSection && contactSection) {
+        // Position de départ de chaque section (relative au conteneur)
+        const aboutStart = aboutSection.offsetLeft;
+        const contactStart = contactSection.offsetLeft;
+        const viewportWidth = window.innerWidth;
 
-      if (currentProgress < 0.5) {
-         // Transition Rose -> Blanc
-         const factor = currentProgress / 0.5;
-         newColor = interpolateColor([255, 248, 249], [255, 255, 255], factor);
-      } else if (currentProgress >= 0.5 && currentProgress < 0.7) {
-         // Blanc stable (About section)
-         newColor = 'rgb(255, 255, 255)';
-      } else {
-         // Transition Blanc -> Noir (Contact section)
-         const factor = Math.min((currentProgress - 0.7) / 0.3, 1);
-         newColor = interpolateColor([255, 255, 255], [0, 0, 0], factor);
+        // DEFINITION DES ZONES DE COULEUR
+        // 1. Home (0) -> About Start : Rose (#FFF8F9) vers Blanc (#FFFFFF)
+        // 2. About Start -> Contact Start : Blanc (#FFFFFF) vers Noir (#000000)
+        
+        let newColor = 'rgb(255, 248, 249)';
+
+        if (scrollX < aboutStart) {
+            // PHASE 1 : ROSE vers BLANC
+            // On veut que ça devienne blanc un peu avant d'arriver sur About pour que la transition soit finie
+            // disons à 80% du chemin vers About
+            const transitionEnd = aboutStart; 
+            const factor = scrollX / transitionEnd;
+            newColor = interpolateColor([255, 248, 249], [255, 255, 255], factor);
+        } else {
+            // PHASE 2 : BLANC vers NOIR
+            // On veut garder le Blanc tant qu'on est sur About.
+            // On commence à noircir quand on s'approche de Contact.
+            // Disons on commence à noircir à 1 écran avant Contact.
+            const fadeStart = contactStart - viewportWidth * 0.8;
+            
+            if (scrollX > fadeStart) {
+                const factor = (scrollX - fadeStart) / (contactStart - fadeStart);
+                newColor = interpolateColor([255, 255, 255], [0, 0, 0], factor);
+            } else {
+                newColor = 'rgb(255, 255, 255)';
+            }
+        }
+        setBgColor(newColor);
       }
-      setBgColor(newColor);
 
       // Trigger animations
       const elements = document.querySelectorAll('.reveal-node, .mask-container');
@@ -121,8 +142,9 @@ const App: React.FC = () => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       {/* BACKGROUND DYNAMIQUE FIXE */}
+      {/* z-[-1] pour être derrière le contenu mais devant le body transparent */}
       <div 
-        className="fixed inset-0 -z-10 transition-colors duration-100 ease-linear"
+        className="fixed inset-0 -z-10 transition-none"
         style={{ backgroundColor: bgColor }}
       />
 
@@ -141,6 +163,7 @@ const App: React.FC = () => {
           <div 
             id="horizontal-scroll-container"
             ref={containerRef}
+            className="flex flex-row flex-nowrap h-screen w-screen overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
           >
             {/* HERO : Fixe 100vw */}
             <div id="home" className="flex-shrink-0 w-screen h-screen snap-start">
