@@ -3,171 +3,164 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZINEB | ARCHITECTE VISUELLE</title>
-    
-    <!-- FIX: Favicon vide pour éviter l'erreur 404 lors du déploiement -->
+    <title>ZINEB | PORTFOLIO SUISSE</title>
     <link rel="icon" href="data:,">
-
-    <!-- FIX: Suppression de l'avertissement console "cdn.tailwindcss.com" pour le mode démo -->
-    <script>
-      (function() {
-        const originalWarn = console.warn;
-        console.warn = function(...args) {
-          if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
-          originalWarn.apply(console, args);
-        };
-      })();
-    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Meow+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Meow+Script&display=swap" rel="stylesheet">
     
     <style>
       :root {
-        --bg-luxe: #FFF8F9;
-        --pop-pink: #FF0080;
-        --deep-black: #000000;
-        --swiss-ease: cubic-bezier(0.19, 1, 0.22, 1);
+        --bg-color: #ffffff;
+        --text-color: #000000;
+        --accent-color: #FF0080;
+        --grid-line: rgba(0, 0, 0, 0.08); /* Plus subtil */
       }
 
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden; /* On bloque le scroll global du body */
-        background-color: transparent; /* Fond transparent pour le bg dynamique */
-        color: var(--deep-black);
+      body {
+        background-color: transparent;
+        color: var(--text-color);
         font-family: 'Inter', sans-serif;
         -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
       }
 
-      /* Le container principal qui scrolle horizontalement */
-      #horizontal-scroll-container {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        height: 100vh;
-        width: 100vw;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-behavior: smooth;
-        /* Cache la scrollbar tout en gardant la fonctionnalité */
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
+      /* Swiss Grid Background */
+      .swiss-grid-bg {
+        background-size: 100px 100px;
+        background-image: 
+          linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+          linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      }
+
+      .font-cursive { font-family: 'Meow Script', cursive; }
+
+      /* --- ELEGANT MOTION DESIGN --- */
+      
+      /* 1. Mask Reveal (Le texte monte depuis une boite invisible) */
+      .mask-text {
+        overflow: hidden;
+        display: block;
+        line-height: 1.1;
+        padding-bottom: 0.1em;
+        /* Correction coupure droite */
+        padding-right: 0.1em; 
+        margin-right: -0.1em;
       }
       
-      #horizontal-scroll-container::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+      .mask-text span {
+        display: block;
+        transform: translateY(110%);
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
       }
 
-      /* Utility class to hide scrollbar in nested containers */
-      .scrollbar-hide {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-      }
-      .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-      }
-
-      .font-cursive {
-        font-family: 'Meow Script', cursive;
-      }
-
-      /* Animations */
-      .mask-container {
+      /* 2. Letter-by-Letter Reveal (Nouveau pour le Hero) */
+      .char-wrapper {
         display: inline-block;
         overflow: hidden;
         vertical-align: bottom;
+        line-height: 0.9;
+        padding-bottom: 0.1em; /* Marge bas pour les descendantes */
+        
+        /* CORRECTION COUPURE DROITE */
+        padding-right: 0.08em; /* Espace pour éviter que la lettre soit coupée */
+        margin-right: -0.08em; /* On compense pour garder le tracking serré */
       }
-
-      .mask-word {
+      
+      .char-reveal {
         display: inline-block;
-        transform: translateY(105%);
-        transition: transform 1.2s var(--swiss-ease);
+        transform: translateY(110%);
+        transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        will-change: transform;
       }
 
-      .revealed .mask-word {
+      /* Activation globale */
+      .reveal-node.active .mask-text span,
+      .reveal.active .mask-text span,
+      .reveal.active .char-reveal {
         transform: translateY(0);
       }
 
-      .stagger-1 { transition-delay: 0.1s; }
-      .stagger-2 { transition-delay: 0.2s; }
-      .stagger-3 { transition-delay: 0.3s; }
+      /* Délais en cascade pour les lignes multiples */
+      .delay-100 span { transition-delay: 0.1s; }
+      .delay-200 span { transition-delay: 0.2s; }
+      .delay-300 span { transition-delay: 0.3s; }
 
-      .reveal-node {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 1s var(--swiss-ease);
+      /* 3. Grain Texture (Effet Film) */
+      .noise-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
       }
 
-      .reveal-node.revealed {
+      /* Transitions classiques */
+      .reveal {
+        opacity: 1; /* Le conteneur reste visible, ce sont les enfants qui bougent */
+      }
+      .reveal-node {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-node.active {
         opacity: 1;
         transform: translateY(0);
       }
 
-      .bg-zineb {
-        font-size: 35vw;
-        line-height: 0.7;
-        font-weight: 900;
-        color: rgba(255, 0, 128, 0.03);
-        pointer-events: none;
-        user-select: none;
-        letter-spacing: -0.05em;
+      /* Hover effects */
+      .project-card:hover .project-image {
+        transform: scale(1.05);
+      }
+      
+      .project-card:hover .project-overlay {
+        opacity: 1;
       }
 
-      .glass-nav {
-        background: rgba(255, 248, 249, 0.85);
-        backdrop-filter: blur(10px);
-      }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 
     <script>
       tailwind.config = {
         theme: {
           extend: {
-            colors: { 'pop-pink': '#FF0080', 'luxe-black': '#000000' },
-            letterSpacing: { 'ultra-tight': '-0.06em', 'widest-luxe': '0.5em' },
-            keyframes: {
-              'fade-in-up': {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              'scale-in': {
-                '0%': { opacity: '0', transform: 'scale(0.9)' },
-                '100%': { opacity: '1', transform: 'scale(1)' },
-              },
-              'wiggle': {
-                '0%, 100%': { transform: 'rotate(-3deg)' },
-                '50%': { transform: 'rotate(3deg)' },
-              }
+            colors: {
+              'pop-pink': '#FF0080',
+              'swiss-black': '#050505',
+              'swiss-gray': '#F5F5F5'
             },
-            animation: {
-              'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
-              'scale-in': 'scale-in 0.3s ease-out forwards',
-              'wiggle': 'wiggle 1s ease-in-out infinite',
-              'spin-slow': 'spin 3s linear infinite',
-              'bounce-slow': 'bounce 2s infinite',
+            letterSpacing: {
+              'tighter-extreme': '-0.07em',
+              'widest-label': '0.3em'
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
             }
           }
         }
       }
     </script>
-    <script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
-    "@google/generative-ai": "https://esm.sh/@google/generative-ai@^0.21.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
     "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4"
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
-  </head>
+</head>
   <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>

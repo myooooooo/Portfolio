@@ -5,7 +5,7 @@ import { sendMessageToGemini } from '../services/geminiService';
 const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { id: 'init', sender: ChatSender.BOT, text: "Salut ! ✨ Je suis l'assistant IA de Zineb. Pose-moi tes questions sur ses créations ou son parcours !" }
+    { id: 'init', sender: ChatSender.BOT, text: "Salut ! ✨ Je suis l'assistant de Zineb. En quoi puis-je t'aider ?" }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,10 +32,14 @@ const ChatWidget: React.FC = () => {
     setInputValue('');
     setIsLoading(true);
 
-    const historyStrings = messages.map(m => `${m.sender === ChatSender.USER ? 'Utilisateur' : 'Assistant'}: ${m.text}`);
+    // Format history for the updated SDK
+    const history = messages.map(m => ({
+      role: m.sender === ChatSender.USER ? 'user' : 'model',
+      parts: [{ text: m.text }]
+    }));
 
     try {
-      const responseText = await sendMessageToGemini(historyStrings, userMsg.text);
+      const responseText = await sendMessageToGemini(history, userMsg.text);
       const botMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: ChatSender.BOT,
@@ -46,7 +50,7 @@ const ChatWidget: React.FC = () => {
       setMessages(prev => [...prev, { 
           id: Date.now().toString(), 
           sender: ChatSender.BOT, 
-          text: "Oups, petit bug rose ! ✨ Réessaie dans un instant." 
+          text: "Oups ! ✨ Réessaie dans un instant." 
       }]);
     } finally {
       setIsLoading(false);
@@ -56,60 +60,59 @@ const ChatWidget: React.FC = () => {
   return (
     <div className="fixed bottom-8 right-8 z-[200] flex flex-col items-end">
       {isOpen && (
-        <div className="mb-6 w-80 md:w-[360px] glass rounded-[2.5rem] shadow-2xl border border-pop-pink/10 flex flex-col overflow-hidden animate-scale-in origin-bottom-right">
-          <div className="bg-pop-pink p-6 flex justify-between items-center">
+        <div className="mb-6 w-80 md:w-[360px] bg-white border border-black shadow-2xl flex flex-col overflow-hidden animate-scale-in origin-bottom-right">
+          <div className="bg-black p-6 flex justify-between items-center text-white">
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-lg shadow-inner">💖</div>
+                <div className="w-8 h-8 bg-pop-pink rounded-none"></div>
                 <div>
-                    <span className="text-white text-sm font-black tracking-tight block">ZINEB AI</span>
-                    <span className="text-[10px] text-white/70 font-bold block uppercase tracking-widest">Active Now</span>
+                    <span className="text-sm font-black tracking-widest uppercase block">ZINEB.AI</span>
+                    <span className="text-[10px] opacity-50 font-bold block uppercase tracking-widest">Digital Twin</span>
                 </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white transition-colors">✕</button>
           </div>
           
-          <div className="h-96 overflow-y-auto p-6 space-y-4 scroll-smooth bg-white/30">
+          <div className="h-96 overflow-y-auto p-6 space-y-6 bg-swiss-gray scroll-smooth">
             {messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.sender === ChatSender.USER ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm font-semibold shadow-sm transition-all ${
+              <div key={msg.id} className={`flex flex-col ${msg.sender === ChatSender.USER ? 'items-end' : 'items-start'}`}>
+                <span className="text-[8px] font-black uppercase tracking-widest mb-1 opacity-30">
+                  {msg.sender === ChatSender.USER ? 'Visitor' : 'Zineb AI'}
+                </span>
+                <div className={`max-w-[90%] px-4 py-3 text-sm font-medium border ${
                   msg.sender === ChatSender.USER 
-                    ? 'bg-pop-pink text-white rounded-br-none' 
-                    : 'bg-white text-apple-black border border-gray-100 rounded-bl-none'
+                    ? 'bg-black text-white border-black' 
+                    : 'bg-white text-black border-black/10'
                 }`}>
                   {msg.text}
                 </div>
               </div>
             ))}
             {isLoading && (
-              <div className="flex justify-start">
-                 <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-none border border-gray-100 shadow-sm">
-                   <div className="flex gap-1">
-                      <div className="w-1.5 h-1.5 bg-pop-pink rounded-full animate-bounce"></div>
-                      <div className="w-1.5 h-1.5 bg-pop-pink rounded-full animate-bounce [animation-delay:0.2s]"></div>
-                      <div className="w-1.5 h-1.5 bg-pop-pink rounded-full animate-bounce [animation-delay:0.4s]"></div>
-                   </div>
-                 </div>
+              <div className="flex gap-1 p-2">
+                <div className="w-1.5 h-1.5 bg-pop-pink rounded-full animate-bounce"></div>
+                <div className="w-1.5 h-1.5 bg-pop-pink rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                <div className="w-1.5 h-1.5 bg-pop-pink rounded-full animate-bounce [animation-delay:0.4s]"></div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 bg-white/80 border-t border-gray-100 flex gap-2">
+          <div className="p-4 bg-white border-t border-black flex gap-2">
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder="Ask anything..."
-              className="flex-grow bg-gray-50 rounded-full px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pop-pink text-apple-black"
+              placeholder="Ask me anything..."
+              className="flex-grow bg-swiss-gray border-none px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-pop-pink"
               disabled={isLoading}
             />
             <button 
               onClick={handleSendMessage}
               disabled={isLoading || !inputValue.trim()}
-              className="bg-pop-pink text-white w-11 h-11 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg shadow-pop-pink/20 disabled:opacity-50"
+              className="bg-black text-white w-12 h-12 flex items-center justify-center hover:bg-pop-pink transition-colors disabled:opacity-50"
             >
-              ➤
+              →
             </button>
           </div>
         </div>
@@ -117,9 +120,9 @@ const ChatWidget: React.FC = () => {
 
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-500 hover:scale-110 active:scale-95 border-4 border-white ${isOpen ? 'bg-apple-black rotate-90' : 'bg-pop-pink animate-bounce'}`}
+        className={`w-16 h-16 border-2 border-black flex items-center justify-center shadow-xl transition-all duration-500 hover:scale-110 ${isOpen ? 'bg-white rotate-90' : 'bg-pop-pink'}`}
       >
-        {isOpen ? <span className="text-white">✕</span> : <span className="text-white text-2xl">💖</span>}
+        {isOpen ? <span className="text-black text-xl">✕</span> : <span className="text-white text-2xl font-black">AI</span>}
       </button>
     </div>
   );

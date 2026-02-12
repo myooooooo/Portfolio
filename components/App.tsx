@@ -4,7 +4,6 @@ import Hero from './components/Hero';
 import ProjectList from './components/ProjectList';
 import ProjectDetail from './components/ProjectDetail';
 import About from './components/About';
-import Manifesto from './components/Manifesto';
 import ChatWidget from './components/ChatWidget';
 import ScrollCat from './components/ScrollCat';
 import { PROJECTS } from './constants';
@@ -95,12 +94,12 @@ const App: React.FC = () => {
           }
 
           // Trigger animations
-          const elements = document.querySelectorAll('.reveal-node, .mask-container, .reveal');
+          const elements = document.querySelectorAll('.reveal-node, .mask-container');
           elements.forEach(el => {
             const rect = el.getBoundingClientRect();
             // Si l'élément rentre dans la fenêtre (marge de sécurité)
-            if (rect.left < window.innerWidth * 0.95 && rect.right > 0) {
-              el.classList.add('active', 'revealed');
+            if (rect.left < window.innerWidth * 0.9) {
+              el.classList.add('revealed');
             }
           });
         };
@@ -119,6 +118,7 @@ const App: React.FC = () => {
   }, [selectedProject]); // CRUCIAL : Se relance quand on ferme un projet (selectedProject devient null)
 
   const scrollToSection = (id: string) => {
+    // Petit hack pour laisser le temps au render si on vient de fermer un projet
     setTimeout(() => {
         const element = document.getElementById(id);
         if (element && containerRef.current) {
@@ -138,35 +138,31 @@ const App: React.FC = () => {
 
   const handleCloseProject = () => {
     setSelectedProject(null);
+    // On force le retour à la section Work
     setTimeout(() => {
         const workSection = document.getElementById('work');
         if (workSection && containerRef.current) {
             containerRef.current.scrollTo({
                 left: workSection.offsetLeft,
-                behavior: 'auto'
+                behavior: 'auto' // Auto pour être instantané et éviter les conflits
             });
         }
     }, 50);
   };
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden text-black bg-white">
+    <div className="relative h-screen w-screen overflow-hidden">
       {/* BACKGROUND DYNAMIQUE FIXE */}
       <div 
         className="fixed inset-0 -z-10 transition-none"
         style={{ backgroundColor: bgColor }}
       />
-      
-      {/* GRAIN TEXTURE */}
-      <div className="noise-overlay" />
-
-      {/* GRILLE SUISSE FIXE (Visible seulement si le fond est assez clair, géré par l'opacité CSS si besoin, ici on la laisse) */}
-      <div className="fixed inset-0 z-0 swiss-grid-bg opacity-50 pointer-events-none" />
 
       <ChatWidget />
       <ScrollCat progress={progress} />
 
       {selectedProject ? (
+        // AJOUT DE L'ID 'project-modal-scroll' ICI POUR CIBLER LE SCROLL
         <div 
             id="project-modal-scroll" 
             className="fixed inset-0 z-[200] overflow-y-auto bg-white animate-fade-in-up"
@@ -177,51 +173,43 @@ const App: React.FC = () => {
         <>
           <Header onNavigate={scrollToSection} />
           
+          {/* MAIN HORIZONTAL CONTAINER */}
           <div 
             id="horizontal-scroll-container"
             ref={containerRef}
-            className="relative z-10 flex flex-row flex-nowrap h-screen w-screen overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
+            className="flex flex-row flex-nowrap h-screen w-screen overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
           >
-            {/* 1. HERO */}
+            {/* HERO : Fixe 100vw */}
             <div id="home" className="flex-shrink-0 w-screen h-screen snap-start">
               <Hero />
             </div>
 
-            {/* 2. WORK */}
+            {/* WORK : Largeur dynamique selon le contenu */}
             <div id="work" className="flex-shrink-0 h-screen flex items-center snap-start">
               <ProjectList onOpenProject={handleOpenProject} />
             </div>
             
-            {/* 3. MANIFESTO */}
-            <div id="manifesto" className="flex-shrink-0 h-screen flex snap-start">
-               <Manifesto />
-            </div>
-
-            {/* 4. ABOUT */}
+            {/* ABOUT : Largeur dynamique */}
             <div id="about" className="flex-shrink-0 h-screen flex items-center snap-start">
               <About />
             </div>
 
-            {/* 5. CONTACT - CORRECTION : Fond noir forcé pour visibilité */}
-            <div id="contact" className="flex-shrink-0 w-screen h-screen bg-black text-white flex flex-col justify-center px-8 md:px-20 relative overflow-hidden snap-start">
-               
+            {/* CONTACT : Fixe 100vw - Fond Transparent pour laisser voir le dégradé noir */}
+            <div id="contact" className="flex-shrink-0 w-screen h-screen bg-transparent text-white flex flex-col justify-center px-8 md:px-20 relative overflow-hidden snap-start">
+               {/* Background Huge Name */}
                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] font-black text-white/[0.02] whitespace-nowrap pointer-events-none select-none tracking-ultra-tight">
                  ZINEB
                </div>
 
                <div className="max-w-[1200px] mx-auto text-center relative z-10 space-y-16 w-full">
                   <div className="reveal-node">
-                     <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block drop-shadow-sm mask-text">
-                        <span>PRÊTE POUR LA SUITE</span>
-                     </span>
-                     {/* AJOUT DE MARGIN-TOP (mt-12) POUR DESCENDRE LE TITRE */}
-                     <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85] text-white mt-12 md:mt-20">
-                       <span className="mask-text block"><span>CRÉONS</span></span>
-                       <span className="mask-text block delay-100"><span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span></span>
+                     <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block">PRÊTE POUR LA SUITE</span>
+                     <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85]">
+                       CRÉONS <br/> <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span>
                      </h2>
                   </div>
                   
-                  <div className="reveal-node space-y-4 pt-8">
+                  <div className="reveal-node space-y-4">
                     <p className="text-xl md:text-2xl text-gray-400 font-bold uppercase tracking-tight">
                        ACTUELLEMENT EN MISSION CHEZ <span className="text-white">POLYTECH</span>
                     </p>
@@ -231,7 +219,7 @@ const App: React.FC = () => {
                   </div>
 
                   <div className="reveal-node pt-8">
-                    <a href="mailto:zineb.anssafou@icloud.com" className="inline-flex items-center gap-10 bg-white text-luxe-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white transition-all group shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]">
+                    <a href="mailto:zineb.anssafou@icloud.com" className="inline-flex items-center gap-10 bg-white text-luxe-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white transition-all group">
                       LET'S CONNECT
                       <span className="group-hover:translate-x-4 transition-transform">→</span>
                     </a>

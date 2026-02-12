@@ -7,62 +7,82 @@ interface ProjectListProps {
 
 const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
   return (
-    <div className="flex h-full items-center px-20 md:px-40 gap-40 bg-transparent">
-        
-        {/* Intro Text Block (First item in the row) */}
-        <div className="flex-shrink-0 w-[50vw] md:w-[30vw] reveal-node">
-            <h2 className="text-6xl md:text-8xl font-black uppercase tracking-ultra-tight leading-[0.8] mb-8">
-                SÉLECTION <br/> <span className="text-pop-pink">PROJETS.</span>
-            </h2>
-            <p className="text-xs font-black uppercase tracking-widest-luxe text-gray-400 border-l-4 border-pop-pink pl-6 py-2">
-                UNE EXPLORATION CONTINUE ENTRE L'ESTHÉTIQUE ET LA FONCTION.
-                <br/> GLISSEZ POUR EXPLORER.
-            </p>
-        </div>
+    <div className="flex items-center h-full px-20 w-max bg-white relative">
+      
+      {/* Ligne directrice centrale (décoration suisse) */}
+      <div className="absolute top-1/2 left-0 w-full h-px bg-red-500/20 z-0 pointer-events-none"></div>
 
-        {/* Horizontal Projects Loop */}
-        {PROJECTS.map((project, index) => (
-            <div 
-              key={project.id}
-              onClick={() => onOpenProject(project.id)}
-              className="group cursor-pointer flex-shrink-0 w-[80vw] md:w-[45vw] lg:w-[35vw] reveal-node relative"
-            >
-              {/* Image Container */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 mb-6 border border-black/5 shadow-sm group-hover:shadow-2xl transition-all duration-500">
-                <div className="absolute inset-0 bg-pop-pink/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 mix-blend-multiply"></div>
+      {PROJECTS.map((project, index) => {
+        // Logique de rythme pour créer la grille éclatée
+        // Modulo 4 pour varier les positions : Haut, Bas, Centre, Grand
+        const positionType = index % 4;
+        
+        let containerClasses = "";
+        let imageAspectRatio = "";
+        
+        switch (positionType) {
+            case 0: // En bas, format portrait
+                containerClasses = "self-end mb-20 w-[25vw] md:w-[20vw]";
+                imageAspectRatio = "aspect-[3/4]";
+                break;
+            case 1: // En haut, format carré
+                containerClasses = "self-start mt-20 w-[30vw] md:w-[22vw]";
+                imageAspectRatio = "aspect-square";
+                break;
+            case 2: // Centré, format paysage large
+                containerClasses = "self-center w-[40vw] md:w-[35vw]";
+                imageAspectRatio = "aspect-[16/9]";
+                break;
+            case 3: // Légèrement décalé haut, format portrait
+                containerClasses = "self-start mt-40 w-[25vw] md:w-[18vw]";
+                imageAspectRatio = "aspect-[4/5]";
+                break;
+        }
+
+        return (
+          <div 
+            key={project.id}
+            className={`group relative flex-shrink-0 mx-8 cursor-pointer z-10 transition-transform duration-500 hover:z-20 ${containerClasses}`}
+            onClick={() => onOpenProject(project.id)}
+          >
+             {/* Numéro du projet (Hors cadre image pour style suisse) */}
+             <div className="mb-2 overflow-hidden">
+                <span className="block text-[10px] font-black text-pop-pink -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    N°0{project.id}
+                </span>
+             </div>
+
+             {/* Image Container avec effet de bordure et décalage */}
+             <div className={`relative w-full ${imageAspectRatio} bg-gray-100 overflow-hidden border border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,0.1)] group-hover:shadow-[15px_15px_0px_0px_#FF0080] transition-all duration-300`}>
                 <img 
-                  src={project.imageUrl} 
-                  alt={project.title} 
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out" 
+                    src={project.imageUrl} 
+                    alt={project.title}
+                    onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://placehold.co/800x800/f5f5f5/000000?text=${project.title}`;
+                    }}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
                 />
                 
-                {/* Floating Year Tag */}
-                <div className="absolute top-4 left-4 z-20">
-                   <span className="bg-white text-luxe-black text-[9px] font-black px-3 py-1 uppercase tracking-widest">
-                     {project.year}
-                   </span>
-                </div>
-              </div>
-              
-              {/* Info Below */}
-              <div className="flex justify-between items-baseline border-b-2 border-luxe-black pb-4 group-hover:border-pop-pink transition-colors">
-                <div>
-                   <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter group-hover:text-pop-pink transition-colors">
-                     {project.title}
-                   </h3>
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-luxe-black">
-                     {project.category}
-                   </span>
-                </div>
-                <div className="text-4xl font-black text-gray-100 group-hover:text-pop-pink/20 transition-colors">
-                  0{index + 1}
-                </div>
-              </div>
-            </div>
-        ))}
+                {/* Overlay au survol */}
+                <div className="absolute inset-0 bg-pop-pink/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-multiply"></div>
+             </div>
 
-        {/* Spacer at the end */}
-        <div className="w-20 flex-shrink-0"></div>
+             {/* Titre et Info sous l'image */}
+             <div className="mt-4 flex flex-col items-start">
+                <h3 className="text-2xl md:text-4xl font-black uppercase leading-none tracking-tighter-extreme group-hover:text-pop-pink transition-colors">
+                    {project.title}
+                </h3>
+                <div className="flex items-center gap-4 mt-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[9px] font-bold uppercase tracking-widest border border-black px-2 py-0.5 rounded-full">{project.year}</span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest">{project.category}</span>
+                </div>
+             </div>
+          </div>
+        );
+      })}
+      
+      {/* Espace vide à la fin pour le scroll */}
+      <div className="w-[20vw] flex-shrink-0"></div>
     </div>
   );
 };

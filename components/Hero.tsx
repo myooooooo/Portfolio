@@ -1,83 +1,113 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Hero: React.FC = () => {
-  const line1 = "ZINEB".split(' ');
-  const line2 = "ANSSAFOU".split(' ');
-  const line3 = "L'AUDACE".split(' ');
-  const line4 = "DU PIXEL.".split(' ');
+  const name = "ZINEB";
+  const surname = "ANSSAFOU";
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    // Déclenche l'animation après un court délai pour laisser le temps au DOM de se peindre
+    const timer = setTimeout(() => {
+      setIsActive(true);
+    }, 100); // 100ms de délai
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <section className="relative w-screen h-screen flex flex-col items-start justify-center px-8 md:px-20 bg-transparent overflow-hidden">
-      {/* Structural Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zineb z-0 text-center w-full">
-        ZINEB
-      </div>
-
-      <div className="relative z-10 w-full max-w-[1400px]">
-        {/* Label */}
-        <div className="reveal-node mb-10 flex items-center gap-4">
-          <span className="text-[10px] font-bold uppercase tracking-widest-luxe text-pop-pink">
-            MMI DIJON / LAURÉATE NSI 2024
-          </span>
-          <span className="font-cursive text-xl text-luxe-black/30 -rotate-12 translate-y-1">
-            passionnée
+    <section className="relative w-screen h-screen flex flex-col justify-center px-6 md:px-12 pt-20 flex-shrink-0 border-r border-black/10">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-1/2 h-full border-l border-black/10 pointer-events-none hidden md:block"></div>
+      
+      <div className="max-w-[1600px] mx-auto w-full relative z-10">
+        <div className={`mb-12 reveal ${isActive ? 'active' : ''}`}>
+          <span className="text-[10px] font-black uppercase tracking-widest-label text-pop-pink flex items-center gap-4">
+             <span className="w-8 h-[2px] bg-pop-pink"></span>
+             PORTFOLIO 2025
           </span>
         </div>
 
-        {/* Monumental Titles */}
-        <div className="relative">
-          <h1 className="font-black tracking-ultra-tight uppercase mb-12 relative z-10">
-            <div className="text-[14vw] md:text-[11vw] leading-[0.82] text-luxe-black">
-              <div className="flex flex-wrap gap-x-6 md:gap-x-10">
-                {line1.map((word, i) => (
-                  <span key={i} className="mask-container stagger-word">
-                    <span className={`mask-word stagger-${(i % 7) + 1}`}>{word}</span>
-                  </span>
+        {/* LETTER BY LETTER ANIMATION */}
+        {/* On retire 'active' par défaut, c'est le state isActive qui va l'ajouter */}
+        <div className={`reveal mb-12 ${isActive ? 'active' : ''}`} aria-label="ZINEB ANSSAFOU">
+            {/* Ligne 1 : ZINEB */}
+            <h1 className="text-swiss-black text-[15vw] md:text-[13vw] font-black uppercase leading-[0.8] tracking-tighter-extreme flex flex-wrap">
+                {name.split('').map((char, index) => (
+                    <span key={`name-${index}`} className="char-wrapper">
+                        <span 
+                            className="char-reveal" 
+                            style={{ transitionDelay: `${index * 0.08}s` }} // Délai un peu plus long pour l'élégance
+                        >
+                            {char}
+                        </span>
+                    </span>
                 ))}
-              </div>
-              <div className="flex flex-wrap gap-x-6 md:gap-x-10 text-pop-pink">
-                {line2.map((word, i) => (
-                  <span key={i} className="mask-container stagger-word">
-                    <span className={`mask-word stagger-${(i % 7) + 2}`}>{word}</span>
-                  </span>
+            </h1>
+            
+            {/* Ligne 2 : ANSSAFOU */}
+            <h1 className="text-pop-pink text-[15vw] md:text-[13vw] font-black uppercase leading-[0.8] tracking-tighter-extreme flex flex-wrap">
+                {surname.split('').map((char, index) => (
+                    <span key={`surname-${index}`} className="char-wrapper">
+                        <span 
+                            className="char-reveal" 
+                            // On commence le délai après la fin du premier mot (+0.4s)
+                            style={{ transitionDelay: `${0.4 + (index * 0.08)}s` }}
+                        >
+                            {char}
+                        </span>
+                    </span>
                 ))}
-              </div>
-            </div>
-
-            <div className="text-[8vw] md:text-[5vw] leading-[0.9] text-luxe-black mt-4 md:mt-6 opacity-60">
-              {/* Ajout de gap-x-4 pour espacer les mots L'AUDACE DU PIXEL */}
-              <div className="flex flex-wrap gap-x-4 md:gap-x-8">
-                {line3.concat(line4).map((word, i) => (
-                  <span key={i} className="mask-container stagger-word">
-                    <span className={`mask-word stagger-${(i % 7) + 4}`}>{word}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </h1>
-          
-          <div className="absolute top-0 right-10 z-20 reveal-node delay-1000 hidden md:block">
-            <span className="font-cursive text-9xl text-luxe-black/80 drop-shadow-sm -rotate-12 block">
-              Visionary
-            </span>
-          </div>
+                {/* Le point final noir */}
+                <span className="char-wrapper">
+                    <span 
+                        className="char-reveal text-black" 
+                        style={{ transitionDelay: `${0.4 + (surname.length * 0.08)}s` }}
+                    >
+                        .
+                    </span>
+                </span>
+            </h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-end w-full">
-          <div className="md:col-span-6 reveal-node delay-500 relative">
-             <div className="absolute -top-10 -left-6 font-cursive text-pop-pink text-2xl -rotate-12">Digital Soul</div>
-             <p className="text-xl md:text-2xl font-medium text-gray-400 leading-tight uppercase max-w-xl">
-               Zineb Anssafou. Designer d'interface & <span className="text-luxe-black">Artiste de l'ombre.</span>
-             </p>
-          </div>
-          <div className="md:col-span-6 flex justify-start md:justify-end reveal-node delay-700">
-             <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest animate-pulse">
-                <span>SCROLL DOWN</span> 
-                <span className="text-pop-pink">➔</span> 
-                <span className="text-gray-400">(Or Sideways)</span>
+        <div className={`grid grid-cols-1 md:grid-cols-12 gap-12 items-end reveal delay-200 ${isActive ? 'active' : ''}`}>
+          <div className="md:col-span-6">
+             <div className="mask-text">
+                <p className="text-xl md:text-3xl font-medium leading-tight uppercase max-w-xl text-gray-400">
+                  <span>JE TRANSFORME DES CONCEPTS</span>
+                </p>
+             </div>
+             <div className="mask-text delay-100">
+                <p className="text-xl md:text-3xl font-medium leading-tight uppercase max-w-xl text-gray-400">
+                  <span>COMPLEXES EN <strong className="text-black font-black">SYSTÈMES VISUELS</strong></span>
+                </p>
+             </div>
+             <div className="mask-text delay-200">
+                <p className="text-xl md:text-3xl font-medium leading-tight uppercase max-w-xl text-gray-400">
+                  <span>COHÉRENTS ET IMPACTANTS.</span>
+                </p>
              </div>
           </div>
+          
+          <div className="md:col-span-6 md:text-right">
+            <div className="inline-flex flex-col items-end gap-6">
+              <span className="font-cursive text-5xl text-black/80 -rotate-6 transform origin-bottom-right hover:scale-110 transition-transform cursor-default">
+                  creative dev & artist
+              </span>
+              <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest-label text-black animate-pulse">
+                <span>SCROLL HORIZONTALLY</span>
+                <span className="text-pop-pink text-lg">→</span>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      
+      {/* Decorative lines & Data */}
+      <div className="absolute bottom-12 left-0 w-full px-6 md:px-12 flex justify-between items-end pointer-events-none">
+        <div className="flex flex-col gap-1">
+             <span className="text-[9px] font-mono text-gray-400">LOC: 47.3220° N, 5.0415° E</span>
+             <div className="h-px bg-black w-24"></div>
+        </div>
+        <div className="h-24 w-px bg-black/20"></div>
       </div>
     </section>
   );
