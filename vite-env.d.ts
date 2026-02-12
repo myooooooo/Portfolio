@@ -28,9 +28,9 @@ declare module '*.webp' {
   export default content;
 }
 
-declare const process: {
-  env: {
+declare namespace NodeJS {
+  interface ProcessEnv {
     API_KEY: string;
     [key: string]: string | undefined;
   }
-};
+}
