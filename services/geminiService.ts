@@ -1,43 +1,45 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SYSTEM_INSTRUCTION } from '../constants';
 
 export const sendMessageToGemini = async (history: string[], message: string): Promise<string> => {
-  // Always initialize right before use to ensure latest API key context from process.env.API_KEY
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // Initialisation avec la clé API de l'environnement
+  // Note: Vercel injecte process.env.API_KEY automatiquement
+  const genAI = new GoogleGenerativeAI(process.env.API_KEY || "");
 
   try {
-    // Using gemini-3-flash-preview as recommended for basic text and chat tasks
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: [
-        // Map history strings back to parts for multi-turn conversation
-        ...history.map((h) => {
-          const isUser = h.startsWith('Utilisateur:');
-          const prefix = isUser ? 'Utilisateur:' : 'Assistant:';
-          const text = h.substring(prefix.length).trim();
-          return {
-            role: isUser ? 'user' : 'model',
-            parts: [{ text }]
-          };
-        }),
-        { role: 'user', parts: [{ text: message }] }
-      ],
-      config: {
-        // System instructions should be provided in the config
-        systemInstruction: SYSTEM_INSTRUCTION,
+    // Utilisation du modèle stable 'gemini-1.5-flash' compatible avec ce SDK
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: SYSTEM_INSTRUCTION
+    });
+
+    // Construction de l'historique pour le SDK
+    const historyParts = history.map((h) => {
+      const isUser = h.startsWith('Utilisateur:');
+      const prefix = isUser ? 'Utilisateur:' : 'Assistant:';
+      const text = h.substring(prefix.length).trim();
+      return {
+        role: isUser ? 'user' : 'model',
+        parts: [{ text }]
+      };
+    });
+
+    const chatSession = model.startChat({
+      history: historyParts,
+      generationConfig: {
         temperature: 0.9,
         topP: 0.95,
         topK: 40,
-      }
+      },
     });
 
-    // Accessing text output directly via the .text property as per SDK documentation
-    return response.text || "Désolé chouchou, mon cerveau rose a buggé... ✨";
+    const result = await chatSession.sendMessage(message);
+    const responseText = result.response.text();
+
+    return responseText || "Désolé chouchou, mon cerveau rose a buggé... ✨";
   } catch (error) {
     console.error("Error calling Gemini:", error);
-    if (error instanceof Error && error.message.includes("Requested entity was not found")) {
-        return "Erreur de configuration API : Modèle ou clé introuvable. ✨";
-    }
-    return "Une petite erreur magique est survenue... 🪄";
+    // Gestion basique des erreurs sans types spécifiques trop stricts
+    return "Une petite erreur magique est survenue... 🪄 (Vérifiez la clé API)";
   }
 };
