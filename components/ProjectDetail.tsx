@@ -7,29 +7,17 @@ interface ProjectDetailProps {
 }
 
 const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack }) => {
-  // Custom Image Logic - Gallery Generation
-  let allImages: { url: string; label: string; type: string; format: 'landscape' | 'square' | 'portrait' }[] = [
-    { url: project.imageUrl, label: "Hero Visual", type: "Main", format: 'landscape' }
-  ];
+  // Formatage de l'ID (ex: 1 devient "01")
+  const projectIdStr = String(project.id).padStart(2, '0');
 
-  if (project.title === "MYO RACER") {
-    allImages.push(
-        { url: "https://placehold.co/1200x1200/FF0080/FFF?text=MYO+Zoom+Detail", label: "Focus Detail", type: "Zoom", format: 'square' },
-        { url: "https://placehold.co/800x1200/1a1a2e/FFF?text=Character+Sheet", label: "Character Design", type: "Concept", format: 'portrait' },
-        { url: "https://placehold.co/1200x600/00E0FF/000?text=Process+View", label: "Color Process", type: "Process", format: 'landscape' }
-    );
-  } else if (project.title === "Y2K POP COVERS") {
-    allImages.push(
-        { url: "https://placehold.co/1000x1000/FF0080/FFF?text=Pink+Edition", label: "Variant A", type: "Cover", format: 'square' },
-        { url: "https://placehold.co/1000x1000/00E0FF/000?text=Blue+Edition", label: "Variant B", type: "Cover", format: 'square' },
-        { url: "https://placehold.co/1200x800/9D00FF/FFF?text=Mockup+CD", label: "Physical Mockup", type: "Print", format: 'landscape' }
-    );
-  } else {
-    allImages.push(
-        { url: "https://placehold.co/1000x1200/222/FFF?text=Mobile+View", label: "Mobile UI", type: "UI/UX", format: 'portrait' },
-        { url: "https://placehold.co/1200x800/333/FFF?text=System+Design", label: "Grid System", type: "Layout", format: 'landscape' }
-    );
-  }
+  // Génération dynamique des images locales
+  // Il suffit de placer les images dans public/images/ avec le format : project-XX-detail-Y.jpg
+  let allImages: { url: string; label: string; type: string; format: 'landscape' | 'square' | 'portrait' }[] = [
+    { url: project.imageUrl, label: "Hero Visual", type: "Main", format: 'landscape' },
+    { url: `/images/project-${projectIdStr}-detail-1.jpg`, label: "Detail View", type: "Zoom", format: 'square' },
+    { url: `/images/project-${projectIdStr}-detail-2.jpg`, label: "Context / Use", type: "Concept", format: 'portrait' },
+    { url: `/images/project-${projectIdStr}-detail-3.jpg`, label: "Process / Draft", type: "Process", format: 'landscape' }
+  ];
 
   return (
     <div className="fixed inset-0 z-[200] bg-white flex flex-col md:flex-row animate-fade-in-up overflow-hidden">
@@ -102,6 +90,10 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack }) => {
                     <img
                         src={img.url}
                         alt={img.label}
+                        onError={(e) => {
+                            // Fallback si l'image n'est pas trouvée par l'utilisateur
+                            (e.target as HTMLImageElement).src = `https://placehold.co/1000x800/f0f0f0/cccccc?text=Image+Missing+${idx}`;
+                        }}
                         className="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700 block"
                     />
                     

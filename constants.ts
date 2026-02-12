@@ -7,7 +7,7 @@ export const PROJECTS: Project[] = [
     category: "ILLUSTRATION 🎨",
     year: "2024",
     description: "Illustration numérique semi-réaliste de mon OC 'Myo'. Ambiance cyberpunk, jeux de lumières néons et textures urbaines. Réalisé sur Procreate.",
-    imageUrl: "https://placehold.co/800x600/1a1a2e/FFF?text=MYO+RACER+(Dessin+Moto)", 
+    imageUrl: "/images/project-01-cover.jpg", 
     link: "https://www.artstation.com"
   },
   {
@@ -16,7 +16,7 @@ export const PROJECTS: Project[] = [
     category: "APP & NSI AWARD 🏆",
     year: "2024",
     description: "Lauréate du Prix Territorial NSI 2024. App de gestion de temps (Pomodoro). Direction artistique complète (Logo, UI) et dev Python.",
-    imageUrl: "https://placehold.co/800x500/00E0FF/000?text=SPORTORO+(Projet+NSI)",
+    imageUrl: "/images/project-02-cover.jpg",
     link: "#"
   },
   {
@@ -25,7 +25,7 @@ export const PROJECTS: Project[] = [
     category: "BRANDING 🎙️",
     year: "2023",
     description: "Identité visuelle pour le podcast du BDE MMI Dijon. Illustration vectorielle, bannière réseaux sociaux et mise en page.",
-    imageUrl: "https://placehold.co/800x500/9D00FF/FFF?text=MMI+CAST+(Podcast)",
+    imageUrl: "/images/project-03-cover.jpg",
     link: "#"
   },
   {
@@ -34,7 +34,7 @@ export const PROJECTS: Project[] = [
     category: "GRAPHISME 💖",
     year: "2024",
     description: "Série de redesigns de pochettes d'albums dans une esthétique Y2K/Frutiger Aero. Exploration typographique et effets glossy.",
-    imageUrl: "https://placehold.co/800x800/FF0080/FFF?text=Y2K+COVERS",
+    imageUrl: "/images/project-04-cover.jpg",
     link: "#"
   }
 ];
@@ -82,7 +82,7 @@ export const SOCIALS: SocialLink[] = [
   { platform: "Email", url: "mailto:zineb.anssafou@icloud.com", label: "HI!" },
 ];
 
-export const PROFILE_IMAGE_URL = "https://placehold.co/500x600/1a1a2e/FFF?text=ZINEB+(Profil)";
+export const PROFILE_IMAGE_URL = "/images/profile.jpg";
 
 export const SYSTEM_INSTRUCTION = `
 Tu es l'assistant IA personnel de Zineb Anssafou.
