@@ -7,7 +7,8 @@ Le site est configuré pour chercher les noms exacts suivants :
 
 --- IMAGES PRINCIPALES ---
 profile.jpg         (Ta photo dans la section About)
-manifesto-bg.jpg    (L'image abstraite/artistique de la section Manifesto)
+manifesto-bg.jpg    (L'image FINAL/RENDU pour la section Manifesto)
+manifesto-sketch.jpg (L'image CROQUIS/ROUGH pour la section Manifesto - Super important pour le slider !)
 
 --- PROJETS (DESSINS & DEV) ---
 

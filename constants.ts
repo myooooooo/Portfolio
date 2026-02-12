@@ -5,8 +5,8 @@ import { Project, Experience, SocialLink, FavoriteItem } from './types';
 // Dépose les fichiers correspondants dans le dossier 'public/images/'
 export const ASSETS = {
   PROFILE: "/images/profile.jpg",
-  MANIFESTO_BG: "/images/manifesto-bg.jpg", // Image de fond du Manifesto
-  // Tu peux ajouter d'autres images d'ambiance ici si besoin
+  MANIFESTO_BG: "/images/manifesto-bg.jpg", // Image FINAL (Rendu)
+  MANIFESTO_SKETCH: "/images/manifesto-sketch.jpg", // Image ROUGH (Croquis/Fil de fer)
 };
 
 export const PROJECTS: Project[] = [

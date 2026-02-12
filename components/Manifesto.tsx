@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { ASSETS } from '../constants';
 
 const Manifesto: React.FC = () => {
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMove = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    
+    const { left, width } = containerRef.current.getBoundingClientRect();
+    let clientX;
+    
+    if ('touches' in event) {
+        clientX = event.touches[0].clientX;
+    } else {
+        clientX = (event as React.MouseEvent).clientX;
+    }
+
+    const newPos = ((clientX - left) / width) * 100;
+    setSliderPosition(Math.min(100, Math.max(0, newPos)));
+  };
+
   return (
     <section className="h-screen flex bg-[#F0F0F0] relative overflow-hidden select-none">
         
@@ -46,31 +65,67 @@ const Manifesto: React.FC = () => {
         </div>
 
         {/* ------------------------------------------------ */}
-        {/* PANEL 2 : L'IMAGE ANALYSÉE (The Concrete Visual) */}
+        {/* PANEL 2 : SLIDER INTERACTIF (ROUGH VS FINAL) */}
         {/* ------------------------------------------------ */}
         <div className="w-[100vw] md:w-[60vw] h-full relative flex items-center justify-center border-r border-black/10 bg-[#E5E5E5]">
             
             {/* Le Cadre "Blueprint" */}
             <div className="relative w-[70%] h-[70%] border-2 border-black bg-white p-4 shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] group reveal-node">
                 
-                {/* L'Image Principale */}
-                <div className="relative w-full h-full overflow-hidden border border-gray-200">
-                     <img 
-                        src={ASSETS.MANIFESTO_BG}
-                        alt="Artistic Vision"
-                        onError={(e) => {
-                            (e.target as HTMLImageElement).src = `https://placehold.co/800x1000/111/FFF?text=ART+VISION`;
-                        }}
-                        className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
-                     />
-                     
-                     {/* Overlay Grid lines (Les traits de coupe) */}
-                     <div className="absolute top-0 left-1/2 w-px h-full bg-white/30"></div>
-                     <div className="absolute top-1/2 left-0 w-full h-px bg-white/30"></div>
-                     
-                     {/* Floating UI Elements over image */}
-                     <div className="absolute bottom-4 left-4 bg-black/80 backdrop-blur text-white px-3 py-1 text-[10px] font-mono">
-                         RGB: 255, 0, 128
+                {/* Conteneur du Slider */}
+                <div 
+                    ref={containerRef}
+                    className="relative w-full h-full overflow-hidden border border-gray-200 cursor-ew-resize touch-none"
+                    onMouseMove={handleMove}
+                    onTouchMove={handleMove}
+                >
+                     {/* IMAGE 1 : FINAL (Arrière-plan) */}
+                     <div className="absolute inset-0 w-full h-full">
+                         <img 
+                            src={ASSETS.MANIFESTO_BG}
+                            alt="Final Render"
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).src = `https://placehold.co/800x1000/111/FFF?text=FINAL+RENDER`;
+                            }}
+                            className="w-full h-full object-cover grayscale contrast-125"
+                         />
+                         <span className="absolute top-4 right-4 bg-black text-white px-2 py-1 text-[9px] font-black uppercase tracking-widest z-10">
+                            FINAL RENDER
+                         </span>
+                     </div>
+
+                     {/* IMAGE 2 : SKETCH (Premier plan, clippé) */}
+                     <div 
+                        className="absolute inset-0 w-full h-full border-r-2 border-pop-pink bg-white"
+                        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+                     >
+                         <img 
+                            src={ASSETS.MANIFESTO_SKETCH}
+                            alt="Rough Sketch"
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).src = `https://placehold.co/800x1000/fff/000?text=ROUGH+SKETCH`;
+                            }}
+                            className="w-full h-full object-cover grayscale contrast-100 opacity-80"
+                         />
+                         {/* Grid overlay sur le sketch pour l'effet "Work in progress" */}
+                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] opacity-30 mix-blend-multiply"></div>
+                         
+                         <span className="absolute top-4 left-4 bg-pop-pink text-white px-2 py-1 text-[9px] font-black uppercase tracking-widest z-10">
+                            ROUGH SKETCH
+                         </span>
+                     </div>
+
+                     {/* THE SLIDER HANDLE */}
+                     <div 
+                        className="absolute top-0 bottom-0 w-0.5 bg-pop-pink z-20 shadow-[0_0_10px_rgba(255,0,128,0.5)]"
+                        style={{ left: `${sliderPosition}%` }}
+                     >
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white border-2 border-pop-pink rounded-full flex items-center justify-center shadow-lg">
+                            <div className="flex gap-0.5">
+                                <div className="w-0.5 h-3 bg-pop-pink"></div>
+                                <div className="w-0.5 h-3 bg-pop-pink"></div>
+                            </div>
+                        </div>
                      </div>
                 </div>
 
@@ -78,8 +133,11 @@ const Manifesto: React.FC = () => {
                 <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-pop-pink"></div>
                 <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-pop-pink"></div>
                 
-                <span className="absolute -top-6 left-0 text-[9px] font-black uppercase tracking-widest text-black">FIG 01. — VISION</span>
-                <span className="absolute -bottom-6 right-0 text-[9px] font-black uppercase tracking-widest text-black">SCALE 1:1</span>
+                <span className="absolute -top-6 left-0 text-[9px] font-black uppercase tracking-widest text-black">FIG 01. — PROCESS</span>
+                <span className="absolute -bottom-6 right-0 text-[9px] font-black uppercase tracking-widest text-black flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-pop-pink animate-pulse"></span>
+                    INTERACTIVE ANALYSIS
+                </span>
                 
                 {/* Side Data */}
                 <div className="absolute top-10 -right-8 flex flex-col gap-2 opacity-50">
