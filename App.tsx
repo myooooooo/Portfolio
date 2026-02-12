@@ -111,7 +111,7 @@ const App: React.FC = () => {
         
         // Cleanup function defined inside
         return () => container.removeEventListener('scroll', handleScroll);
-    }, 50);
+    }, 100);
 
     // Cleanup du timeout
     return () => clearTimeout(timer);
@@ -122,11 +122,11 @@ const App: React.FC = () => {
     setTimeout(() => {
         const element = document.getElementById(id);
         if (element && containerRef.current) {
-        const leftPos = element.offsetLeft;
-        containerRef.current.scrollTo({
-            left: leftPos,
-            behavior: 'smooth'
-        });
+            const leftPos = element.offsetLeft;
+            containerRef.current.scrollTo({
+                left: leftPos,
+                behavior: 'smooth'
+            });
         }
     }, 100);
   };
@@ -138,10 +138,16 @@ const App: React.FC = () => {
 
   const handleCloseProject = () => {
     setSelectedProject(null);
-    // MODIFICATION ICI : On scrolle vers 'work' au lieu de laisser par défaut (qui serait 0/Home)
+    // On force le retour à la section Work
     setTimeout(() => {
-        scrollToSection('work');
-    }, 100);
+        const workSection = document.getElementById('work');
+        if (workSection && containerRef.current) {
+            containerRef.current.scrollTo({
+                left: workSection.offsetLeft,
+                behavior: 'auto' // Auto pour être instantané et éviter les conflits
+            });
+        }
+    }, 50);
   };
 
   return (
@@ -156,7 +162,11 @@ const App: React.FC = () => {
       <ScrollCat progress={progress} />
 
       {selectedProject ? (
-        <div className="fixed inset-0 z-[200] overflow-y-auto bg-white animate-fade-in-up">
+        // AJOUT DE L'ID 'project-modal-scroll' ICI POUR CIBLER LE SCROLL
+        <div 
+            id="project-modal-scroll" 
+            className="fixed inset-0 z-[200] overflow-y-auto bg-white animate-fade-in-up"
+        >
           <ProjectDetail project={selectedProject} onBack={handleCloseProject} />
         </div>
       ) : (
