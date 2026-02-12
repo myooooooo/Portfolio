@@ -3,190 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio | Girly Pop ✨</title>
+    <title>ZINEB | DIGITAL ARTIST PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;800&family=Creepster&family=Mountains+of+Christmas:wght@700&family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-      /* DÉFINITION DES VARIABLES DE COULEURS */
       :root {
-        /* Palette par défaut (Girly Pop) */
-        --c-pink: #FF0080;
-        --c-light: #FFE5EC;
-        --c-purple: #9D00FF;
-        --c-accent: #00E0FF;
-        --c-yellow: #FFDD00;
-        --c-white: #ffffff;
-        --c-text-main: #2D0025;
-        
-        /* Background Pattern */
-        --c-dot: #FF0080;
-        
-        --font-display: 'Pacifico', cursive;
-      }
-
-      /* Palette Halloween (Spooky) */
-      .theme-halloween {
-        --c-pink: #FF7518; /* Pumpkin Orange */
-        --c-light: #121212; /* Dark Background */
-        --c-purple: #9d45ff; /* Brighter Purple for contrast */
-        --c-accent: #76FF03; /* Slime Green */
-        --c-yellow: #FFDD00;
-        --c-white: #2a2a2a; /* Dark Cards */
-        --c-text-main: #f0f0f0; /* Light Text */
-        
-        --c-dot: #FF7518;
-        
-        --font-display: 'Creepster', cursive; /* Police d'horreur */
-      }
-
-      /* Palette Noël (Merry) */
-      .theme-christmas {
-        --c-pink: #D42426; /* Santa Red */
-        --c-light: #F0F8FF; /* Icy White/Blue */
-        --c-purple: #165B33; /* Pine Green */
-        --c-accent: #FFD700; /* Gold */
-        --c-yellow: #FFD700;
-        --c-white: #ffffff;
-        --c-text-main: #165B33;
-        
-        --c-dot: #165B33; /* Green Dots */
-        
-        --font-display: 'Mountains of Christmas', cursive;
-      }
-
-      /* MODE MYSTÈRE (Matrix) */
-      .theme-secret {
-        --c-pink: #00FF41; /* Hacker Green */
-        --c-light: #000000; /* Pure Black */
-        --c-purple: #008F11; /* Dark Green */
-        --c-accent: #FFFFFF; /* White */
-        --c-yellow: #00FF41;
-        --c-white: #0D0208; /* Very Dark */
-        --c-text-main: #00FF41;
-        
-        --c-dot: #003B00;
-        
-        --font-display: 'VT323', monospace;
-      }
-
-      /* MODE RETRO (Windows 95) */
-      .theme-retro {
-        /* TRUC DU CHEF : On remplace le Rose par le Bleu Marine. 
-           Comme ça, tous les boutons roses du site deviennent bleus automatiquement ! */
-        --c-pink: #000080; /* Navy Blue (Active Title Bar) */
-        
-        --c-light: #008080; /* TEAL BACKGROUND (Desktop) */
-        --c-purple: #000000; /* Black Text */
-        --c-accent: #C0C0C0; /* Silver */
-        --c-yellow: #FFFF00; /* Pure Yellow */
-        
-        /* Les cartes blanches deviennent grises (fenêtres) */
-        --c-white: #C0C0C0; 
-        
-        --c-text-main: #000000;
-        
-        --c-dot: #008080; /* Hide dots by matching bg */
-        
-        --font-display: 'VT323', monospace; /* Pixel font */
-      }
-
-      /* RETRO OVERRIDES - Kill rounded corners and add bevels */
-      body.theme-retro * {
-        border-radius: 0 !important;
-        box-shadow: none !important; /* Kill soft shadows */
-      }
-      
-      /* Simulate Win95 3D Borders (Bevels) */
-      body.theme-retro button, 
-      body.theme-retro .bg-white, 
-      body.theme-retro input,
-      body.theme-retro textarea,
-      body.theme-retro header > div {
-        border-top: 2px solid #ffffff !important;
-        border-left: 2px solid #ffffff !important;
-        border-right: 2px solid #404040 !important;
-        border-bottom: 2px solid #404040 !important;
-        background-color: #C0C0C0 !important;
-        color: black !important;
-      }
-
-      /* Pressed State */
-      body.theme-retro button:active {
-         border-top: 2px solid #404040 !important;
-         border-left: 2px solid #404040 !important;
-         border-right: 2px solid #ffffff !important;
-         border-bottom: 2px solid #ffffff !important;
-      }
-      
-      /* Fix colors for text inside Retro Mode to be legible */
-      body.theme-retro h1, body.theme-retro h2, body.theme-retro h3, body.theme-retro h4 {
-        color: #000080 !important; /* Navy Blue headings */
-        text-shadow: none !important;
-      }
-      
-      body.theme-retro p, body.theme-retro span, body.theme-retro div {
-         text-shadow: none !important;
-      }
-      
-      body.theme-retro .text-white {
-         color: black !important;
-      }
-      
-      /* Special fix for "Pink" buttons to have white text */
-      body.theme-retro .bg-pop-pink {
-         background-color: #000080 !important;
-         color: white !important;
-      }
-      
-      /* Force default cursor */
-      body.theme-retro, body.theme-retro a, body.theme-retro button {
-         cursor: auto !important;
+        --apple-bg: #fffafa; /* Rose poudré ultra léger */
+        --apple-text: #1d1d1f;
+        --apple-gray: #86868b;
+        --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       body {
-        background-color: var(--c-light);
-        color: var(--c-text-main);
-        cursor: none;
-        transition: background-color 0.5s ease, color 0.5s ease;
-      }
-      
-      /* Appliquer la transition aux éléments qui changent de couleur */
-      div, button, header, section {
-        transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+        background-color: var(--apple-bg);
+        color: var(--apple-text);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        scroll-behavior: smooth;
       }
 
-      a, button, input, textarea {
-        cursor: none;
+      /* TEXT REVEAL SYSTEM */
+      .reveal-text-container {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        overflow: hidden;
+        display: block;
       }
 
-      /* Hide scrollbar */
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      
-      .text-gradient {
-        background: linear-gradient(to right, var(--c-pink), var(--c-purple));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .reveal-text-content {
+        display: block;
+        transform: translateY(110%);
+        transition: transform 1.2s var(--ease-apple);
+        will-change: transform;
       }
 
-      /* Snow Animation */
-      .snowflake {
-        position: fixed;
-        top: -10px;
-        z-index: 9999;
-        color: white;
-        pointer-events: none;
-        animation-name: fall;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
+      .revealed .reveal-text-content {
+        transform: translateY(0);
       }
 
-      @keyframes fall {
-        0% { transform: translateY(0) translateX(0); opacity: 0.8; }
-        100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
+      /* FADE NODES */
+      .reveal-node {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1.5s var(--ease-apple), transform 1.5s var(--ease-apple);
+      }
+
+      .reveal-node.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* STAGGERED DELAYS (AUTO) */
+      .stagger-1 { transition-delay: 0.1s; }
+      .stagger-2 { transition-delay: 0.2s; }
+      .stagger-3 { transition-delay: 0.3s; }
+      .stagger-4 { transition-delay: 0.4s; }
+      .stagger-5 { transition-delay: 0.5s; }
+
+      /* GLASSMORPHISM */
+      .glass {
+        background: rgba(255, 250, 250, 0.72);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+
+      * { cursor: auto !important; }
+      a, button { cursor: pointer !important; }
+
+      /* Hide scrollbar but keep functionality */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.1);
+        border-radius: 10px;
       }
     </style>
 
@@ -194,109 +90,37 @@
       tailwind.config = {
         theme: {
           extend: {
-            fontFamily: {
-              sans: ['Poppins', 'sans-serif'],
-              display: ['var(--font-display)'], 
-            },
-            backgroundImage: {
-              'dot-pattern': "radial-gradient(var(--c-dot) 1px, transparent 1px)",
-            },
-            backgroundSize: {
-              'dot-pattern': '20px 20px',
-            },
             colors: {
-              'pop-pink': 'var(--c-pink)',
-              'pop-light': 'var(--c-light)',
-              'pop-purple': 'var(--c-purple)',
-              'pop-accent': 'var(--c-accent)',
-              'pop-yellow': 'var(--c-yellow)',
-              'white': 'var(--c-white)', // Override white to adapt to dark mode
-              'discord-dark': '#36393f',
-              'discord-gray': '#2f3136',
-            },
-            animation: {
-              'bounce-slow': 'bounce 3s infinite',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'float': 'float 6s ease-in-out infinite',
-              'spin-slow': 'spin 12s linear infinite',
-              'marquee': 'marquee 25s linear infinite',
-              'wiggle': 'wiggle 1s ease-in-out infinite',
-              'float-up': 'floatUp 1s ease-out forwards',
-              'jelly': 'jelly 0.6s both',
-              'tada': 'tada 1s both',
-              'glitch': 'glitch 2s infinite',
-              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-              'scale-in': 'scaleIn 0.5s ease-out forwards',
-              'shimmer': 'shimmer 2s linear infinite',
-              'disco': 'disco 2s linear infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              },
-              marquee: {
-                '0%': { transform: 'translateX(0%)' },
-                '100%': { transform: 'translateX(-100%)' },
-              },
-              wiggle: {
-                '0%, 100%': { transform: 'rotate(-3deg)' },
-                '50%': { transform: 'rotate(3deg)' },
-              },
-              floatUp: {
-                '0%': { transform: 'translateY(0) scale(0.5)', opacity: '1' },
-                '100%': { transform: 'translateY(-150px) scale(1.5)', opacity: '0' },
-              },
-              jelly: {
-                '0%, 100%': { transform: 'scale(1, 1)' },
-                '25%': { transform: 'scale(0.9, 1.1)' },
-                '50%': { transform: 'scale(1.1, 0.9)' },
-                '75%': { transform: 'scale(0.95, 1.05)' },
-              },
-              tada: {
-                '0%': { transform: 'scale(1)' },
-                '10%, 20%': { transform: 'scale(0.9) rotate(-3deg)' },
-                '30%, 50%, 70%, 90%': { transform: 'scale(1.1) rotate(3deg)' },
-                '40%, 60%, 80%': { transform: 'scale(1.1) rotate(-3deg)' },
-                '100%': { transform: 'scale(1) rotate(0)' },
-              },
-              glitch: {
-                '0%': { transform: 'translate(0)' },
-                '2%': { transform: 'translate(-2px, 2px)' },
-                '4%': { transform: 'translate(-2px, -2px)' },
-                '6%': { transform: 'translate(2px, 2px)' },
-                '8%': { transform: 'translate(2px, -2px)' },
-                '10%': { transform: 'translate(0)' },
-                '100%': { transform: 'translate(0)' }
-              },
-              fadeInUp: {
-                '0%': { opacity: '0', transform: 'translateY(30px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' }
-              },
-              scaleIn: {
-                '0%': { opacity: '0', transform: 'scale(0.9)' },
-                '100%': { opacity: '1', transform: 'scale(1)' }
-              },
-              shimmer: {
-                '0%': { transform: 'translateX(-100%)' },
-                '100%': { transform: 'translateX(100%)' }
-              },
-              disco: {
-                '0%': { filter: 'hue-rotate(0deg)' },
-                '100%': { filter: 'hue-rotate(360deg)' }
-              }
+              'apple-black': '#1d1d1f',
+              'apple-gray': '#86868b',
+              'apple-blue': '#0066cc',
+              'soft-pink': '#fff5f7',
             }
           }
         }
       }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+            }
+          });
+        }, { 
+          threshold: 0.1
+        });
+
+        document.querySelectorAll('.reveal-node, .reveal-text-container').forEach(el => observer.observe(el));
+      });
     </script>
   <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>

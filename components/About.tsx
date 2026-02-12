@@ -1,101 +1,77 @@
 import React from 'react';
-import { EXPERIENCE, SOCIALS, PROFILE_IMAGE_URL } from '../constants';
-import MoodBoard from './MoodBoard';
-import RPGStats from './RPGStats';
+import { EXPERIENCE, PROFILE_IMAGE_URL } from '../constants';
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="py-20 bg-pop-light/50 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] opacity-20 pointer-events-none"></div>
-      
-      <div className="container mx-auto px-4 max-w-6xl relative z-10">
-        
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-            
-            {/* Left Column: Polaroid & MoodBoard & Stats */}
-            <div className="md:col-span-5 flex flex-col gap-10">
-                {/* Polaroid Effect */}
-                <div className="relative bg-white p-4 pb-16 shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500 w-full max-w-md mx-auto group">
-                    {/* Washi Tape */}
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-pop-pink/40 rotate-2 z-20"></div>
-                    
-                    <div className="w-full aspect-[4/5] overflow-hidden bg-gray-100 relative">
-                        <img src={PROFILE_IMAGE_URL} alt="Profile" className="w-full h-full object-cover filter contrast-110 transition-transform duration-700 group-hover:scale-110" />
-                        {/* Sticker overlay */}
-                        <div className="absolute bottom-2 right-2 text-4xl animate-bounce-slow">👩‍🎓</div>
-                    </div>
-                    <div className="absolute bottom-4 left-0 w-full text-center font-display text-pop-purple text-xl">
-                        Zineb A. ✌️
-                    </div>
-                </div>
+    <section id="about" className="py-32 bg-transparent px-6 overflow-hidden">
+      <div className="max-w-[980px] mx-auto">
+        <div className="mb-24 text-center">
+           <div className="reveal-text-container mb-2">
+             <h2 className="reveal-text-content text-5xl md:text-7xl font-bold tracking-tight text-apple-black">Créative.</h2>
+           </div>
+           <div className="reveal-text-container stagger-1 mb-2">
+             <h2 className="reveal-text-content text-5xl md:text-7xl font-bold tracking-tight text-apple-black">Passionnée.</h2>
+           </div>
+           <div className="reveal-text-container stagger-2 mb-8">
+             <h2 className="reveal-text-content text-5xl md:text-7xl font-bold tracking-tight text-apple-black">Rigoureuse.</h2>
+           </div>
+           
+           <div className="reveal-text-container stagger-3">
+             <p className="reveal-text-content text-xl md:text-2xl text-apple-gray max-w-2xl mx-auto font-medium">
+               Je m'appelle Zineb. Je crée des expériences numériques qui fusionnent l'esthétique et la fonction.
+             </p>
+           </div>
+        </div>
 
-                <MoodBoard />
-                
-                <RPGStats />
-            </div>
-
-            {/* Right Column: Text & Bio */}
-            <div className="md:col-span-7">
-                <div className="inline-block bg-pop-accent/20 text-pop-purple px-4 py-1 rounded-full text-xs font-bold mb-4 border border-pop-accent uppercase tracking-widest">
-                    Profil Créatif & Technique
-                </div>
-                <h3 className="font-display text-5xl text-pop-purple mb-2">
-                    Zineb Anssafou
-                </h3>
-                <h4 className="text-xl font-bold text-pop-pink mb-6">
-                    Designer Numérique & Community Manager
-                </h4>
-                
-                <div className="bg-white p-8 rounded-3xl shadow-[4px_4px_0px_0px_rgba(255,0,128,0.2)] border-2 border-pop-light mb-8 relative">
-                     <span className="absolute -top-3 -right-3 text-4xl animate-bounce-slow">🏆</span>
-                     <p className="text-lg text-gray-700 leading-relaxed font-medium">
-                        Étudiante en <strong className="text-pop-purple">BUT MMI</strong> (Création Numérique) et lauréate des <strong className="text-pop-purple">Trophées NSI 2024</strong>.
-                        <br/><br/>
-                        Avec 2 ans d'expérience en tant que Community Manager (+10k membres), je mêle stratégie, relationnel et créativité. Mon univers ? Le dessin semi-réaliste, la Suite Adobe et une touche de Python.
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-32">
+           <div className="reveal-node rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-100">
+              <img src={PROFILE_IMAGE_URL} alt="Portrait" className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-1000" />
+           </div>
+           <div className="space-y-12">
+              <div>
+                 <div className="reveal-text-container mb-4">
+                    <h4 className="reveal-text-content text-sm font-bold uppercase tracking-widest text-apple-gray">LE PARCOURS</h4>
+                 </div>
+                 <div className="reveal-node stagger-1">
+                    <p className="text-lg font-medium text-apple-black leading-relaxed">
+                      Actuellement en 2ème année de BUT MMI, j'explore l'intersection entre le design graphique et le développement. Mon approche est guidée par la simplicité et l'impact visuel.
                     </p>
-                    <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200 text-sm text-blue-800 font-bold flex items-center gap-2">
-                        <span>🚀</span> 
-                        <span>Recherche stage de 10-12 semaines (Dès Janvier 2026)</span>
-                    </div>
-                </div>
+                 </div>
+              </div>
+              <div>
+                 <div className="reveal-text-container mb-4">
+                    <h4 className="reveal-text-content text-sm font-bold uppercase tracking-widest text-apple-gray">DISTINCTIONS</h4>
+                 </div>
+                 <div className="reveal-node stagger-2">
+                    <p className="text-lg font-medium text-apple-black">
+                      🏆 Prix Territorial Trophées NSI 2024
+                    </p>
+                 </div>
+              </div>
+           </div>
+        </div>
 
-                {/* Skills Pills */}
-                <div className="mb-8">
-                    <h5 className="text-sm font-bold uppercase tracking-widest text-pop-purple mb-3 ml-2">Mes Super-Pouvoirs</h5>
-                    <div className="flex flex-wrap gap-3">
-                        {['Procreate 🎨', 'Adobe Suite ✨', 'Motion Design 🎬', 'Community Management 💬', 'Anglais C1 🇬🇧', 'Python 🐍'].map(skill => (
-                            <span key={skill} className="bg-white text-pop-purple border border-pop-purple/20 px-4 py-2 rounded-full text-sm font-bold hover:bg-pop-purple hover:text-white transition-all hover:scale-110 cursor-default shadow-sm">
-                                {skill}
-                            </span>
-                        ))}
-                    </div>
+        {/* Experience List - Apple Style Table */}
+        <div className="pt-20 border-t border-black/5">
+           <div className="reveal-text-container mb-12">
+             <h3 className="reveal-text-content text-2xl font-bold">Expériences.</h3>
+           </div>
+           <div className="space-y-4">
+              {EXPERIENCE.map((exp, i) => (
+                <div key={i} className="reveal-node stagger-1 flex flex-col md:flex-row justify-between py-10 border-b border-black/5 last:border-0 hover:bg-white/40 transition-colors px-4 rounded-2xl">
+                   <div className="md:w-1/3 mb-4 md:mb-0">
+                      <span className="text-sm font-bold text-apple-gray">{exp.period}</span>
+                   </div>
+                   <div className="md:w-1/3">
+                      <h4 className="text-lg font-bold text-apple-black">{exp.company}</h4>
+                      <p className="text-apple-gray text-sm">{exp.role}</p>
+                   </div>
+                   <div className="md:w-1/3 mt-2 md:mt-0">
+                      <p className="text-sm text-apple-black leading-relaxed opacity-70">{exp.description}</p>
+                   </div>
                 </div>
-
-                {/* Experience List */}
-                <div className="space-y-4 mb-8">
-                    <h5 className="text-sm font-bold uppercase tracking-widest text-pop-purple mb-3 ml-2">Expériences Clés</h5>
-                    {EXPERIENCE.map((exp, idx) => (
-                        <div key={idx} className="bg-white p-5 rounded-2xl shadow-sm flex items-start border-l-4 border-pop-pink hover:translate-x-2 transition-transform group">
-                            <div className="mr-4 text-2xl group-hover:animate-spin-slow">⚡</div>
-                            <div>
-                                <h5 className="font-bold text-lg text-pop-purple">{exp.company}</h5>
-                                <p className="text-xs font-bold text-pop-pink uppercase mb-2">{exp.role} | {exp.period}</p>
-                                <p className="text-sm text-gray-600">{exp.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                
-                {/* Socials */}
-                <div className="flex gap-4 mt-10">
-                    {SOCIALS.map(link => (
-                        <a key={link.label} href={link.url} className="w-14 h-14 bg-pop-pink text-white rounded-full flex items-center justify-center font-bold text-lg hover:bg-pop-purple hover:scale-110 hover:rotate-12 transition-all shadow-[0px_4px_0px_0px_rgba(0,0,0,0.2)]">
-                            {link.label}
-                        </a>
-                    ))}
-                </div>
-            </div>
+              ))}
+           </div>
         </div>
       </div>
     </section>

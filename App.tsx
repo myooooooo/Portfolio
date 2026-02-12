@@ -1,175 +1,101 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ProjectList from './components/ProjectList';
 import ProjectDetail from './components/ProjectDetail';
 import About from './components/About';
 import ChatWidget from './components/ChatWidget';
-import ContactForm from './components/ContactForm';
-import CustomCursor from './components/CustomCursor';
-import Marquee from './components/Marquee';
-import MusicPlayer from './components/MusicPlayer';
-import StickerBoard from './components/StickerBoard';
-import LoveSpam from './components/LoveSpam';
 import Services from './components/Services';
 import CreativeTools from './components/CreativeTools';
-import DiscordTestimonials from './components/DiscordTestimonials';
-import ArtProcess from './components/ArtProcess';
-import KonamiCode from './components/KonamiCode';
-import ScrollCat from './components/ScrollCat';
-import DoodleLayer from './components/DoodleLayer';
-import CoffeeFeeder from './components/CoffeeFeeder';
-import ThemeSwitcher from './components/ThemeSwitcher';
-import SnowEffect from './components/SnowEffect';
-import MatrixEffect from './components/MatrixEffect';
-import RetroOverlay from './components/RetroOverlay';
-import RetroDesktop from './components/RetroDesktop';
 import { PROJECTS } from './constants';
 import { Project } from './types';
 
 const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
+  // Scroll Reveal Logic (manual trigger on mount/navigation)
+  useEffect(() => {
+    const trigger = () => {
+        document.querySelectorAll('.reveal-node, .reveal-text-container').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.95) {
+                el.classList.add('revealed');
+            }
+        });
+    };
+    window.addEventListener('scroll', trigger);
+    trigger(); // Initial check
+    return () => window.removeEventListener('scroll', trigger);
+  }, [selectedProject]);
+
   const scrollToSection = (id: string) => {
-    // If we are in project view, we need to go back home first
-    if (selectedProject) {
-      setSelectedProject(null);
-      // Wait for state update then scroll
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleOpenProject = (projectId: number) => {
     const project = PROJECTS.find(p => p.id === projectId);
-    if (project) {
-      setSelectedProject(project);
-    }
+    if (project) setSelectedProject(project);
   };
 
-  const handleCloseProject = () => {
-    setSelectedProject(null);
-  };
+  const handleCloseProject = () => setSelectedProject(null);
 
   return (
-    <main className="min-h-screen w-full bg-pop-light bg-dot-pattern bg-fixed text-swiss-black selection:bg-pop-pink selection:text-white overflow-x-hidden font-sans relative transition-colors duration-500 pb-12 md:pb-0">
+    <main className="min-h-screen w-full bg-[#fffafa] selection:bg-apple-blue selection:text-white overflow-x-hidden relative">
       
-      {/* Theme Manager */}
-      <ThemeSwitcher />
-      
-      <div className="theme-christmas-only">
-         <SnowEffect />
-      </div>
-      {/* Helper to only show matrix when theme-secret is active on body */}
-      <div className="theme-secret-only">
-        <MatrixEffect />
-      </div>
-      {/* Helper for retro mode */}
-      <div className="theme-retro-only">
-        <RetroOverlay />
-        <RetroDesktop />
-      </div>
-
-      <KonamiCode />
-      <ScrollCat />
-      <CustomCursor />
-      <MusicPlayer />
       <ChatWidget />
-      <DoodleLayer />
-      <CoffeeFeeder />
 
       {selectedProject ? (
-        /* --- PROJECT DETAIL VIEW --- */
         <ProjectDetail project={selectedProject} onBack={handleCloseProject} />
       ) : (
-        /* --- HOME VIEW --- */
         <>
-          <LoveSpam />
-          <StickerBoard />
-
           <Header onNavigate={scrollToSection} />
           
           <div id="home">
             <Hero />
           </div>
 
-          {/* MOVED UP: Les Projets/Dessins sont maintenant ici, juste après le Hero */}
-          <div id="work" className="relative z-20 -mt-10">
+          <div id="work">
             <ProjectList onOpenProject={handleOpenProject} />
           </div>
 
-          {/* Processus de Création - Avant/Après Slider */}
-          <ArtProcess />
-
-          {/* Marquee sans les vagues SVG */}
-          <div className="py-10">
-            <Marquee />
+          <div className="bg-transparent">
+            <Services />
+            <CreativeTools />
           </div>
-          
-          <Services />
-
-          <DiscordTestimonials />
-
-          <CreativeTools />
           
           <div id="about">
             <About />
           </div>
 
-          {/* Wavy Separator Contact */}
-          <div className="w-full leading-none relative z-20 -mb-1">
-               <svg className="block w-full h-16 md:h-32 fill-white transition-colors duration-500" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path>
-              </svg>
-          </div>
-
-          <div id="contact" className="py-20 md:py-32 px-4 md:px-0 bg-white relative transition-colors duration-500">
-             <div className="container mx-auto max-w-5xl relative z-10">
-                <div className="mb-16 text-center">
-                    <span className="text-6xl animate-pulse mb-4 block transform hover:rotate-180 transition-transform duration-700">✨</span>
-                    <h2 className="text-5xl md:text-6xl font-display text-pop-purple mb-6">
-                        Let's Draw <span className="text-pop-pink">Together</span>!
-                    </h2>
-                    <p className="text-lg opacity-80 max-w-md mx-auto font-medium">
-                        Envie d'une illustration, d'un chara-design ou d'une collab artistique ?
-                        <br/>
-                        Je suis prête à donner vie à tes idées ! <a href="mailto:zineb.anssafou@icloud.com" className="text-pop-pink font-bold underline decoration-wavy hover:text-pop-purple">zineb.anssafou@icloud.com</a>
-                    </p>
+          <footer id="contact" className="py-40 bg-apple-black text-white px-6 text-center reveal-node">
+             <div className="max-w-[800px] mx-auto">
+                <div className="reveal-text-container mb-12">
+                  <h2 className="reveal-text-content text-5xl md:text-7xl font-bold tracking-tight">
+                    Prête à créer la suite.
+                  </h2>
                 </div>
+                <p className="text-xl text-apple-gray mb-12">
+                   Vous avez un projet ou souhaitez simplement discuter ? Je suis à l'écoute.
+                </p>
+                <a href="mailto:zineb.anssafou@icloud.com" className="bg-white text-apple-black px-10 py-4 rounded-full font-bold hover:opacity-90 transition-opacity">
+                  Envoyer un e-mail
+                </a>
                 
-                <ContactForm />
-
-                <div className="mt-20 text-center text-sm font-bold text-pop-purple/50 tracking-widest flex justify-center items-center gap-2">
-                    <span>Made with 💖 & 🦄 — {new Date().getFullYear()} Zineb Anssafou.</span>
+                <div className="mt-32 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-[11px] font-medium text-apple-gray uppercase tracking-widest">
+                   <span>© 2025 Zineb Anssafou</span>
+                   <div className="flex gap-8 mt-4 md:mt-0">
+                      <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
+                      <a href="#" className="hover:text-white transition-colors">Behance</a>
+                      <a href="#" className="hover:text-white transition-colors">Instagram</a>
+                   </div>
                 </div>
              </div>
-          </div>
+          </footer>
         </>
       )}
-      
-      <style>{`
-        /* Helper to only show snow when theme-christmas is active on body */
-        .snowflake { display: none; }
-        body.theme-christmas .snowflake { display: block; }
-
-        /* Helper to only show matrix effect when theme-secret is active */
-        .theme-secret-only { display: none; }
-        body.theme-secret .theme-secret-only { display: block; }
-
-        /* Helper for Retro */
-        .theme-retro-only { display: none; }
-        body.theme-retro .theme-retro-only { display: block; }
-      `}</style>
     </main>
   );
 };

@@ -1,41 +1,43 @@
 import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_INSTRUCTION } from '../constants';
 
-// Initialize API client
-// Note: In a real production app, you would handle the key more securely or via backend proxy.
-// For this demo, we assume process.env.API_KEY is set.
-const apiKey = process.env.API_KEY || ''; 
-const ai = new GoogleGenAI({ apiKey });
-
 export const sendMessageToGemini = async (history: string[], message: string): Promise<string> => {
-  if (!apiKey) {
-    return "Erreur: Clé API non configurée.";
-  }
+  // Always initialize right before use to ensure latest API key context from process.env.API_KEY
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   try {
-    // We construct a prompt that includes context
-    const model = 'gemini-2.5-flash';
-    
-    // Simple chat history formatting
-    const chatContext = history.join('\n');
-    const fullPrompt = `
-      ${SYSTEM_INSTRUCTION}
-      
-      Historique de la conversation:
-      ${chatContext}
-      
-      Utilisateur: ${message}
-      Assistant:
-    `;
-
+    // Using gemini-3-flash-preview as recommended for basic text and chat tasks
     const response = await ai.models.generateContent({
-      model: model,
-      contents: fullPrompt,
+      model: 'gemini-3-flash-preview',
+      contents: [
+        // Map history strings back to parts for multi-turn conversation
+        ...history.map((h) => {
+          const isUser = h.startsWith('Utilisateur:');
+          const prefix = isUser ? 'Utilisateur:' : 'Assistant:';
+          const text = h.substring(prefix.length).trim();
+          return {
+            role: isUser ? 'user' : 'model',
+            parts: [{ text }]
+          };
+        }),
+        { role: 'user', parts: [{ text: message }] }
+      ],
+      config: {
+        // System instructions should be provided in the config
+        systemInstruction: SYSTEM_INSTRUCTION,
+        temperature: 0.9,
+        topP: 0.95,
+        topK: 40,
+      }
     });
 
-    return response.text || "Désolé, je n'ai pas pu générer de réponse.";
+    // Accessing text output directly via the .text property as per SDK documentation
+    return response.text || "Désolé chouchou, mon cerveau rose a buggé... ✨";
   } catch (error) {
     console.error("Error calling Gemini:", error);
-    return "Une erreur est survenue lors de la communication avec l'assistant.";
+    if (error instanceof Error && error.message.includes("Requested entity was not found")) {
+        return "Erreur de configuration API : Modèle ou clé introuvable. ✨";
+    }
+    return "Une petite erreur magique est survenue... 🪄";
   }
 };
