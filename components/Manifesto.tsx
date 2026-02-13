@@ -23,7 +23,7 @@ const Manifesto: React.FC = () => {
 
   return (
     <section className="h-screen flex bg-[#F0F0F0] relative overflow-hidden select-none">
-        {/* SEO Content - Hidden but accessible to search engines */}
+        {/* SEO Content */}
         <div className="sr-only">
           <h2>Ma Philosophie de Design et Développement</h2>
           <p>
@@ -168,9 +168,21 @@ const Manifesto: React.FC = () => {
 
             <div className="space-y-12">
                 {[
-                    { id: '01', title: 'PIXEL PERFECT', desc: "Chaque détail compte. L'alignement est une religion." },
-                    { id: '02', title: 'STORY DRIVEN', desc: "Une image sans histoire est juste une décoration." },
-                    { id: '03', title: 'CODE CRAFTED', desc: "Développé proprement. Performant. Scalable." }
+                    {
+                        id: '01',
+                        title: 'PIXEL PERFECT',
+                        desc: "Chaque détail compte. L'alignement est une religion. Je crois en la précision absolue : grilles structurées, espacements calculés, typographie millimétrique. Un pixel de décalage peut ruiner l'harmonie d'une interface. La perfection visuelle n'est pas une option, c'est une exigence."
+                    },
+                    {
+                        id: '02',
+                        title: 'STORY DRIVEN',
+                        desc: "Une image sans histoire est juste une décoration. Chaque projet raconte quelque chose. Je conçois des expériences qui engagent émotionnellement, qui créent une connexion. Le design n'est pas seulement esthétique, il communique, il inspire, il transforme l'ordinaire en mémorable."
+                    },
+                    {
+                        id: '03',
+                        title: 'CODE CRAFTED',
+                        desc: "Développé proprement. Performant. Scalable. Mon code est mon artisanat : structuré, optimisé, maintenable. Je privilégie l'élégance technique et les bonnes pratiques. Performance native, architecture évolutive, tests rigoureux. Parce qu'un beau design mérite un code à la hauteur."
+                    }
                 ].map((item, idx) => (
                     <div key={item.id} className={`reveal-node delay-${idx * 100} group`}>
                         <div className="flex items-baseline gap-4 mb-2">
@@ -179,7 +191,7 @@ const Manifesto: React.FC = () => {
                                 {item.title}
                             </h4>
                         </div>
-                        <p className="text-sm text-gray-400 pl-10 max-w-xs font-medium leading-relaxed group-hover:text-white transition-colors">
+                        <p className="text-sm text-gray-400 pl-10 max-w-md font-medium leading-relaxed group-hover:text-white transition-colors">
                             {item.desc}
                         </p>
                     </div>

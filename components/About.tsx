@@ -4,7 +4,7 @@ import { EXPERIENCE, PROFILE_IMAGE_URL } from '../constants';
 const About: React.FC = () => {
   return (
     <div className="flex h-full items-center px-10 md:px-20 gap-20 md:gap-40 bg-white">
-        {/* SEO Content - Hidden but accessible to search engines */}
+        {/* SEO Content */}
         <div className="sr-only">
           <h2>À Propos de Zineb Anssafou</h2>
           <p>

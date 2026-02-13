@@ -15,13 +15,14 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative w-screen h-screen flex flex-col justify-center px-6 md:px-12 pt-20 flex-shrink-0 border-r border-black/10">
-      {/* SEO Content - Hidden but accessible to search engines */}
+      {/* SEO Content - Hidden visually but accessible to search engines */}
       <div className="sr-only">
+        <h1>Zineb Anssafou - Designer & Developer Portfolio</h1>
         <p>
           Portfolio professionnel de Zineb Anssafou, designer et développeuse créative basée à Dijon, France.
-          Spécialisée en design d'interface utilisateur (UI/UX), motion design et développement web moderne avec React et TypeScript.
+          Spécialisée en design d'interface utilisateur (UI/UX), motion design et développement web moderne.
           Je transforme des concepts complexes en expériences visuelles cohérentes et impactantes,
-          en combinant esthétique raffinée et code performant. Mes compétences incluent Figma, Procreate, After Effects, Python,
+          en combinant esthétique raffinée et code performant. Mes compétences incluent React, TypeScript,
           design systems, animations web, prototypage interactif et développement front-end créatif.
           Actuellement en mission chez Polytech, disponible pour des projets de design digital,
           création d'interfaces innovantes et développement d'applications web sur mesure.
