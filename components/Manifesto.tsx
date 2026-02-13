@@ -1,9 +1,93 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ASSETS } from '../constants';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Manifesto: React.FC = () => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const panel1Ref = useRef<HTMLDivElement>(null);
+  const panel2Ref = useRef<HTMLDivElement>(null);
+  const panel3Ref = useRef<HTMLDivElement>(null);
+
+  // GSAP Scroll Animations
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+
+    const panels = [panel1Ref.current, panel2Ref.current, panel3Ref.current];
+
+    // Animate each panel on scroll
+    panels.forEach((panel, index) => {
+      if (!panel) return;
+
+      // Fade in and slide animation for each panel
+      gsap.fromTo(
+        panel,
+        {
+          opacity: 0,
+          x: index === 0 ? -100 : index === 1 ? 0 : 100,
+          y: index === 1 ? 50 : 0
+        },
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: panel,
+            start: 'left 80%',
+            end: 'left 20%',
+            horizontal: true,
+            toggleActions: 'play none none reverse',
+          }
+        }
+      );
+    });
+
+    // Parallax effect on slider images
+    if (panel2Ref.current) {
+      const images = panel2Ref.current.querySelectorAll('img');
+      images.forEach((img, index) => {
+        gsap.to(img, {
+          y: index === 0 ? -30 : -20,
+          scrollTrigger: {
+            trigger: panel2Ref.current,
+            start: 'left right',
+            end: 'right left',
+            horizontal: true,
+            scrub: 1,
+          }
+        });
+      });
+    }
+
+    // Animate pillars with stagger
+    if (panel3Ref.current) {
+      const pillars = panel3Ref.current.querySelectorAll('.pillar-item');
+      gsap.fromTo(
+        pillars,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: panel3Ref.current,
+            start: 'left 70%',
+            horizontal: true,
+            toggleActions: 'play none none reverse',
+          }
+        }
+      );
+    }
+  }, []);
 
   const handleMove = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -22,7 +106,7 @@ const Manifesto: React.FC = () => {
   };
 
   return (
-    <section className="h-screen flex bg-[#F0F0F0] relative overflow-hidden select-none">
+    <section ref={sectionRef} className="h-screen flex bg-[#F0F0F0] relative overflow-hidden select-none">
         {/* SEO Content */}
         <div className="sr-only">
           <h2>Ma Philosophie de Design et Développement</h2>
@@ -43,7 +127,7 @@ const Manifesto: React.FC = () => {
         {/* ------------------------------------------------ */}
         {/* PANEL 1 : LE TITRE & L'INTRODUCTION (Context) */}
         {/* ------------------------------------------------ */}
-        <div className="w-[85vw] md:w-[45vw] h-full flex flex-col justify-center px-12 md:px-20 border-r border-black/10 relative z-10 bg-white">
+        <div ref={panel1Ref} className="w-[85vw] md:w-[45vw] h-full flex flex-col justify-center px-12 md:px-20 border-r border-black/10 relative z-10 bg-white">
            <div className="reveal-node">
                <div className="flex items-center gap-3 mb-6">
                    <div className="w-3 h-3 bg-pop-pink rounded-full animate-pulse"></div>
@@ -78,7 +162,7 @@ const Manifesto: React.FC = () => {
         {/* ------------------------------------------------ */}
         {/* PANEL 2 : SLIDER INTERACTIF (ROUGH VS FINAL) */}
         {/* ------------------------------------------------ */}
-        <div className="w-[100vw] md:w-[60vw] h-full relative flex items-center justify-center border-r border-black/10 bg-[#E5E5E5]">
+        <div ref={panel2Ref} className="w-[100vw] md:w-[60vw] h-full relative flex items-center justify-center border-r border-black/10 bg-[#E5E5E5]">
             
             {/* Le Cadre "Blueprint" */}
             <div className="relative w-[70%] h-[70%] border-2 border-black bg-white p-4 shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] group reveal-node">
@@ -161,7 +245,7 @@ const Manifesto: React.FC = () => {
         {/* ------------------------------------------------ */}
         {/* PANEL 3 : LES PILIERS (The Pillars) */}
         {/* ------------------------------------------------ */}
-        <div className="w-[85vw] md:w-[45vw] h-full bg-swiss-black text-white flex flex-col justify-center p-12 md:p-16 border-r border-black/10">
+        <div ref={panel3Ref} className="w-[85vw] md:w-[45vw] h-full bg-swiss-black text-white flex flex-col justify-center p-12 md:p-16 border-r border-black/10">
             <h3 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500 mb-12 border-b border-white/20 pb-4">
                 CORE_VALUES
             </h3>
@@ -184,7 +268,7 @@ const Manifesto: React.FC = () => {
                         desc: "Développé proprement. Performant. Scalable. Mon code est mon artisanat : structuré, optimisé, maintenable. Je privilégie l'élégance technique et les bonnes pratiques. Performance native, architecture évolutive, tests rigoureux. Parce qu'un beau design mérite un code à la hauteur."
                     }
                 ].map((item, idx) => (
-                    <div key={item.id} className={`reveal-node delay-${idx * 100} group`}>
+                    <div key={item.id} className={`pillar-item reveal-node delay-${idx * 100} group`}>
                         <div className="flex items-baseline gap-4 mb-2">
                             <span className="text-pop-pink font-mono font-bold text-sm">/{item.id}</span>
                             <h4 className="text-3xl md:text-4xl font-black uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300">

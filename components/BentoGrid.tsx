@@ -73,6 +73,7 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects, onProjectClick }) => {
       {projects.map((project, index) => (
         <motion.article
           key={project.id}
+          layoutId={`project-${project.id}`}
           className={`project-card group relative ${getGridClass(index)} overflow-hidden bg-gray-100 border-2 border-black cursor-pointer magnetic`}
           onClick={() => onProjectClick(project.id)}
           data-cursor="VIEW"
@@ -80,7 +81,7 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects, onProjectClick }) => {
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
           {/* Image */}
-          <div className="absolute inset-0">
+          <motion.div layoutId={`project-image-${project.id}`} className="absolute inset-0">
             <img
               src={project.imageUrl}
               alt={project.title}
@@ -92,7 +93,7 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects, onProjectClick }) => {
 
             {/* Skeleton loader overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse opacity-0 group-hover:opacity-0" />
-          </div>
+          </motion.div>
 
           {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
