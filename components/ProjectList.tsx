@@ -43,9 +43,9 @@ const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
 
   return (
     <>
-      <div className="w-max h-full flex flex-col justify-center bg-white relative">
-        {/* Titre de section sticky */}
-        <div className="sticky top-0 left-0 z-20 p-20">
+      <div className="w-full h-full flex flex-col justify-center bg-white relative px-[5vw]">
+        {/* Titre de section - Marges horizontales fixes 5vw */}
+        <div className="mb-12">
           <h2 className="text-[8vw] md:text-[6vw] font-black uppercase leading-[0.8] tracking-ultra-tight">
             <span className="block text-black">SELECTED</span>
             <span className="block text-pop-pink">WORKS<span className="text-black">.</span></span>
@@ -55,7 +55,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
           </p>
         </div>
 
-        {/* Bento Grid */}
+        {/* Bento Grid - Occupe toute la largeur */}
         <BentoGrid projects={projectsWithTech} onProjectClick={handleProjectClick} />
       </div>
 

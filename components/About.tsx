@@ -27,6 +27,9 @@ const About: React.FC = () => {
   useGSAP(() => {
     if (!containerRef.current) return;
 
+    const scroller = document.querySelector('#horizontal-scroll-container');
+    if (!scroller) return;
+
     // Animate columns on scroll
     const columns = [column1Ref.current, column2Ref.current, column3Ref.current];
 
@@ -44,6 +47,7 @@ const About: React.FC = () => {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: column,
+            scroller: scroller,
             start: 'left 75%',
             horizontal: true,
             toggleActions: 'play none none reverse',
@@ -68,6 +72,7 @@ const About: React.FC = () => {
           ease: 'back.out(1.4)',
           scrollTrigger: {
             trigger: techStackRef.current,
+            scroller: scroller,
             start: 'left 60%',
             horizontal: true,
           }
@@ -87,6 +92,7 @@ const About: React.FC = () => {
             delay: index * 0.1,
             scrollTrigger: {
               trigger: techStackRef.current,
+              scroller: scroller,
               start: 'left 60%',
               horizontal: true,
             }
@@ -109,6 +115,7 @@ const About: React.FC = () => {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: column3Ref.current,
+          scroller: scroller,
           start: 'left 70%',
           horizontal: true,
         }

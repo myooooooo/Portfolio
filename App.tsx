@@ -195,18 +195,18 @@ const App: React.FC = () => {
               <Hero />
             </div>
 
-            {/* 2. WORK */}
-            <div id="work" className="flex-shrink-0 h-screen flex items-center">
+            {/* 2. WORK - Largeur fixe 140vw pour justifier le scroll */}
+            <div id="work" className="flex-shrink-0 w-[140vw] min-w-[140vw] h-screen flex items-center">
               <ProjectList onOpenProject={handleOpenProject} />
             </div>
 
-            {/* 3. MANIFESTO */}
-            <div id="manifesto" className="flex-shrink-0 h-screen flex">
+            {/* 3. MANIFESTO - Largeur dynamique mais non compressible */}
+            <div id="manifesto" className="flex-shrink-0 min-w-max h-screen flex">
               <Manifesto />
             </div>
 
-            {/* 4. ABOUT */}
-            <div id="about" className="flex-shrink-0 h-screen flex items-center">
+            {/* 4. ABOUT - Largeur dynamique mais non compressible */}
+            <div id="about" className="flex-shrink-0 min-w-max h-screen flex items-center">
               <About />
             </div>
 

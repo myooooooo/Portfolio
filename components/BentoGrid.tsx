@@ -26,6 +26,9 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects, onProjectClick }) => {
   useEffect(() => {
     if (!gridRef.current) return;
 
+    const scroller = document.querySelector('#horizontal-scroll-container');
+    if (!scroller) return;
+
     const cards = gridRef.current.querySelectorAll('.project-card');
 
     cards.forEach((card, index) => {
@@ -33,34 +36,43 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects, onProjectClick }) => {
         card,
         {
           opacity: 0,
-          y: 100,
+          scale: 0.95,
         },
         {
           opacity: 1,
-          y: 0,
-          duration: 0.8,
+          scale: 1,
+          duration: 0.6,
           ease: 'power3.out',
-          delay: index * 0.1,
+          delay: index * 0.08,
           scrollTrigger: {
             trigger: card,
-            start: 'top 85%',
-            end: 'top 20%',
+            scroller: scroller,
+            start: 'left 80%',
+            end: 'left 20%',
+            horizontal: true,
             toggleActions: 'play none none reverse',
           },
         }
       );
     });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, [projects]);
 
+  // Pattern optimisé pour grille 4x2 (8 cellules max)
   const getGridClass = (index: number): string => {
-    const pattern = index % 6;
+    const pattern = index % 8;
     switch (pattern) {
-      case 0: return 'col-span-1 row-span-2'; // Tall
-      case 1: return 'col-span-2 row-span-1'; // Wide
+      case 0: return 'col-span-2 row-span-2'; // Large (Project 1)
+      case 1: return 'col-span-1 row-span-1'; // Square
       case 2: return 'col-span-1 row-span-1'; // Square
-      case 3: return 'col-span-2 row-span-2'; // Large
+      case 3: return 'col-span-2 row-span-1'; // Wide
       case 4: return 'col-span-1 row-span-1'; // Square
       case 5: return 'col-span-1 row-span-2'; // Tall
+      case 6: return 'col-span-2 row-span-1'; // Wide
+      case 7: return 'col-span-1 row-span-1'; // Square
       default: return 'col-span-1 row-span-1';
     }
   };
@@ -68,7 +80,8 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects, onProjectClick }) => {
   return (
     <div
       ref={gridRef}
-      className="grid grid-cols-3 gap-4 md:gap-6 p-8 md:p-20 w-full auto-rows-[200px]"
+      className="grid grid-cols-4 grid-rows-2 gap-4 md:gap-6 w-full h-[80vh]"
+      style={{ gridTemplateRows: 'repeat(2, 40vh)' }}
     >
       {projects.map((project, index) => (
         <motion.article
@@ -80,19 +93,26 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects, onProjectClick }) => {
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          {/* Image */}
-          <motion.div layoutId={`project-image-${project.id}`} className="absolute inset-0">
+          {/* Image Container avec fond de secours */}
+          <motion.div layoutId={`project-image-${project.id}`} className="absolute inset-0 bg-[#F5F5F5]">
+            {/* Fond de secours avec nom du projet en texte fantôme */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-6xl md:text-8xl font-black uppercase text-black opacity-10 select-none pointer-events-none">
+                {project.title}
+              </span>
+            </div>
+
+            {/* Image réelle */}
             <img
               src={project.imageUrl}
               alt={project.title}
               onError={(e) => {
-                (e.target as HTMLImageElement).src = `https://placehold.co/800x800/f5f5f5/000000?text=${project.title}`;
+                // Si l'image ne charge pas, on la cache pour montrer le fond
+                (e.target as HTMLImageElement).style.display = 'none';
               }}
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 z-10"
+              loading="lazy"
             />
-
-            {/* Skeleton loader overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse opacity-0 group-hover:opacity-0" />
           </motion.div>
 
           {/* Overlay */}

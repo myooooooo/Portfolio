@@ -18,6 +18,9 @@ const Manifesto: React.FC = () => {
   useGSAP(() => {
     if (!sectionRef.current) return;
 
+    const scroller = document.querySelector('#horizontal-scroll-container');
+    if (!scroller) return;
+
     const panels = [panel1Ref.current, panel2Ref.current, panel3Ref.current];
 
     // Animate each panel on scroll
@@ -40,6 +43,7 @@ const Manifesto: React.FC = () => {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: panel,
+            scroller: scroller,
             start: 'left 80%',
             end: 'left 20%',
             horizontal: true,
@@ -57,6 +61,7 @@ const Manifesto: React.FC = () => {
           y: index === 0 ? -30 : -20,
           scrollTrigger: {
             trigger: panel2Ref.current,
+            scroller: scroller,
             start: 'left right',
             end: 'right left',
             horizontal: true,
@@ -80,6 +85,7 @@ const Manifesto: React.FC = () => {
           ease: 'power2.out',
           scrollTrigger: {
             trigger: panel3Ref.current,
+            scroller: scroller,
             start: 'left 70%',
             horizontal: true,
             toggleActions: 'play none none reverse',
