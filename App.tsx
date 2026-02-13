@@ -7,7 +7,7 @@ import About from './components/About';
 import Manifesto from './components/Manifesto';
 import ChatWidget from './components/ChatWidget';
 import ScrollCat from './components/ScrollCat';
-import { PROJECTS } from './constants';
+import { PROJECTS, SOCIALS } from './constants';
 import { Project } from './types';
 
 // Helper pour interpoler entre deux couleurs RGB
@@ -203,9 +203,9 @@ const App: React.FC = () => {
             </div>
 
             {/* 5. CONTACT - CORRECTION : Fond noir forcé pour visibilité */}
-            <div id="contact" className="flex-shrink-0 w-screen h-screen bg-black text-white flex flex-col justify-center px-8 md:px-20 relative overflow-hidden snap-start">
-               
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] font-black text-white/[0.02] whitespace-nowrap pointer-events-none select-none tracking-ultra-tight">
+            <section id="contact" className="flex-shrink-0 w-screen h-screen bg-black text-white flex flex-col justify-center px-8 md:px-20 relative overflow-hidden snap-start" aria-label="Contact section">
+
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] font-black text-white/[0.02] whitespace-nowrap pointer-events-none select-none tracking-ultra-tight" aria-hidden="true">
                  ZINEB
                </div>
 
@@ -220,7 +220,7 @@ const App: React.FC = () => {
                        <span className="mask-text block delay-100"><span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span></span>
                      </h2>
                   </div>
-                  
+
                   <div className="reveal-node space-y-4 pt-8">
                     <p className="text-xl md:text-2xl text-gray-400 font-bold uppercase tracking-tight">
                        ACTUELLEMENT EN MISSION CHEZ <span className="text-white">POLYTECH</span>
@@ -231,22 +231,35 @@ const App: React.FC = () => {
                   </div>
 
                   <div className="reveal-node pt-8">
-                    <a href="mailto:zineb.anssafou@icloud.com" className="inline-flex items-center gap-10 bg-white text-luxe-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white transition-all group shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]">
+                    <a
+                      href="mailto:zineb.anssafou@icloud.com"
+                      className="inline-flex items-center gap-10 bg-white text-luxe-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white transition-all group shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]"
+                      aria-label="Send an email to Zineb Anssafou"
+                    >
                       LET'S CONNECT
-                      <span className="group-hover:translate-x-4 transition-transform">→</span>
+                      <span className="group-hover:translate-x-4 transition-transform" aria-hidden="true">→</span>
                     </a>
                   </div>
-                  
-                  <div className="mt-20 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest-luxe text-gray-600 gap-10">
+
+                  <footer className="mt-20 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest-luxe text-gray-600 gap-10">
                      <span>© 2025 ZINEB ANSSAFOU • DIJON • FRANCE</span>
-                     <div className="flex gap-12">
-                        <a href="#" className="hover:text-white transition-colors">LINKEDIN</a>
-                        <a href="#" className="hover:text-white transition-colors">INSTAGRAM</a>
-                        <a href="#" className="hover:text-white transition-colors">BEHANCE</a>
-                     </div>
-                  </div>
+                     <nav className="flex gap-12" aria-label="Social media links">
+                        {SOCIALS.filter(s => s.platform !== 'Email').map((social) => (
+                          <a
+                            key={social.platform}
+                            href={social.url}
+                            className="hover:text-white transition-colors"
+                            target={social.url.startsWith('http') ? '_blank' : undefined}
+                            rel={social.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            aria-label={`Visit ${social.platform}`}
+                          >
+                            {social.platform.toUpperCase()}
+                          </a>
+                        ))}
+                     </nav>
+                  </footer>
                </div>
-            </div>
+            </section>
           </div>
         </>
       )}

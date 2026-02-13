@@ -7,10 +7,10 @@ interface ProjectListProps {
 
 const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
   return (
-    <div className="flex items-center h-full px-20 w-max bg-white relative">
-      
+    <div className="flex items-center h-full px-20 w-max bg-white relative" role="region" aria-label="Projects gallery">
+
       {/* Ligne directrice centrale (décoration suisse) */}
-      <div className="absolute top-1/2 left-0 w-full h-px bg-red-500/20 z-0 pointer-events-none"></div>
+      <div className="absolute top-1/2 left-0 w-full h-px bg-red-500/20 z-0 pointer-events-none" aria-hidden="true"></div>
 
       {PROJECTS.map((project, index) => {
         // Logique de rythme pour créer la grille éclatée
@@ -40,13 +40,22 @@ const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
         }
 
         return (
-          <div 
+          <article
             key={project.id}
             className={`group relative flex-shrink-0 mx-8 cursor-pointer z-10 transition-transform duration-500 hover:z-20 ${containerClasses}`}
             onClick={() => onOpenProject(project.id)}
+            role="button"
+            tabIndex={0}
+            aria-label={`View ${project.title} project details`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onOpenProject(project.id);
+              }
+            }}
           >
              {/* Numéro du projet (Hors cadre image pour style suisse) */}
-             <div className="mb-2 overflow-hidden">
+             <div className="mb-2 overflow-hidden" aria-hidden="true">
                 <span className="block text-[10px] font-black text-pop-pink -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                     N°0{project.id}
                 </span>
@@ -54,17 +63,18 @@ const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
 
              {/* Image Container avec effet de bordure et décalage */}
              <div className={`relative w-full ${imageAspectRatio} bg-gray-100 overflow-hidden border border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,0.1)] group-hover:shadow-[15px_15px_0px_0px_#FF0080] transition-all duration-300`}>
-                <img 
-                    src={project.imageUrl} 
-                    alt={project.title}
+                <img
+                    src={project.imageUrl}
+                    alt={`${project.title} - ${project.category} project from ${project.year}`}
+                    loading="lazy"
                     onError={(e) => {
                         (e.target as HTMLImageElement).src = `https://placehold.co/800x800/f5f5f5/000000?text=${project.title}`;
                     }}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
                 />
-                
+
                 {/* Overlay au survol */}
-                <div className="absolute inset-0 bg-pop-pink/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-multiply"></div>
+                <div className="absolute inset-0 bg-pop-pink/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-multiply" aria-hidden="true"></div>
              </div>
 
              {/* Titre et Info sous l'image */}
@@ -77,12 +87,12 @@ const ProjectList: React.FC<ProjectListProps> = ({ onOpenProject }) => {
                     <span className="text-[9px] font-bold uppercase tracking-widest">{project.category}</span>
                 </div>
              </div>
-          </div>
+          </article>
         );
       })}
-      
+
       {/* Espace vide à la fin pour le scroll */}
-      <div className="w-[20vw] flex-shrink-0"></div>
+      <div className="w-[20vw] flex-shrink-0" aria-hidden="true"></div>
     </div>
   );
 };
