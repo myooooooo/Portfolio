@@ -23,9 +23,20 @@ const Manifesto: React.FC = () => {
 
   return (
     <section className="h-screen flex bg-[#F0F0F0] relative overflow-hidden select-none">
-        
+        {/* SEO Content - Hidden but accessible to search engines */}
+        <div className="sr-only">
+          <h2>Ma Philosophie de Design et Développement</h2>
+          <p>
+            Designer et développeuse, je ne choisis pas entre le code et l'art.
+            Pour moi, une interface est une sculpture logique où le design attire l'attention
+            et la technique la retient. Ma philosophie repose sur trois piliers fondamentaux :
+            le pixel perfect pour une précision absolue, le story driven pour des expériences
+            engageantes, et le code crafted pour des performances optimales.
+          </p>
+        </div>
+
         {/* DECOR: GRILLE DE FOND (Papier millimétré subtil) */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
              style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
         </div>
 

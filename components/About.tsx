@@ -4,7 +4,21 @@ import { EXPERIENCE, PROFILE_IMAGE_URL } from '../constants';
 const About: React.FC = () => {
   return (
     <div className="flex h-full items-center px-10 md:px-20 gap-20 md:gap-40 bg-white">
-        
+        {/* SEO Content - Hidden but accessible to search engines */}
+        <div className="sr-only">
+          <h2>À Propos de Zineb Anssafou</h2>
+          <p>
+            Zineb Anssafou est une designer et développeuse créative basée à Dijon, France.
+            Étudiante en 2ème année de BUT MMI (Métiers du Multimédia et de l'Internet),
+            elle fusionne sa sensibilité artistique avec la rigueur du code pour créer des
+            expériences digitales uniques. Actuellement en stage technique chez Polytech,
+            elle adapte sa créativité aux exigences d'un environnement ingénieur complexe.
+            Ses compétences incluent Figma, Procreate, React, After Effects, Python et UI/UX design.
+            Passionnée par l'intersection entre design et développement, elle crée des interfaces
+            qui allient esthétique raffinée et performance technique.
+          </p>
+        </div>
+
         {/* Column 1: Title & Bio */}
         <div className="flex-shrink-0 w-[85vw] md:w-[45vw] flex flex-col justify-center h-full pt-40 pb-10">
             <div className="relative mb-16 reveal-node">
