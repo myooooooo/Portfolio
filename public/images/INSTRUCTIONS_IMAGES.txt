@@ -1,0 +1,109 @@
+# INSTRUCTIONS POUR NOMMER VOS IMAGES
+
+## 📁 Structure des dossiers
+
+```
+public/images/
+├── profile/          → Ta photo de profil
+├── projects/         → Screenshots de tes projets
+└── manifesto/        → Images pour la section philosophie
+```
+
+---
+
+## 📸 IMAGES À AJOUTER
+
+### 1. Photo de profil
+**Fichier :** `profile/zineb-portrait.jpg`
+- **Format :** JPG ou PNG
+- **Dimensions recommandées :** 800x1000px (ratio 4:5 portrait)
+- **Poids max :** 500 KB
+- **Style :** Photo professionnelle mais naturelle
+
+---
+
+### 2. Images de projets (3 projets minimum)
+
+#### Projet 1 : Portfolio
+**Fichier :** `projects/portfolio-main.jpg`
+- Screenshot de la page d'accueil de ton portfolio
+- **Dimensions :** 1920x1080px (paysage)
+- **Poids max :** 800 KB
+
+#### Projet 2 : Site Artiste
+**Fichier :** `projects/artist-site-main.jpg`
+- Screenshot principal du site d'artiste
+- **Dimensions :** 1920x1080px (paysage)
+- **Poids max :** 800 KB
+
+#### Projet 3 : Simulateur
+**Fichier :** `projects/simulator-main.jpg`
+- Screenshot de l'application simulateur
+- **Dimensions :** 1920x1080px (paysage)
+- **Poids max :** 800 KB
+
+#### Autres projets (optionnel)
+- `projects/project-04.jpg`
+- `projects/project-05.jpg`
+- etc.
+
+---
+
+### 3. Images pour la section Manifesto
+
+#### Image "Sketch" (brouillon)
+**Fichier :** `manifesto/sketch-process.jpg`
+- Image d'un croquis, wireframe ou mockup Figma
+- **Dimensions :** 800x1000px (portrait)
+- **Style :** Version "work in progress", peut être en noir et blanc
+
+#### Image "Final Render"
+**Fichier :** `manifesto/final-render.jpg`
+- Screenshot du rendu final du même projet
+- **Dimensions :** 800x1000px (portrait)
+- **Style :** Version finale, propre et professionnelle
+
+---
+
+## ✅ CHECKLIST AVANT D'AJOUTER LES IMAGES
+
+- [ ] Toutes les images sont optimisées (compression)
+- [ ] Les noms de fichiers sont en minuscules
+- [ ] Pas d'espaces dans les noms (utiliser des tirets -)
+- [ ] Format JPG pour les photos (PNG si transparence nécessaire)
+- [ ] Les dimensions correspondent aux recommandations
+- [ ] Les images sont nettes et bien cadrées
+
+---
+
+## 🔄 MISE À JOUR DU CODE
+
+Une fois les images ajoutées, mets à jour le fichier `constants.ts` :
+
+```typescript
+export const PROFILE_IMAGE_URL = '/images/profile/zineb-portrait.jpg';
+
+export const ASSETS = {
+  MANIFESTO_SKETCH: '/images/manifesto/sketch-process.jpg',
+  MANIFESTO_BG: '/images/manifesto/final-render.jpg'
+};
+
+export const PROJECTS = [
+  {
+    id: 1,
+    title: "Portfolio",
+    imageUrl: '/images/projects/portfolio-main.jpg',
+    // ...
+  },
+  // ...
+];
+```
+
+---
+
+## 💡 CONSEILS
+
+- **Optimisation :** Utilise TinyPNG ou Squoosh pour compresser les images
+- **Qualité :** Privilégie la netteté, surtout pour les screenshots de code
+- **Cohérence :** Garde un style visuel cohérent entre tous les projets
+- **Lighthouse :** Les images optimisées aident à maintenir le score Performance à 100%
