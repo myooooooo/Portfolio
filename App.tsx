@@ -214,8 +214,8 @@ const App: React.FC = () => {
                      <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block drop-shadow-sm mask-text">
                         <span>PRÊTE POUR LA SUITE</span>
                      </span>
-                     {/* AJOUT DE MARGIN-TOP (mt-12) POUR DESCENDRE LE TITRE */}
-                     <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85] text-white mt-12 md:mt-20">
+                     {/* AJOUT DE MARGIN-TOP AUGMENTÉ POUR DESCENDRE LE TITRE */}
+                     <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85] text-white mt-20 md:mt-32">
                        <span className="mask-text block"><span>CRÉONS</span></span>
                        <span className="mask-text block delay-100"><span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span></span>
                      </h2>
@@ -233,7 +233,7 @@ const App: React.FC = () => {
                   <div className="reveal-node pt-8">
                     <a
                       href="mailto:zineb.anssafou@icloud.com"
-                      className="inline-flex items-center gap-10 bg-white text-luxe-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white transition-all group shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]"
+                      className="inline-flex items-center gap-10 bg-white text-black border-4 border-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white hover:border-pop-pink transition-all group shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]"
                       aria-label="Send an email to Zineb Anssafou"
                     >
                       LET'S CONNECT

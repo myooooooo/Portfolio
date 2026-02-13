@@ -15,9 +15,23 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative w-screen h-screen flex flex-col justify-center px-6 md:px-12 pt-20 flex-shrink-0 border-r border-black/10">
+      {/* SEO Content - Hidden visually but accessible to search engines */}
+      <div className="sr-only">
+        <h1>Zineb Anssafou - Designer & Developer Portfolio</h1>
+        <p>
+          Portfolio professionnel de Zineb Anssafou, designer et développeuse créative basée à Dijon, France.
+          Spécialisée en design d'interface utilisateur (UI/UX), motion design et développement web moderne.
+          Je transforme des concepts complexes en expériences visuelles cohérentes et impactantes,
+          en combinant esthétique raffinée et code performant. Mes compétences incluent React, TypeScript,
+          design systems, animations web, prototypage interactif et développement front-end créatif.
+          Actuellement en mission chez Polytech, disponible pour des projets de design digital,
+          création d'interfaces innovantes et développement d'applications web sur mesure.
+        </p>
+      </div>
+
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-1/2 h-full border-l border-black/10 pointer-events-none hidden md:block"></div>
-      
+
       <div className="max-w-[1600px] mx-auto w-full relative z-10">
         <div className={`mb-12 reveal ${isActive ? 'active' : ''}`}>
           <span className="text-[10px] font-black uppercase tracking-widest-label text-pop-pink flex items-center gap-4">
