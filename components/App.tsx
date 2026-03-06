@@ -203,9 +203,9 @@ const App: React.FC = () => {
 
                <div className="max-w-[1200px] mx-auto text-center relative z-10 space-y-16 w-full">
                   <div className="reveal-node">
-                     <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block">PRÊTE POUR LA SUITE</span>
+                     <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block">PRETE POUR LA SUITE</span>
                      <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85]">
-                       CRÉONS <br/> <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span>
+                       CREONS <br/> <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span>
                      </h2>
                   </div>
                   
