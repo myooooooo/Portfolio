@@ -17,15 +17,12 @@ const Hero: React.FC = () => {
     <section className="relative w-screen h-screen flex flex-col justify-center px-6 md:px-12 pt-20 flex-shrink-0 border-r border-black/10">
       {/* SEO Content - Hidden visually but accessible to search engines */}
       <div className="sr-only">
-        <h1>Zineb Anssafou - Designer & Developer Portfolio</h1>
+        <h1>Zineb Anssafou - Creative & AI Systems Designer Portfolio</h1>
         <p>
-          Portfolio professionnel de Zineb Anssafou, designer et développeuse créative basée à Dijon, France.
-          Spécialisée en design d'interface utilisateur (UI/UX), motion design et développement web moderne.
-          Je transforme des concepts complexes en expériences visuelles cohérentes et impactantes,
-          en combinant esthétique raffinée et code performant. Mes compétences incluent React, TypeScript,
-          design systems, animations web, prototypage interactif et développement front-end créatif.
-          Actuellement en mission chez Polytech, disponible pour des projets de design digital,
-          création d'interfaces innovantes et développement d'applications web sur mesure.
+          Portfolio de Zineb Anssafou, Creative & AI Systems Designer. BUT MMI Creation Numerique, Dijon.
+          Je n'utilise pas les outils Adobe — j'en etends les capacites. X-FLTR : plugin Photoshop open source (GitHub).
+          Simulateur MMI : #1 Google, adopte par la communaute. Polytech : pipeline video complet, LUT dans la charte officielle.
+          SPORTORO : 1er Prix Territorial de Dijon (Trophees NSI 2024).
         </p>
       </div>
 
@@ -83,28 +80,29 @@ const Hero: React.FC = () => {
         </div>
 
         <div className={`grid grid-cols-1 md:grid-cols-12 gap-12 items-end reveal delay-200 ${isActive ? 'active' : ''}`}>
-          <div className="md:col-span-6">
+          <div className="md:col-span-7">
              <div className="mask-text">
-                <p className="text-xl md:text-3xl font-medium leading-tight uppercase max-w-xl text-gray-400">
-                  <span>JE TRANSFORME DES CONCEPTS</span>
+                <p className="text-lg md:text-2xl font-medium leading-tight uppercase max-w-2xl text-gray-400">
+                  <span>JE N'UTILISE PAS LES OUTILS ADOBE —</span>
                 </p>
              </div>
              <div className="mask-text delay-100">
-                <p className="text-xl md:text-3xl font-medium leading-tight uppercase max-w-xl text-gray-400">
-                  <span>COMPLEXES EN <strong className="text-black font-black">SYSTÈMES VISUELS</strong></span>
+                <p className="text-lg md:text-2xl font-medium leading-tight uppercase max-w-2xl text-gray-400">
+                  <span>J'EN <strong className="text-black font-black">ETENDS LES CAPACITES.</strong></span>
                 </p>
              </div>
-             <div className="mask-text delay-200">
-                <p className="text-xl md:text-3xl font-medium leading-tight uppercase max-w-xl text-gray-400">
-                  <span>COHÉRENTS ET IMPACTANTS.</span>
-                </p>
+             <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-[10px] font-black uppercase tracking-widest-label text-gray-400">
+                <span className="mask-text delay-200"><span>X-FLTR : Plugin Photoshop (GitHub)</span></span>
+                <span className="mask-text delay-200"><span>Simulateur MMI : <span className="text-pop-pink">#1 Google</span></span></span>
+                <span className="mask-text delay-300"><span>Polytech : LUT charte officielle</span></span>
+                <span className="mask-text delay-300"><span>SPORTORO : <span className="text-pop-pink">1er Prix Territorial</span></span></span>
              </div>
           </div>
-          
-          <div className="md:col-span-6 md:text-right">
+
+          <div className="md:col-span-5 md:text-right">
             <div className="inline-flex flex-col items-end gap-6">
               <span className="font-cursive text-5xl text-black/80 -rotate-6 transform origin-bottom-right hover:scale-110 transition-transform cursor-default">
-                  creative dev & artist
+                  creative & AI systems
               </span>
               <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest-label text-black animate-pulse">
                 <span>SCROLL HORIZONTALLY</span>

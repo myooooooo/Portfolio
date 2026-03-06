@@ -6,16 +6,11 @@ const About: React.FC = () => {
     <div className="flex h-full items-center px-10 md:px-20 gap-20 md:gap-40 bg-white">
         {/* SEO Content */}
         <div className="sr-only">
-          <h2>À Propos de Zineb Anssafou</h2>
+          <h2>A Propos de Zineb Anssafou — Creative & AI Systems Designer</h2>
           <p>
-            Zineb Anssafou est une designer et développeuse créative basée à Dijon, France.
-            Étudiante en 2ème année de BUT MMI (Métiers du Multimédia et de l'Internet),
-            elle fusionne sa sensibilité artistique avec la rigueur du code pour créer des
-            expériences digitales uniques. Actuellement en stage technique chez Polytech,
-            elle adapte sa créativité aux exigences d'un environnement ingénieur complexe.
-            Ses compétences incluent Figma, Procreate, React, After Effects, Python et UI/UX design.
-            Passionnée par l'intersection entre design et développement, elle crée des interfaces
-            qui allient esthétique raffinée et performance technique.
+            Zineb Anssafou, Creative & AI Systems Designer, BUT MMI Creation Numerique a Dijon.
+            Plugin Photoshop open source (X-FLTR), Simulateur MMI #1 Google, LUT dans la charte officielle Polytech,
+            1er Prix Territorial NSI 2024. Je n'utilise pas les outils Adobe — j'en etends les capacites.
           </p>
         </div>
 
@@ -24,28 +19,28 @@ const About: React.FC = () => {
             <div className="relative mb-16 reveal-node">
                 <div className="absolute -top-16 -left-4 font-cursive text-pop-pink text-7xl -rotate-6 opacity-80 z-10 w-full animate-pulse">Hello !</div>
                 <h2 className="text-7xl md:text-[9vw] font-black uppercase leading-[0.8] tracking-ultra-tight relative z-0">
-                    <span className="mask-text block"><span>PROFIL</span></span>
-                    <span className="mask-text block delay-100"><span className="text-pop-pink">HYBRIDE.</span></span>
+                    <span className="mask-text block"><span>PROOF</span></span>
+                    <span className="mask-text block delay-100"><span className="text-pop-pink">OF WORK.</span></span>
                 </h2>
             </div>
-            
+
             <div className="reveal-node mb-12 max-w-2xl">
                 <p className="text-lg md:text-2xl font-medium text-gray-500 uppercase leading-tight mask-text">
-                   <span>ÉTUDIANTE EN 2ÈME ANNÉE DE <span className="text-black font-bold">BUT MMI</span>,</span>
+                   <span>CREATIVE & <span className="text-black font-bold">AI SYSTEMS DESIGNER</span>,</span>
                 </p>
                 <p className="text-lg md:text-2xl font-medium text-gray-500 uppercase leading-tight mask-text delay-100">
-                   <span>JE FUSIONNE MA SENSIBILITÉ ARTISTIQUE</span>
+                   <span>BUT MMI CREATION NUMERIQUE.</span>
                 </p>
                 <p className="text-lg md:text-2xl font-medium text-gray-500 uppercase leading-tight mask-text delay-200">
-                   <span>AVEC LA RIGUEUR DU CODE.</span>
+                   <span>IMPACT D'ABORD. METHODE ENSUITE. <span className="text-black font-bold">OUTILS EN DERNIER.</span></span>
                 </p>
             </div>
 
             <div className="border-l-4 border-black pl-8 py-2 reveal-node stagger-3">
                  <div className="text-xs font-black tracking-widest-luxe text-gray-400 uppercase mb-3">/ CURRENT STATUS</div>
                  <p className="text-base font-bold leading-relaxed uppercase max-w-lg text-black">
-                   Actuellement en stage technique chez <span className="bg-pop-pink text-white px-2 shadow-sm">Polytech</span>. <br/>
-                   J'y apprends à adapter ma créativité aux exigences d'un environnement ingénieur complexe.
+                   En stage chez <span className="bg-pop-pink text-white px-2 shadow-sm">Polytech</span> — Pipeline audiovisuel complet,
+                   LUT personnalisee integree a la charte officielle.
                  </p>
             </div>
         </div>
@@ -65,7 +60,7 @@ const About: React.FC = () => {
              <div className="reveal-node max-w-md mx-auto w-full">
                  <h4 className="text-xs font-black tracking-widest-luxe text-black uppercase mb-6 border-b-2 border-black pb-2">STACK TECHNIQUE</h4>
                  <div className="flex flex-wrap gap-3">
-                    {['FIGMA', 'PROCREATE', 'REACT', 'AFTER EFFECTS', 'PYTHON', 'UI/UX'].map((tool, i) => (
+                    {['CLAUDE CODE', 'PHOTOSHOP APIs UXP/CEP', 'PREMIERE PRO', 'AFTER EFFECTS', 'GITHUB', 'SEO TECHNIQUE', 'FIGMA', 'PYTHON', 'REACT'].map((tool, i) => (
                       <span key={tool} className={`px-4 py-2 text-sm font-bold uppercase tracking-wider border-2 border-black hover:bg-black hover:text-white transition-all cursor-default ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
                         {tool}
                       </span>

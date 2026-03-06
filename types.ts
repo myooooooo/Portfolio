@@ -1,11 +1,23 @@
+export interface MethodStep {
+  title: string;
+  description: string;
+}
+
 export interface Project {
   id: number;
   title: string;
+  subtitle: string;
   category: string;
   year: string;
   description: string;
   imageUrl: string;
   link?: string;
+  impact: string;
+  impactProof: string;
+  metrics: string[];
+  method: MethodStep[];
+  tools: string[];
+  visuals: string[];
 }
 
 export interface Experience {
