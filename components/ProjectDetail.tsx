@@ -164,25 +164,35 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack }) => {
             <div className="flex items-baseline gap-4 mb-8">
                 <span className="text-pop-pink font-mono font-bold text-sm">/04</span>
                 <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight">VISUELS</h2>
+                {project.visuals.length >= 6 && (
+                  <span className="ml-4 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                    {project.visuals.length} ILLUSTRATIONS
+                  </span>
+                )}
             </div>
-            <div className="pl-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className={`pl-10 grid gap-6 ${project.visuals.length >= 6 ? 'grid-cols-2' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {project.visuals.map((visual, idx) => (
                     <figure key={idx} className="group relative">
-                        <div className="relative overflow-hidden border border-black bg-white">
+                        <div className={`relative overflow-hidden border border-black bg-white ${project.visuals.length >= 6 ? 'aspect-[3/4]' : ''}`}>
                             <img
                                 src={`/images/project-${projectIdStr}-detail-${idx + 1}.jpg`}
                                 alt={`${project.title} - ${visual}`}
                                 loading="lazy"
                                 onError={(e) => {
-                                    (e.target as HTMLImageElement).src = `https://placehold.co/600x400/f5f5f5/999999?text=${encodeURIComponent(visual)}`;
+                                    (e.target as HTMLImageElement).src = `https://placehold.co/600x800/f5f5f5/999999?text=${encodeURIComponent(visual.split(' — ')[0])}`;
                                 }}
-                                className="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                className={`w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ${project.visuals.length >= 6 ? 'absolute inset-0 h-full group-hover:scale-105' : 'h-auto'}`}
                             />
                             <div className="absolute inset-0 bg-pop-pink/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none mix-blend-multiply" aria-hidden="true"></div>
+
+                            {/* Index badge */}
+                            <div className="absolute top-3 left-3 bg-white/90 border border-black px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span className="text-[10px] font-black font-mono">{String(idx + 1).padStart(2, '0')}</span>
+                            </div>
                         </div>
                         <figcaption className="mt-2 flex justify-between items-center">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{visual}</span>
-                            <span className="text-[10px] font-mono font-bold text-gray-300" aria-hidden="true">FIG_0{idx + 1}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 truncate">{visual.split(' — ')[0]}</span>
+                            <span className="text-[10px] font-mono font-bold text-gray-300 flex-shrink-0 ml-2" aria-hidden="true">FIG_{String(idx + 1).padStart(2, '0')}</span>
                         </figcaption>
                     </figure>
                 ))}

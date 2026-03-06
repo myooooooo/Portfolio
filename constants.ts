@@ -91,6 +91,36 @@ export const PROJECTS: Project[] = [
     ],
     tools: ["Suite Adobe (Illustrator pour logo, After Effects pour video)", "Python (pilotage dev — specs, tests, iterations)", "Figma (maquettes UX de l'app)"],
     visuals: ["Diplome / ceremonie de remise de prix", "Logo final + variations", "Moodboard / planche d'inspiration", "Version rejetee + explication du choix"]
+  },
+  {
+    id: 5,
+    title: "CREATIVE LAB",
+    subtitle: "L'esthetique comme socle de l'innovation.",
+    category: "ILLUSTRATION — VISUAL RESEARCH",
+    year: "2023 — 2025",
+    description: "Laboratoire visuel centralisant mes meilleures illustrations Procreate. Demonstrations de rendu de materiaux, etudes anatomiques, lighting dramatique et compositions narratives — base de donnees graphique pour mes projets design et code.",
+    imageUrl: "/images/project-05-cover.jpg",
+    link: "#",
+    impact: "Demonstrer une capacite de Direction Artistique de haute fidelite. Ce laboratoire visuel sert de base de donnees graphique pour mes projets de design et de code, prouvant une sensibilite humaine irrempplacable.",
+    impactProof: "La maitrise technique du rendu (lumiere, matiere, anatomie) est la fondation invisible derriere chaque decision de design. Ce lab prouve que chaque choix visuel est argumente, pas accidentel.",
+    metrics: ["8 Etudes Visuelles", "High-Fidelity Rendering", "Procreate + Photoshop"],
+    method: [
+      { title: "Exploration multi-directionnelle", description: "Rendu de materiaux (peau, cheveux, tissus), etudes anatomiques, lighting dramatique et compositions narratives. Chaque illustration adresse une competence specifique." },
+      { title: "Processus iteratif WIP", description: "Les illustrations sont documentees en Work In Progress — montrant le chemin creatif, pas juste le resultat final. Preuve de methode, pas de magie." },
+      { title: "Palette et langage visuel", description: "Exploration systematique des palettes : neons cyberpunk, pastels romantiques, eclairages dramatiques. Constitution d'un vocabulaire visuel personnel coherent." },
+      { title: "Application au design produit", description: "Ce repertoire graphique alimente directement les projets UI et DA (Sportoro, X-FLTR). La sensibilite artistique se traduit en decisions de design mesurables." }
+    ],
+    tools: ["Procreate (illustration, rendu, WIP)", "Adobe Photoshop (finition, retouche)"],
+    visuals: [
+      "Broken Doll — Portrait semi-realiste, fond violet dramatique",
+      "Golden Reverie — Etude capillaire, rendu doux et lumineux",
+      "Neon Wanderer — Character design urbain, accessories et fashion",
+      "Night Bloom — Portrait neon, ambiance cyberpunk",
+      "Magenta Rush — Composition oblique, cheveux vibrants",
+      "Etude 06 — A venir",
+      "Etude 07 — A venir",
+      "Etude 08 — A venir"
+    ]
   }
 ];
 
