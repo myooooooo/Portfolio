@@ -251,16 +251,40 @@
           extend: {
             colors: {
               'pop-pink': '#FF0080',
+              'pop-purple': '#A855F7',
+              'pop-yellow': '#FACC15',
               'swiss-black': '#050505',
               'swiss-gray': '#F5F5F5'
             },
             letterSpacing: {
               'tighter-extreme': '-0.07em',
-              'widest-label': '0.3em'
+              'ultra-tight': '-0.05em',
+              'widest-label': '0.3em',
+              'widest-luxe': '0.25em'
             },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
-            }
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 0.4s ease-out',
+              'scale-in': 'scaleIn 0.3s ease-out',
+              'slide-right': 'slideRight 2s ease-in-out infinite',
+              'bounce-slow': 'bounce 2s ease-in-out infinite',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scaleIn: {
+                '0%': { opacity: '0', transform: 'scale(0.9)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              slideRight: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(300%)' },
+              },
+            },
           }
         }
       }
@@ -272,7 +296,7 @@
     "react/": "https://esm.sh/react@^19.2.4/",
     "vite": "https://esm.sh/vite@^7.3.1",
     "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4",
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "@google/generative-ai": "https://esm.sh/@google/generative-ai@^0.21.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }

@@ -51,72 +51,62 @@ const App: React.FC = () => {
 
   // 2. Gestion de la barre de progression, des animations et du BACKGROUND DYNAMIQUE
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollX = container.scrollLeft;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const currentProgress = maxScroll > 0 ? scrollX / maxScroll : 0;
+      setProgress(currentProgress);
+
+      // --- LOGIQUE DE COULEUR DE FOND INTELLIGENTE ---
+      const aboutSection = document.getElementById('about');
+      const contactSection = document.getElementById('contact');
+
+      if (aboutSection && contactSection) {
+        const aboutStart = aboutSection.offsetLeft;
+        const contactStart = contactSection.offsetLeft;
+        const viewportWidth = window.innerWidth;
+
+        let newColor = 'rgb(255, 248, 249)';
+
+        if (scrollX < aboutStart) {
+            const factor = scrollX / aboutStart;
+            newColor = interpolateColor([255, 248, 249], [255, 255, 255], factor);
+        } else {
+            const fadeStart = contactStart - viewportWidth * 0.8;
+            if (scrollX > fadeStart) {
+                const factor = (scrollX - fadeStart) / (contactStart - fadeStart);
+                newColor = interpolateColor([255, 255, 255], [0, 0, 0], factor);
+            } else {
+                newColor = 'rgb(255, 255, 255)';
+            }
+        }
+        setBgColor(newColor);
+      }
+
+      // Trigger animations
+      const elements = document.querySelectorAll('.reveal-node, .mask-container, .reveal');
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.left < window.innerWidth * 0.95 && rect.right > 0) {
+          el.classList.add('active', 'revealed');
+        }
+      });
+    };
+
     // Petit délai pour s'assurer que le DOM est prêt lors du retour d'un projet
     const timer = setTimeout(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        const handleScroll = () => {
-          if (!container) return;
-          
-          const scrollX = container.scrollLeft;
-          const maxScroll = container.scrollWidth - container.clientWidth;
-          const currentProgress = maxScroll > 0 ? scrollX / maxScroll : 0;
-          setProgress(currentProgress);
-
-          // --- LOGIQUE DE COULEUR DE FOND INTELLIGENTE ---
-          const aboutSection = document.getElementById('about');
-          const contactSection = document.getElementById('contact');
-          
-          if (aboutSection && contactSection) {
-            const aboutStart = aboutSection.offsetLeft;
-            const contactStart = contactSection.offsetLeft;
-            const viewportWidth = window.innerWidth;
-
-            let newColor = 'rgb(255, 248, 249)';
-
-            if (scrollX < aboutStart) {
-                // PHASE 1 : ROSE vers BLANC
-                const transitionEnd = aboutStart; 
-                const factor = scrollX / transitionEnd;
-                newColor = interpolateColor([255, 248, 249], [255, 255, 255], factor);
-            } else {
-                // PHASE 2 : BLANC vers NOIR
-                const fadeStart = contactStart - viewportWidth * 0.8;
-                
-                if (scrollX > fadeStart) {
-                    const factor = (scrollX - fadeStart) / (contactStart - fadeStart);
-                    newColor = interpolateColor([255, 255, 255], [0, 0, 0], factor);
-                } else {
-                    newColor = 'rgb(255, 255, 255)';
-                }
-            }
-            setBgColor(newColor);
-          }
-
-          // Trigger animations
-          const elements = document.querySelectorAll('.reveal-node, .mask-container, .reveal');
-          elements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            // Si l'élément rentre dans la fenêtre (marge de sécurité)
-            if (rect.left < window.innerWidth * 0.95 && rect.right > 0) {
-              el.classList.add('active', 'revealed');
-            }
-          });
-        };
-
-        container.addEventListener('scroll', handleScroll);
-        
-        // IMPORTANT: On force l'exécution immédiate pour afficher le contenu visible
-        handleScroll();
-        
-        // Cleanup function defined inside
-        return () => container.removeEventListener('scroll', handleScroll);
+      container.addEventListener('scroll', handleScroll);
+      handleScroll();
     }, 100);
 
-    // Cleanup du timeout
-    return () => clearTimeout(timer);
-  }, [selectedProject]); // CRUCIAL : Se relance quand on ferme un projet (selectedProject devient null)
+    return () => {
+      clearTimeout(timer);
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [selectedProject]);
 
   const scrollToSection = (id: string) => {
     setTimeout(() => {
@@ -242,7 +232,7 @@ const App: React.FC = () => {
                   </div>
 
                   <footer className="mt-20 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest-luxe text-gray-600 gap-10">
-                     <span>© 2025 ZINEB ANSSAFOU • DIJON • FRANCE</span>
+                     <span>© 2026 ZINEB ANSSAFOU • DIJON • FRANCE</span>
                      <nav className="flex gap-12" aria-label="Social media links">
                         {SOCIALS.filter(s => s.platform !== 'Email').map((social) => (
                           <a
