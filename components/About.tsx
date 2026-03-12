@@ -68,9 +68,11 @@ const About: React.FC = () => {
           {SOCIALS.map((s) => (
             <a
               key={s.platform}
-              href={s.url}
+              href={s.url === '#' ? undefined : s.url}
               aria-label={s.platform}
-              className="px-5 py-3 border-2 border-black text-xs font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all"
+              target={s.url.startsWith('http') ? '_blank' : undefined}
+              rel={s.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="px-5 py-3 border-2 border-black text-xs font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all cursor-pointer"
             >
               {s.label}
             </a>

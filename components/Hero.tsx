@@ -39,28 +39,27 @@ const Hero: React.FC = () => {
 
         {/* LETTER BY LETTER ANIMATION */}
         {/* On retire 'active' par défaut, c'est le state isActive qui va l'ajouter */}
-        <div className={`reveal mb-12 ${isActive ? 'active' : ''}`} aria-label="ZINEB ANSSAFOU">
+        <h1 className={`reveal mb-12 ${isActive ? 'active' : ''}`} aria-label="ZINEB ANSSAFOU">
             {/* Ligne 1 : ZINEB */}
-            <h1 className="text-swiss-black text-[15vw] md:text-[13vw] font-black uppercase leading-[0.8] tracking-tighter-extreme flex flex-wrap">
+            <span className="text-swiss-black text-[15vw] md:text-[13vw] font-black uppercase leading-[0.8] tracking-tighter-extreme flex flex-wrap">
                 {name.split('').map((char, index) => (
                     <span key={`name-${index}`} className="char-wrapper">
-                        <span 
-                            className="char-reveal" 
-                            style={{ transitionDelay: `${index * 0.08}s` }} // Délai un peu plus long pour l'élégance
+                        <span
+                            className="char-reveal"
+                            style={{ transitionDelay: `${index * 0.08}s` }}
                         >
                             {char}
                         </span>
                     </span>
                 ))}
-            </h1>
-            
+            </span>
+
             {/* Ligne 2 : ANSSAFOU */}
-            <h1 className="text-pop-pink text-[15vw] md:text-[13vw] font-black uppercase leading-[0.8] tracking-tighter-extreme flex flex-wrap">
+            <span className="text-pop-pink text-[15vw] md:text-[13vw] font-black uppercase leading-[0.8] tracking-tighter-extreme flex flex-wrap">
                 {surname.split('').map((char, index) => (
                     <span key={`surname-${index}`} className="char-wrapper">
-                        <span 
-                            className="char-reveal" 
-                            // On commence le délai après la fin du premier mot (+0.4s)
+                        <span
+                            className="char-reveal"
                             style={{ transitionDelay: `${0.4 + (index * 0.08)}s` }}
                         >
                             {char}
@@ -69,15 +68,15 @@ const Hero: React.FC = () => {
                 ))}
                 {/* Le point final noir */}
                 <span className="char-wrapper">
-                    <span 
-                        className="char-reveal text-black" 
+                    <span
+                        className="char-reveal text-black"
                         style={{ transitionDelay: `${0.4 + (surname.length * 0.08)}s` }}
                     >
                         .
                     </span>
                 </span>
-            </h1>
-        </div>
+            </span>
+        </h1>
 
         <div className={`grid grid-cols-1 md:grid-cols-12 gap-12 items-end reveal delay-200 ${isActive ? 'active' : ''}`}>
           <div className="md:col-span-7">
