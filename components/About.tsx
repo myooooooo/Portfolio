@@ -16,7 +16,7 @@ const About: React.FC = () => {
       </div>
 
       {/* ── Col 1 : Bio ────────────────────────────────────────── */}
-      <div className="flex-shrink-0 w-[85vw] md:w-[45vw] flex flex-col justify-center h-full py-10">
+      <div className="flex-shrink-0 w-[85vw] md:w-[45vw] flex flex-col py-24">
 
         <div className="relative mb-6 reveal-node">
           <div className="absolute -top-10 -left-4 font-cursive text-pop-pink text-5xl -rotate-6 opacity-80 z-10 w-full animate-pulse">
@@ -81,7 +81,7 @@ const About: React.FC = () => {
       </div>
 
       {/* ── Col 2 : Photo + Favoris ────────────────────────────── */}
-      <div className="flex-shrink-0 w-[85vw] md:w-[38vw] flex flex-col h-full justify-center gap-10">
+      <div className="flex-shrink-0 w-[85vw] md:w-[38vw] flex flex-col justify-center gap-10">
 
         {/* Photo */}
         <div className="relative aspect-[3/4] w-full max-w-md mx-auto overflow-hidden bg-gray-100 shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] border-4 border-black group">
@@ -121,7 +121,7 @@ const About: React.FC = () => {
       </div>
 
       {/* ── Col 3 : Stack + Timeline ───────────────────────────── */}
-      <div className="flex-shrink-0 w-[90vw] md:w-[60vw] h-full flex flex-col justify-center py-10 relative">
+      <div className="flex-shrink-0 w-[90vw] md:w-[60vw] flex flex-col justify-center py-24 relative">
 
         {/* Stack */}
         <div className="reveal-node mb-12">
