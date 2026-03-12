@@ -18,18 +18,18 @@ const About: React.FC = () => {
       {/* ── Col 1 : Bio ────────────────────────────────────────── */}
       <div className="flex-shrink-0 w-[85vw] md:w-[45vw] flex flex-col justify-center h-full py-10">
 
-        <div className="relative mb-16 reveal-node">
-          <div className="absolute -top-16 -left-4 font-cursive text-pop-pink text-7xl -rotate-6 opacity-80 z-10 w-full animate-pulse">
+        <div className="relative mb-6 reveal-node">
+          <div className="absolute -top-10 -left-4 font-cursive text-pop-pink text-5xl -rotate-6 opacity-80 z-10 w-full animate-pulse">
             Hello !
           </div>
-          <h2 className="text-7xl md:text-[9vw] font-black uppercase leading-[0.8] tracking-ultra-tight relative z-0">
+          <h2 className="text-6xl md:text-[7vw] font-black uppercase leading-[0.8] tracking-ultra-tight relative z-0">
             <span className="mask-text block"><span>PROOF</span></span>
             <span className="mask-text block delay-100"><span className="text-pop-pink">OF WORK.</span></span>
           </h2>
         </div>
 
         {/* Tagline */}
-        <div className="reveal-node mb-8 max-w-2xl">
+        <div className="reveal-node mb-4 max-w-2xl">
           <p className="text-lg md:text-2xl font-medium text-gray-500 uppercase leading-tight mask-text">
             <span>CREATIVE & <span className="text-black font-bold">AI SYSTEMS DESIGNER</span>,</span>
           </p>
@@ -42,7 +42,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Bio paragraph */}
-        <div className="reveal-node stagger-2 mb-10 max-w-xl">
+        <div className="reveal-node stagger-2 mb-4 max-w-xl">
           <p className="text-sm md:text-base text-gray-600 leading-relaxed font-medium">
             Je suis a la croisee du design et du code — pas pour faire les deux a moitie,
             mais pour les faire se renforcer mutuellement. Direction artistique haute fidelite,
@@ -64,7 +64,7 @@ const About: React.FC = () => {
         </div>
 
         {/* CTA */}
-        <div className="reveal-node stagger-4 mt-10 flex gap-4">
+        <div className="reveal-node stagger-4 mt-6 flex gap-4">
           {SOCIALS.map((s) => (
             <a
               key={s.platform}

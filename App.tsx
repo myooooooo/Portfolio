@@ -199,18 +199,18 @@ const App: React.FC = () => {
                  ZINEB
                </div>
 
-               <div className="max-w-[1200px] mx-auto text-center relative z-10 space-y-16 w-full">
+               <div className="max-w-[1200px] mx-auto text-center relative z-10 space-y-8 w-full">
                   <div className="reveal-node">
-                     <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block drop-shadow-sm mask-text">
+                     <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-4 block drop-shadow-sm mask-text">
                         <span>PRÊTE POUR LA SUITE</span>
                      </span>
-                     <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85] text-white mt-4">
+                     <h2 className="text-6xl md:text-[8vw] font-black tracking-ultra-tight uppercase leading-[0.85] text-white mt-2">
                        <span className="mask-text block"><span>CRÉONS</span></span>
                        <span className="mask-text block delay-100"><span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span></span>
                      </h2>
                   </div>
 
-                  <div className="reveal-node space-y-4 pt-8">
+                  <div className="reveal-node space-y-3">
                     <p className="text-xl md:text-2xl text-gray-400 font-bold uppercase tracking-tight">
                        ACTUELLEMENT EN MISSION CHEZ <span className="text-white">POLYTECH</span>
                     </p>
@@ -219,10 +219,10 @@ const App: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="reveal-node pt-8">
+                  <div className="reveal-node pt-4">
                     <a
                       href="mailto:zineb.anssafou@icloud.com"
-                      className="inline-flex items-center gap-10 bg-white text-black border-4 border-black px-16 py-8 rounded-none font-black text-xl hover:bg-pop-pink hover:text-white hover:border-pop-pink transition-all group shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]"
+                      className="inline-flex items-center gap-8 bg-white text-black border-4 border-black px-12 py-6 rounded-none font-black text-lg hover:bg-pop-pink hover:text-white hover:border-pop-pink transition-all group shadow-[10px_10px_0px_0px_rgba(0,0,0,0.2)]"
                       aria-label="Send an email to Zineb Anssafou"
                     >
                       LET'S CONNECT
@@ -230,7 +230,7 @@ const App: React.FC = () => {
                     </a>
                   </div>
 
-                  <footer className="mt-20 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest-luxe text-gray-600 gap-10">
+                  <footer className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest-luxe text-gray-600 gap-6">
                      <span>© 2026 ZINEB ANSSAFOU • DIJON • FRANCE</span>
                      <nav className="flex gap-12" aria-label="Social media links">
                         {SOCIALS.filter(s => s.platform !== 'Email').map((social) => (
