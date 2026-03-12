@@ -187,7 +187,7 @@ const App: React.FC = () => {
             </div>
 
             {/* 4. ABOUT */}
-            <div id="about" className="flex-shrink-0 h-screen flex items-start overflow-y-auto snap-start">
+            <div id="about" className="flex-shrink-0 h-screen flex items-center snap-start">
               <About />
             </div>
 
