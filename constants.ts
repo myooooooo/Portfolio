@@ -93,6 +93,27 @@ export const PROJECTS: Project[] = [
     visuals: ["Diplome / ceremonie de remise de prix", "Logo final + variations", "Moodboard / planche d'inspiration", "Version rejetee + explication du choix"]
   },
   {
+    id: 6,
+    title: "CROUS BOT",
+    subtitle: "Automatiser la veille, c'est gagner la course au logement.",
+    category: "BOT DISCORD — PYTHON",
+    year: "2025",
+    description: "Bot Discord open source qui surveille trouverunlogement.lescrous.fr toutes les heures. Alertes @everyone, DMs personnalises par filtres, favoris, alertes one-shot, notifications push ntfy.sh et resume hebdomadaire automatique.",
+    imageUrl: "/images/project-06-cover.jpg",
+    link: "#",
+    impact: "Automatisation complete de la veille logement CROUS. 15+ commandes slash, scraping SvelteKit, alertes multi-niveaux et DMs filtres par utilisateur — zero intervention manuelle.",
+    impactProof: "Le marche du logement etudiant CROUS est ultra-competitif : les logements partent en quelques minutes. Ce bot elimine la friction humaine et donne un avantage decisif a ses abonnes.",
+    metrics: ["15+ commandes slash", "Veille horaire automatique", "Push ntfy.sh integre"],
+    method: [
+      { title: "Reverse engineering SvelteKit", description: "L'API directe renvoie 405. Analyse du HTML pour extraire les donnees JSON embarquees par SvelteKit. Parsing robuste avec fallbacks multiples pour garantir la disponibilite des donnees." },
+      { title: "Architecture bot Discord", description: "discord.py 2.x avec app_commands pour les slash commands. Groupes de commandes (/alert, /fav), tasks loop heure pile, vues interactives avec bouton Verifier maintenant." },
+      { title: "Systeme de donnees persistant", description: "9 fichiers JSON auto-crees : abonnes, filtres, historique, stats, alertes, favoris, weekly stats. Zero base de donnees — deploiement minimal, portabilite maximale." },
+      { title: "Alertes multi-niveaux", description: "@everyone pour les nouveaux logements, DMs filtres par utilisateur (jusqu'a 4 filtres), alertes one-shot, suivi des favoris, push ntfy.sh. Mode veille et plage silencieuse configurable." }
+    ],
+    tools: ["Python 3 (discord.py 2.x)", "Requests + BeautifulSoup (scraping)", "aiohttp (ntfy.sh push)", "GitHub (versioning)", "launchd macOS (auto-restart)"],
+    visuals: ["Architecture du bot (schema)", "Exemple DM horaire (embed Discord)", "Commandes slash dans Discord", "Extrait code scraper SvelteKit"]
+  },
+  {
     id: 5,
     title: "CREATIVE LAB",
     subtitle: "L'esthetique comme socle de l'innovation.",
@@ -180,6 +201,7 @@ CONTEXTE :
 - X-FLTR : plugin Photoshop open source publie sur GitHub (APIs UXP/CEP).
 - Simulateur MMI : #1 Google, adopte par la communaute.
 - SPORTORO : 1er Prix Territorial NSI 2024.
+- CROUS Bot : bot Discord Python open source, scraping SvelteKit, 15+ commandes slash, alertes en temps reel.
 - Je ne me contente pas d'utiliser les outils Adobe — j'en etends les capacites.
 STYLE : Phrases courtes. Impact d'abord, methode ensuite, outils en dernier.
 `;
