@@ -16,7 +16,7 @@ const About: React.FC = () => {
       </div>
 
       {/* ── Col 1 : Bio ────────────────────────────────────────── */}
-      <div className="flex-shrink-0 w-[85vw] md:w-[45vw] flex flex-col justify-center h-full pt-40 pb-10">
+      <div className="flex-shrink-0 w-[85vw] md:w-[45vw] flex flex-col justify-center h-full py-10">
 
         <div className="relative mb-16 reveal-node">
           <div className="absolute -top-16 -left-4 font-cursive text-pop-pink text-7xl -rotate-6 opacity-80 z-10 w-full animate-pulse">

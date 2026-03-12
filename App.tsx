@@ -204,8 +204,7 @@ const App: React.FC = () => {
                      <span className="text-pop-pink font-black tracking-widest-luxe uppercase text-[10px] mb-8 block drop-shadow-sm mask-text">
                         <span>PRÊTE POUR LA SUITE</span>
                      </span>
-                     {/* AJOUT DE MARGIN-TOP AUGMENTÉ POUR DESCENDRE LE TITRE */}
-                     <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85] text-white mt-20 md:mt-32">
+                     <h2 className="text-7xl md:text-[10vw] font-black tracking-ultra-tight uppercase leading-[0.85] text-white mt-4">
                        <span className="mask-text block"><span>CRÉONS</span></span>
                        <span className="mask-text block delay-100"><span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>L'ICONIQUE.</span></span>
                      </h2>
