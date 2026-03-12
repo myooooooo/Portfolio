@@ -5,7 +5,7 @@ import ProjectList from './components/ProjectList';
 import ProjectDetail from './components/ProjectDetail';
 import About from './components/About';
 import Manifesto from './components/Manifesto';
-import ChatWidget from './components/ChatWidget';
+
 import ScrollCat from './components/ScrollCat';
 import { PROJECTS, SOCIALS } from './constants';
 import { Project } from './types';
@@ -153,7 +153,6 @@ const App: React.FC = () => {
       {/* GRILLE SUISSE FIXE (Visible seulement si le fond est assez clair, géré par l'opacité CSS si besoin, ici on la laisse) */}
       <div className="fixed inset-0 z-0 swiss-grid-bg opacity-50 pointer-events-none" />
 
-      <ChatWidget />
       <ScrollCat progress={progress} />
 
       {selectedProject ? (
@@ -188,7 +187,7 @@ const App: React.FC = () => {
             </div>
 
             {/* 4. ABOUT */}
-            <div id="about" className="flex-shrink-0 h-screen flex items-center snap-start">
+            <div id="about" className="flex-shrink-0 h-screen flex items-start overflow-y-auto snap-start">
               <About />
             </div>
 

@@ -3,7 +3,7 @@ import { EXPERIENCE, PROFILE_IMAGE_URL, FAVORITES, SOCIALS } from '../constants'
 
 const About: React.FC = () => {
   return (
-    <div className="flex h-full items-center px-10 md:px-20 gap-20 md:gap-40 bg-white">
+    <div className="flex h-full items-start px-10 md:px-20 gap-20 md:gap-40 bg-white pt-24">
 
       {/* SEO Content */}
       <div className="sr-only">
